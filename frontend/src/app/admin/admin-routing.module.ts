@@ -6,7 +6,11 @@ import { AdminComponent } from "./admin.component";
 
 const routes: Routes = [
     {
-        path: "", component: AdminComponent
+        path: "", component: AdminComponent,
+        children: [
+            { path: "dashboard", loadChildren: "./dashboard/dashboard.module#DashboardModule" },
+            //{ path: "tables", loadChildren: "./tables/tables.module#TablesModule" },
+        ]
     }
 ];
 

@@ -12,7 +12,7 @@ export class User extends EntityBase {
     @Column()
     public password: string;
 
-    @Column({ nullable: false, default: false })
+    @Column({ default: false })
     public isAdmin: boolean;
 
 }

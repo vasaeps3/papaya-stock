@@ -29,8 +29,9 @@ export class UserController {
         res.status(HttpStatus.OK).json(createdUser);
     }
 
-    @Post("login")
+    @Post("authenticate")
     public async login( @Res() res: Response, @Body() user: User) {
+        console.log(user);
         let userAuth: User = await this._userService.getByName(user.name);
         if (userAuth.password !== this.encryptPassword(user.password)) {
             throw new NotFoundException("Incorrect password");
