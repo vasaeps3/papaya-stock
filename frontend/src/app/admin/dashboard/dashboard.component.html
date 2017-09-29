@@ -1,3 +1,29 @@
-<div>
-    <h2 class="text-muted">Dashboard <small>Statistics Overview</small></h2>
+<div class="row">
+    <div class="card mb-3">
+        <div class="card-header">Counters</div>
+        <div class="card-block table-responsive">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>CompanyType</th>
+                        <th>Email</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let counterparty of counterparties; let i = index">
+                        <td>{{i+1}}</td>
+                        <td>{{ counterparty.name}}</td>
+                        <td>{{ counterparty.description}}</td>
+                        <td>{{ counterparty.companyType}}</td>
+                        <td>{{ counterparty.email}}</td>
+                        <td>{{ counterparty.created}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

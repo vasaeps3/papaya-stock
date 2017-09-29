@@ -9,6 +9,7 @@ const routes: Routes = [
         path: "", component: AdminComponent,
         children: [
             { path: "dashboard", loadChildren: "./dashboard/dashboard.module#DashboardModule" },
+            { path: "orders", loadChildren: "./orders/orders.module#OrdersModule" },
             //{ path: "tables", loadChildren: "./tables/tables.module#TablesModule" },
         ]
     }

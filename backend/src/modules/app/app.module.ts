@@ -1,9 +1,11 @@
+
 import { Module } from "@nestjs/common";
 
 // import { AuthModule } from "../auth/auth.module";
 // import { RoleModule } from "../roles/role.module";
 import { UserModule } from "../user/user.module";
-import { CounterModule } from "../counter/counter.module";
+import { CounterpartyModule } from "../counterparty/counterparty.module";
+import { OrderModule } from "../order/order.module";
 // import { AuthService } from "../auth/auth.service";
 // import { CategoryModule } from "../categories/category.module";
 
@@ -11,7 +13,8 @@ import { CounterModule } from "../counter/counter.module";
 @Module({
     modules: [
         UserModule,
-        CounterModule
+        CounterpartyModule,
+        OrderModule
     ],
 })
 export class ApplicationModule { }
