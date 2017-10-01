@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
     selector: "app-admin",
@@ -8,12 +8,18 @@ import { Router } from "@angular/router";
 })
 export class AdminComponent implements OnInit {
 
-    constructor(public router: Router) { }
+    constructor(
+        public router: Router,
+        private route: ActivatedRoute) { }
 
     public ngOnInit() {
-        if (this.router.url === "/") {
-            this.router.navigate(["/login"]);
-        }
+        console.log("AdminComponent loaded");
+        console.log(this.router.url);
+        this.router.navigate(["products"], { relativeTo: this.route });
+        // if (this.router.url === "/admin") {
+
+
+        // }
     }
 
 }
