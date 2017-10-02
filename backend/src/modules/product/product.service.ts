@@ -53,7 +53,7 @@ export class ProductService {
         console.log("---------------------------");
         console.log(options.uri);
         console.log("---------------------------");
-        options.uri = options.uri + "report/stock/all?groupBy=product&stockMode=positiveOnly";
+        options.uri = "https://online.moysklad.ru/api/remap/1.1/report/stock/all?groupBy=product&stockMode=positiveOnly";
         console.log(options.uri);
         let products = JSON.parse(await request(options)).rows;
         return products;
@@ -61,7 +61,7 @@ export class ProductService {
 
     public async getStockAllVariants(str: string) {
         let options = OPTIONS;
-        options.uri = options.uri + "report/stock/all?groupBy=variant&includeRelated=true" + str;
+        options.uri = "https://online.moysklad.ru/api/remap/1.1/report/stock/all?groupBy=variant&includeRelated=true" + str;
         console.log(options.uri);
         let variants = JSON.parse(await request(options)).rows;
         return variants;

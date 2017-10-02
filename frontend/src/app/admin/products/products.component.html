@@ -14,16 +14,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let order of orders; let i = index">
+                    <tr *ngFor="let product of products; let i = index">
                         <td>{{i+1}}</td>
                         <td>тут будет фото</td>
                         <td>
-                            <p>{{ products.name}}</p>
-                            <p>{{ products.article}}</p>
+                            <p>{{ product.name}}</p>
+                            <p>{{ product.article}}</p>
                             <p>тут будет описание</p>
                         </td>
-                        <td>{{ products.salePrice}}</td>
-                        <td>{{ order.variants | json }}</td>
+                        <td>{{ product.salePrice}}</td>
+                        <td>{{ product.variants | json }}</td>
                         <td>общая сумма</td>
                     </tr>
                 </tbody>
