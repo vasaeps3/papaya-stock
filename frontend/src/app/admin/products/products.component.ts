@@ -8,7 +8,7 @@ import { ProductsService } from "./products.service";
     templateUrl: "./products.component.html"
 })
 export class ProductsComponent implements OnInit {
-    public orders: any;
+    public products: any;
     constructor(
         private _productsService: ProductsService
     ) { }
@@ -16,7 +16,7 @@ export class ProductsComponent implements OnInit {
     public ngOnInit() {
         this._productsService.getAll().subscribe(
             result => {
-                this.orders = result;
+                this.products = result;
             }
         );
     }

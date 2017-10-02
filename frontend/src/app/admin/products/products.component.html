@@ -5,20 +5,26 @@
             <table class="table table-hover table-striped">
                 <thead>
                     <tr>
-                        <th>№!!!!</th>
-                        <th>Name</th>
-                        <th>Sum</th>
-                        <th>ReservedSum</th>
-                        <th>moment</th>
+                        <th>№</th>
+                        <th>Фото</th>
+                        <th>Описание</th>
+                        <th>Цена (1 шт)</th>
+                        <th>Кол-во</th>
+                        <th>Сумма</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let order of orders; let i = index">
                         <td>{{i+1}}</td>
-                        <td>{{ order.name}}</td>
-                        <td>{{ order.sum}}</td>
-                        <td>{{ order.reservedSum}}</td>
-                        <td>{{ order.moment}}</td>
+                        <td>тут будет фото</td>
+                        <td>
+                            <p>{{ products.name}}</p>
+                            <p>{{ products.article}}</p>
+                            <p>тут будет описание</p>
+                        </td>
+                        <td>{{ products.salePrice}}</td>
+                        <td>{{ order.variants | json }}</td>
+                        <td>общая сумма</td>
                     </tr>
                 </tbody>
             </table>
