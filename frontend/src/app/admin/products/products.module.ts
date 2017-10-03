@@ -4,6 +4,7 @@ import { NgModule } from "@angular/core";
 import { ProductsService } from "./products.service";
 import { ProductsComponent } from "./products.component";
 import { ProductsRoutingModule } from "./products-routing.module";
+import { VariantsComponent } from "../components/variants/variants.component";
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { ProductsRoutingModule } from "./products-routing.module";
         ProductsRoutingModule
     ],
     declarations: [
-        ProductsComponent
+        ProductsComponent,
+        VariantsComponent
     ],
     providers: [ProductsService],
 })

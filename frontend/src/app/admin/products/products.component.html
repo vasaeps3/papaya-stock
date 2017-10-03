@@ -5,10 +5,10 @@
             <table class="table table-hover table-striped">
                 <thead>
                     <tr>
-                        <th>№</th>
+                        <th>№{{clicks}}</th>
                         <th>Фото</th>
                         <th>Описание</th>
-                        <th>Цена (1 шт)</th>
+                        <th>Цена ({{clicks_2}} шт)</th>
                         <th>Кол-во</th>
                         <th>Сумма</th>
                     </tr>
@@ -23,7 +23,9 @@
                             <p>тут будет описание</p>
                         </td>
                         <td>{{ product.salePrice}}</td>
-                        <td>{{ product.variants | json }}</td>
+                        <td>{{ product.variants | json }}
+                            <variants-comp [(variants)]="product.variants" (onChangeHuy)="onChangedVariants($event)"></variants-comp>
+                        </td>
                         <td>общая сумма</td>
                     </tr>
                 </tbody>

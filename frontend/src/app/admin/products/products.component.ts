@@ -9,6 +9,8 @@ import { ProductsService } from "./products.service";
 })
 export class ProductsComponent implements OnInit {
     public products: any;
+    public clicks: number = 0;
+    public testStr: string = "Tom";
     constructor(
         private _productsService: ProductsService
     ) { }
@@ -19,5 +21,8 @@ export class ProductsComponent implements OnInit {
                 this.products = result;
             }
         );
+    }
+    public onChangedVariants(qwer:any){
+        console.log("Поменяли что-то в вариантах. Нужно новый объект засунуть в LocalStarage");
     }
 }
