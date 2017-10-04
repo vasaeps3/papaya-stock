@@ -1,0 +1,8 @@
+<div class="cl-sizerow-plus" (click)="changeQuantity(true)">
+    <i class="fa fa-plus"></i>
+</div>
+<div class="cl-sizerow-size-title">{{position.size}}</div>
+<div class="cl-sizerow-size-amount"><span *ngIf="position.quantity > 0">{{position.quantity}}</span></div>
+<div class="cl-sizerow-minus" (click)="changeQuantity(false)">
+    <i class="fa fa-minus"></i>
+</div>

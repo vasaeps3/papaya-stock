@@ -23,8 +23,8 @@
                             <p>тут будет описание</p>
                         </td>
                         <td>{{ product.salePrice}}</td>
-                        <td>{{ product.variants | json }}
-                            <variants-comp [(variants)]="product.variants" (onChangeHuy)="onChangedVariants($event)"></variants-comp>
+                        <td>{{ product.positions | json }}
+                            <variants-comp [(positions)]="product.positions" (onChangeHuy)="onChangedVariants($event)"></variants-comp>
                         </td>
                         <td>общая сумма</td>
                     </tr>

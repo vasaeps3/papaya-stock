@@ -11,7 +11,7 @@ export interface IProduct {
     quantity?: number;
     salePrice: number;
     description?: string;
-    variants?: any[];
+    positions?: any[];
 }
 
 @Controller("product")
@@ -30,28 +30,24 @@ export class ProductController {
     @Get()
     public async getStockAllProduct( @Res() res: Response, @Body() boies: any) {
         // Вытянули с сервера все активные продукты
-        console.log(1);
         let stockAllProducts: any[] = await this._productService.getStockAllProduct();
-        console.log(2);
         // Сформировали массив в нужной нам форме
         let products: IProduct[] = this.makeProductsId(stockAllProducts);
-        console.log(3);
         // Сформировали cnhjre id product
         let strFilterFromProductId: string = this.makeStrFilterFromProductId(products);
-        console.log(4);
         // Вытянули с сервера все активные варианты
         let stockAllVariants: any[] = await this._productService.getStockAllVariants(strFilterFromProductId);
-        console.log(5);
         // сформировали окончательный формат продукта
         _.each(stockAllVariants, function (variant) {
             _.find(products, function (o) {
                 return o.article === variant.article;
             })
-                .variants.push({
+                .positions.push({
                     id: _.split(_.last(_.split(variant.meta.href, "/")), "?")[0],
-                    quantity: variant.quantity,
+                    stock: variant.quantity,
                     salePrice: variant.salePrice,
-                    size: +variant.name.match(/\(([^\]]+)\)/ig).map(n => n.slice(1, -1))[0]
+                    size: +variant.name.match(/\(([^\]]+)\)/ig).map(n => n.slice(1, -1))[0],
+                    quantity: 0
                 });
             // .map(n => n.slice(1,-1));
         });
@@ -74,7 +70,7 @@ export class ProductController {
                 article: stockAllProduct.article,
                 quantity: stockAllProduct.quantity,
                 salePrice: stockAllProduct.salePrice,
-                variants: []
+                positions: []
             };
             products.push(product);
         });

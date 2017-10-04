@@ -22,7 +22,7 @@ export class ProductsComponent implements OnInit {
             }
         );
     }
-    public onChangedVariants(qwer:any){
-        console.log("Поменяли что-то в вариантах. Нужно новый объект засунуть в LocalStarage");
+    public onChangedVariants(qwer: any) {
+        console.log("Поменяли что-то в вариантах. Нужно новый объект засунуть в LocalStarage, ID зщышншыва = " + qwer);
     }
 }
