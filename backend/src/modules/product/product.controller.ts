@@ -8,7 +8,7 @@ export interface IProduct {
     id: string;
     name: string;
     article?: string;
-    quantity?: number;
+    stock?: number;
     salePrice: number;
     description?: string;
     positions?: any[];
@@ -68,7 +68,7 @@ export class ProductController {
                 id: _.split(_.last(_.split(stockAllProduct.meta.href, "/")), "?")[0],
                 name: stockAllProduct.name,
                 article: stockAllProduct.article,
-                quantity: stockAllProduct.quantity,
+                stock: stockAllProduct.quantity,
                 salePrice: stockAllProduct.salePrice,
                 positions: []
             };
