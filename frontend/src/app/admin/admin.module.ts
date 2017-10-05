@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 
 import { AdminComponent } from "./admin.component";
 import { HeaderComponent } from "./components/header/header.component";
+import { PositionsService } from "./components/positions/position.service";
 import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import { AdminRoutingModule } from "./admin-routing.module";
 
@@ -16,6 +17,7 @@ import { AdminRoutingModule } from "./admin-routing.module";
         AdminComponent,
         HeaderComponent,
         SidebarComponent
-    ]
+    ],
+    providers: [PositionsService]
 })
 export class AdminModule { }

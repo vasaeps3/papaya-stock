@@ -1,6 +1,6 @@
-import * as _ from "lodash";
+import * as _ from 'lodash';
 import { Response, Request } from "express";
-import { Body, Controller, Get, HttpStatus, Res } from "@nestjs/common";
+import { Body, Controller, Get, HttpStatus, Post, Res } from "@nestjs/common";
 
 import { ProductService } from "./product.service";
 
@@ -19,16 +19,29 @@ export class ProductController {
     constructor(private _productService: ProductService) {
 
     }
+    @Post()
+    public async getProductsById( @Res() res: Response, @Body() productsId: Array<string>) {
+        // console.log(productsId);
+        // let str: string = "";
+        // _.each(productId, function (id) {
+        //     str += "&product.id=" + id;
+        // });
+        let stockAllProducts: any[] = await this._productService.getStockProductsById(productsId);
+        // // console.log(stockAllProducts);
+        // _.each(productsId, async function (productId) {
+        //      let stockProductById = await this._productService.getStockProductById(productId);
+        //      console.log(stockProductById);
+        // });
+        // forEach()
 
-    @Get("test")
-    public async getAll( @Res() res: Response, @Body() boies: any) {
-        let counter = await this._productService.getAll();
 
-        res.status(HttpStatus.OK).json(counter);
+        // let stockAllProducts: any[] = await this._productService.getStockProductById(str);
+        res.status(HttpStatus.OK).json(stockAllProducts);
     }
 
+
     @Get()
-    public async getStockAllProduct( @Res() res: Response, @Body() boies: any) {
+    public async getStockAllProduct( @Res() res: Response) {
         // Вытянули с сервера все активные продукты
         let stockAllProducts: any[] = await this._productService.getStockAllProduct();
         // Сформировали массив в нужной нам форме
@@ -49,7 +62,6 @@ export class ProductController {
                     size: +variant.name.match(/\(([^\]]+)\)/ig).map(n => n.slice(1, -1))[0],
                     quantity: 0
                 });
-            // .map(n => n.slice(1,-1));
         });
         res.status(HttpStatus.OK).json(products);
     }

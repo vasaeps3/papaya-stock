@@ -12,10 +12,12 @@ export class PositionsService {
         _.each(localProducts, function (localProduct) {
             let product = _.find(products, o => o.id === localProduct.id);
             if (product) {
+                product.quantity = 0;
                 _.each(localProduct.positions, function (localPosition) {
                     let position = _.find(product.positions, o => o.id === localPosition.id);
-                    if(position){
+                    if (position) {
                         position.quantity = localPosition.quantity;
+                        product.quantity += position.quantity;
                     }
                 });
             }
@@ -42,6 +44,10 @@ export class PositionsService {
         } else {
             localPosition.quantity = changedPosition.quantity;
         }
+        changedProduct.quantity = 0;
+        _.each(changedProduct.positions, function (changedPosition) {
+            changedProduct.quantity += changedPosition.quantity;
+        });
         this.clearEmptyProduct(localProducts);
         this.setLocalProduct(localProducts);
     }
@@ -72,6 +78,10 @@ export class PositionsService {
     public loadPositions() {
         return JSON.parse(localStorage.getItem("positions")) || [];
     }
+
+    public loadIdProduct(): Array<string> {
+        return _.map(this.loadLocalProduct(), o => o.id);
+    }
 }
 
 export interface IPosition {
@@ -88,5 +98,6 @@ export interface IProduct {
     article?: string;
     stock?: number;
     salePrice?: number;
+    quantity?: number;
     positions: IPosition[];
 }

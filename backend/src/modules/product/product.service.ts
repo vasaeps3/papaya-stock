@@ -49,14 +49,31 @@ export class ProductService {
     // Функция возвращает все положительные остатки продуктов
     public async getStockAllProduct() {
         let options = OPTIONS;
-        options.uri = OPTIONS.uri;
-        console.log("---------------------------");
-        console.log(options.uri);
-        console.log("---------------------------");
         options.uri = "https://online.moysklad.ru/api/remap/1.1/report/stock/all?groupBy=product&stockMode=positiveOnly";
-        console.log(options.uri);
         let products = JSON.parse(await request(options)).rows;
         return products;
+    }
+
+    public async getStockProductsById(productsId: Array<string>) {
+        let options = OPTIONS;
+        let as: Array<any> = [];
+        productsId.forEach(this.getStockProductById);
+        // _.each(productsId, async function (productId) {
+        //     options.uri = "https://online.moysklad.ru/api/remap/1.1/report/stock/all?groupBy=product&product.id=" + productId;
+        //     console.log(options.uri);
+        //     let variants = JSON.parse(await request(options)).rows;
+        //     await as.push(variants);
+            
+        // });
+        //console.log(as);
+        return [12];
+    }
+    public async getStockProductById(productId: string) {
+        let options = OPTIONS;
+        options.uri = "https://online.moysklad.ru/api/remap/1.1/report/stock/all?groupBy=product&product.id=" + productId;
+        console.log(options.uri);
+        let variants = JSON.parse(await request(options)).rows;
+        return variants;
     }
 
     public async getStockAllVariants(str: string) {

@@ -8,7 +8,7 @@
                         <th>№</th>
                         <th>Фото</th>
                         <th>Описание</th>
-                        <th>Цена ({{clicks_2}} шт)</th>
+                        <th>Цена (шт)</th>
                         <th>Кол-во</th>
                         <th>Сумма</th>
                     </tr>
@@ -24,7 +24,7 @@
                         <td>
                             <positions-comp [productId]="product.id" [(positions)]="product.positions" (onChangePosition)="onChangedPosition($event)"></positions-comp>
                         </td>
-                        <td>общая сумма</td>
+                        <td>{{product.salePrice*(product.quantity || 0)}}</td>
                     </tr>
                 </tbody>
             </table>
