@@ -5,7 +5,7 @@
             <table class="table table-hover table-striped">
                 <thead>
                     <tr>
-                        <th>№{{clicks}}</th>
+                        <th>№</th>
                         <th>Фото</th>
                         <th>Описание</th>
                         <th>Цена ({{clicks_2}} шт)</th>
@@ -16,15 +16,13 @@
                 <tbody>
                     <tr *ngFor="let product of products; let i = index">
                         <td>{{i+1}}</td>
-                        <td>{{product.id}}}</td>
+                        <td>{{product.id}}</td>
                         <td>
                             <p>{{ product.name}}</p>
-                            <p>{{ product.article}}</p>
-                            <p>тут будет описание</p>
                         </td>
                         <td>{{ product.salePrice}}</td>
-                        <td>{{ product.positions | json }}
-                            <positions-comp [productId]="product.id" [(positions)]="product.positions" (onChangePosition)="onChangedVariants($event)"></positions-comp>
+                        <td>
+                            <positions-comp [productId]="product.id" [(positions)]="product.positions" (onChangePosition)="onChangedPosition($event)"></positions-comp>
                         </td>
                         <td>общая сумма</td>
                     </tr>
