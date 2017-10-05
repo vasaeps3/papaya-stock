@@ -4,8 +4,8 @@ import { NgModule } from "@angular/core";
 import { ProductsService } from "./products.service";
 import { ProductsComponent } from "./products.component";
 import { ProductsRoutingModule } from "./products-routing.module";
-import { VariantComponent } from "../components/variants/variant/variant.component";
-import { VariantsComponent } from "../components/variants/variants.component";
+import { PositionComponent } from "../components/positions/position/position.component";
+import { PositionsComponent } from "../components/positions/positions.component";
 
 
 @NgModule({
@@ -17,8 +17,8 @@ import { VariantsComponent } from "../components/variants/variants.component";
     ],
     declarations: [
         ProductsComponent,
-        VariantsComponent,
-        VariantComponent
+        PositionsComponent,
+        PositionComponent
     ],
     providers: [ProductsService],
 })

@@ -16,7 +16,7 @@
                 <tbody>
                     <tr *ngFor="let product of products; let i = index">
                         <td>{{i+1}}</td>
-                        <td>тут будет фото</td>
+                        <td>{{product.id}}}</td>
                         <td>
                             <p>{{ product.name}}</p>
                             <p>{{ product.article}}</p>
@@ -24,7 +24,7 @@
                         </td>
                         <td>{{ product.salePrice}}</td>
                         <td>{{ product.positions | json }}
-                            <variants-comp [(positions)]="product.positions" (onChangeHuy)="onChangedVariants($event)"></variants-comp>
+                            <positions-comp [productId]="product.id" [(positions)]="product.positions" (onChangePosition)="onChangedVariants($event)"></positions-comp>
                         </td>
                         <td>общая сумма</td>
                     </tr>
