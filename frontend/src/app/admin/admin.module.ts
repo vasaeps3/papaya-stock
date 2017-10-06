@@ -1,3 +1,5 @@
+import { PositionComponent } from './components/positions/position/position.component';
+import { PositionsComponent } from './components/positions/positions.component';
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 

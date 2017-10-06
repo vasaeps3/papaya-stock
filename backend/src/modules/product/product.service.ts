@@ -54,20 +54,14 @@ export class ProductService {
         return products;
     }
 
-    public async getStockProductsById(productsId: Array<string>) {
+    // +
+    public async getProductsById(str: string) {
         let options = OPTIONS;
-        let as: Array<any> = [];
-        productsId.forEach(this.getStockProductById);
-        // _.each(productsId, async function (productId) {
-        //     options.uri = "https://online.moysklad.ru/api/remap/1.1/report/stock/all?groupBy=product&product.id=" + productId;
-        //     console.log(options.uri);
-        //     let variants = JSON.parse(await request(options)).rows;
-        //     await as.push(variants);
-            
-        // });
-        //console.log(as);
-        return [12];
+        options.uri = "https://online.moysklad.ru/api/remap/1.1/report/stock/all?stockMode=all" + str;
+        console.log("Запрос:" + options.uri);
+        return JSON.parse(await request(options)).rows;
     }
+
     public async getStockProductById(productId: string) {
         let options = OPTIONS;
         options.uri = "https://online.moysklad.ru/api/remap/1.1/report/stock/all?groupBy=product&product.id=" + productId;

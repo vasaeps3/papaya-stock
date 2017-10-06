@@ -18,20 +18,14 @@ export class CartComponent implements OnInit {
     ) { }
 
     public ngOnInit() {
-        console.log("load CartComponent");
         this._cartService.getProductById(this._positionsService.loadIdProduct()).subscribe(
             result => {
-                console.log(12);
+                this.products = this._positionsService.mergeProductsWithLocal(result);
             }
         )
-        // this._productsService.getAll().subscribe(
-        //     result => {
-        //         this.products = this._positionsService.mergeProductsWithLocal(result);
-        //     }
-        // );
     }
 
-    // public onChangedPosition(objEvent: { productId: string; positionId: string }) {
-    //     this._positionsService.changePosition(this.products, objEvent.productId, objEvent.positionId);
-    // }
+    public onChangedPosition(objEvent: { productId: string; positionId: string }) {
+        this._positionsService.changePosition(this.products, objEvent.productId, objEvent.positionId);
+    }
 }

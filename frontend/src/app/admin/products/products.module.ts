@@ -2,10 +2,9 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 
 import { ProductsService } from "./products.service";
+import { PositionsModule } from "../components/positions/positions.module";
 import { ProductsComponent } from "./products.component";
 import { ProductsRoutingModule } from "./products-routing.module";
-import { PositionComponent } from "../components/positions/position/position.component";
-import { PositionsComponent } from "../components/positions/positions.component";
 
 
 @NgModule({
@@ -13,12 +12,11 @@ import { PositionsComponent } from "../components/positions/positions.component"
         CommonModule,
         // NgbCarouselModule.forRoot(),
         // NgbAlertModule.forRoot(),
-        ProductsRoutingModule
+        ProductsRoutingModule,
+        PositionsModule
     ],
     declarations: [
-        ProductsComponent,
-        PositionsComponent,
-        PositionComponent
+        ProductsComponent
     ],
     providers: [ProductsService],
 })

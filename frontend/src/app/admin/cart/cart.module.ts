@@ -2,8 +2,9 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 
 import { CartService } from "./cart.service";
-import { CartRoutingModule } from "./cart-routing.module";
 import { CartComponent } from "./cart.component";
+import { PositionsModule } from "../components/positions/positions.module";
+import { CartRoutingModule } from "./cart-routing.module";
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { CartComponent } from "./cart.component";
         CommonModule,
         // NgbCarouselModule.forRoot(),
         // NgbAlertModule.forRoot(),
-        CartRoutingModule
+        CartRoutingModule,
+        PositionsModule
     ],
     declarations: [
         CartComponent

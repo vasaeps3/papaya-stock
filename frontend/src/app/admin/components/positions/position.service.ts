@@ -79,8 +79,8 @@ export class PositionsService {
         return JSON.parse(localStorage.getItem("positions")) || [];
     }
 
-    public loadIdProduct(): Array<string> {
-        return _.map(this.loadLocalProduct(), o => o.id);
+    public loadIdProduct(): Array<IProduct> {
+        return _.map(this.loadLocalProduct(), o => { return { id: o.id } });
     }
 }
 
@@ -99,5 +99,5 @@ export interface IProduct {
     stock?: number;
     salePrice?: number;
     quantity?: number;
-    positions: IPosition[];
+    positions?: IPosition[];
 }
