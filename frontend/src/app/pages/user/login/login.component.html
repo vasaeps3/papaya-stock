@@ -3,7 +3,7 @@
         <div class="col-md-4 push-md-4">
             <img src="assets/images/logo.png" width="150px" class="user-avatar" />
             <h1>Melon Authorize</h1>
-            <form role="form" (ngSubmit)="login()" #loginForm="ngForm" novalidate>
+            <form role="form" (ngSubmit)="login()" #loginForm="ngForm" novalidate autocomplete="off">
                 <div class="form-content">
                     <div class="form-group">
                         <input type="text" class="form-control input-underline input-lg" id="" placeholder="E-mail" required [(ngModel)]="model.username" name="email" #username="ngModel">

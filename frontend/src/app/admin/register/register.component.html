@@ -1,0 +1,36 @@
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card card-default">
+            <div class="card-header">
+                <i class="fa fa-user-plus fa-fw"></i> Создание пользователя
+            </div>
+            <div class="card-block">
+                <form role="form" #registerForm="ngForm" novalidate autocomplete="off" (ngSubmit)="register(registerForm)">
+                    <div class="form-content">
+                        <div class="form-group" [ngClass]="{has_success:(email.touched || email.dirty) && !email.errors, has_danger: (email.touched || email.dirty) && email.errors}">
+                            <label for="inputEmail" class="form-control-label">E-mail</label>
+                            <input type="text" class="form-control" id="inputEmail" required name="email" [(ngModel)]="model.email" #email="ngModel" (change)="onEmailChange()" [ngClass]="{form_control_success:(email.touched || email.dirty) && !email.errors, form_control_danger: (email.touched || email.dirty) && email.errors}"
+                                pattern="[a-zA-Z_]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}">
+                            <div class="help-block help-block-danger" *ngIf="(email.touched || email.dirty) && email.errors">
+                                <span *ngIf="email.errors.required">Email - обязательное поле</span>
+                                <span *ngIf="email.errors.pattern">Некорректный формат Email</span>
+                            </div>
+                            <p class="help-block">Необходимо указать e-mail контрагента из системы мой склад. По данному e-mail будет осуществляться синхронизация.</p>
+
+                        </div>
+                        <div class="form-group" [ngClass]="{has_success:(password.touched || password.dirty) && !password.errors, has_danger: (password.touched || password.dirty) && password.errors}">
+                            <label for="inputPassword" class="form-control-label">Пароль</label>
+                            <input type="password" class="form-control" id="inputPassword" placeholder="Пароль" required name="password" [(ngModel)]="model.password" #password="ngModel" [ngClass]="{form_control_success:(password.touched || password.dirty) && !password.errors, form_control_danger: (password.touched || password.dirty) && password.errors}"
+                            />
+                            <div class="help-block help-block-danger" *ngIf="(password.touched || password.dirty) && password.errors">
+                                <span *ngIf="password.errors.required">Пароль - обязательное поле</span>
+                            </div>
+                            <p class="help-block">Пароль для авторизации пользователя в системе</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-success" type="submit" [disabled]="!registerForm.valid">Зарегистрировать</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
