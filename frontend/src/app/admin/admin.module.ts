@@ -1,7 +1,9 @@
+import { AuthService } from "../_auth/auth.service";
 import { PositionComponent } from "./components/positions/position/position.component";
 import { PositionsComponent } from "./components/positions/positions.component";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { AdminComponent } from "./admin.component";
 import { HeaderComponent } from "./components/header/header.component";
@@ -13,6 +15,7 @@ import { AdminRoutingModule } from "./admin-routing.module";
 @NgModule({
     imports: [
         CommonModule,
+        NgbDropdownModule.forRoot(),
         AdminRoutingModule
     ],
     declarations: [
@@ -20,6 +23,6 @@ import { AdminRoutingModule } from "./admin-routing.module";
         HeaderComponent,
         SidebarComponent
     ],
-    providers: [PositionsService]
+    providers: [PositionsService, AuthService]
 })
 export class AdminModule { }

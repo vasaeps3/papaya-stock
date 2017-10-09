@@ -23,18 +23,15 @@ export class LoginComponent implements OnInit {
         private _authService: AuthService) { }
 
     public ngOnInit() {
-        console.log("ngOnInit LoginComponent");
-        console.log("this._authService.isLoggedIn() =>" + this._authService.isLoggedIn());
-        console.log("this._authService.token =>" + this._authService.token);
         this.returnUrl = this._route.snapshot.queryParams["returnUrl"] || "/admin";
-        console.log(this.returnUrl);
-        //this._authService.logout();
+        this._authService.logout();
     }
     public login() {
         this.loading = true;
         console.log(this.model);
         this._authService.login(this.model.username, this.model.password)
-            .subscribe(result => {
+            .subscribe(
+            result => {
                 let token = result && result.token;
                 if (token) {
                     this._authService.token = token;
@@ -44,9 +41,9 @@ export class LoginComponent implements OnInit {
                     this.errorMessage = "Username or password is incorrect";
                     this.loading = false;
                 }
-            }, (error: HttpErrorResponse) => {
+            },
+            (error: HttpErrorResponse) => {
                 this.errorMessage = JSON.parse(error.error).message;
-                this.model.username.invalid;
                 this.loading = false;
             });
     }

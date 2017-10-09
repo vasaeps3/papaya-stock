@@ -10,8 +10,8 @@ export class ProductsService {
     ) { }
 
     public getAll(): Observable<any> {
-        const headers = new HttpHeaders({ "Content-Type": "application/json" });
-        const options = { headers: headers };
-        return this._httpClient.get("/api/product/", options);
+        // const headers = new HttpHeaders({ "Content-Type": "application/json" });
+        // const options = { headers: headers };
+        return this._httpClient.get("/api/product/");
     }
 }

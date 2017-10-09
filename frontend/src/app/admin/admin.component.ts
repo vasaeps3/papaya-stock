@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 export class AdminComponent implements OnInit {
 
     constructor(
-        public router: Router,
+        private router: Router,
         private route: ActivatedRoute) { }
 
     public ngOnInit() {

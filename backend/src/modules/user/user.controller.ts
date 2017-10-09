@@ -44,7 +44,7 @@ export class UserController {
         if (userAuth.password !== this.encryptPassword(user.password)) {
             throw new NotFoundException("Incorrect password");
         }
-        userAuth = _.pick(userAuth, ["id", "name", "isAdmin","stockId"]);
+        userAuth = _.pick(userAuth, ["id", "name", "isAdmin", "stockId"]);
         let tokenLocale = jwt.sign(userAuth, "stockpapaya", { noTimestamp: true });
         res.status(HttpStatus.OK).json({ user: _.omit(userAuth, ["id"]), token: tokenLocale });
     }
