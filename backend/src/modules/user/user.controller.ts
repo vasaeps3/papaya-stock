@@ -7,6 +7,7 @@ import { Body, Controller, Get, HttpStatus, Param, Post, Req, Res } from "@nestj
 import { User } from "./user.entity";
 import { UserService } from "./user.service";
 import { NotFoundException } from "../../exception/not-found.exception";
+import { NotAcceptableException } from "../../exception/not-acceptable.exception";
 
 
 @Controller("user")
@@ -20,12 +21,19 @@ export class UserController {
     //     res.status(HttpStatus.OK).json(_.pick(user, ["id", "name", "isAdmin"]));
     // }
 
-    @Post()
+    @Post("register")
     public async create( @Res() res: Response, @Body() user: User) {
-        if (user.password) {
-            user.password = this.encryptPassword(user.password);
+        let usersStock: any[] = await this._userService.getStocksUserByEmail(user.name);
+        if (usersStock.length === 0) {
+            throw new NotFoundException(`Не найден пользователь с e-mail "${user.name}" в системе МойСклад!`);
         }
-        let createdUser: User = await this._userService.add(user);
+        if (usersStock.length > 1) {
+            throw new NotFoundException(`Найдено несколько пользователей с e-mail "${user.name}" в системе МойСклад!`);
+        }
+        let newUser: User = user;
+        newUser.stockId = usersStock[0].id;
+        newUser.password = this.encryptPassword(newUser.password);
+        let createdUser: User = await this._userService.add(newUser);
         res.status(HttpStatus.OK).json(createdUser);
     }
 
@@ -36,7 +44,7 @@ export class UserController {
         if (userAuth.password !== this.encryptPassword(user.password)) {
             throw new NotFoundException("Incorrect password");
         }
-        userAuth = _.pick(userAuth, ["id", "name", "isAdmin"]);
+        userAuth = _.pick(userAuth, ["id", "name", "isAdmin","stockId"]);
         let tokenLocale = jwt.sign(userAuth, "stockpapaya", { noTimestamp: true });
         res.status(HttpStatus.OK).json({ user: _.omit(userAuth, ["id"]), token: tokenLocale });
     }

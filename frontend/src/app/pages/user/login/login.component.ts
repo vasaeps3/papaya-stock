@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
-import { Router } from "@angular/router";
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { ActivatedRoute, Router } from "@angular/router";
+import { HttpErrorResponse, HttpResponse } from "@angular/common/http";
 
 import { AuthService } from "../../../_auth/auth.service";
 
@@ -15,15 +15,19 @@ export class LoginComponent implements OnInit {
     public errorMessage: string;
     public model: any = {};
     public loading: boolean = false;
+    public returnUrl: string;
 
     constructor(
-        public _router: Router,
+        private _route: ActivatedRoute,
+        private _router: Router,
         private _authService: AuthService) { }
 
     public ngOnInit() {
         console.log("ngOnInit LoginComponent");
-        console.log("this._authService.isLoggedIn() =>"+this._authService.isLoggedIn());
-        console.log("this._authService.token =>"+this._authService.token);
+        console.log("this._authService.isLoggedIn() =>" + this._authService.isLoggedIn());
+        console.log("this._authService.token =>" + this._authService.token);
+        this.returnUrl = this._route.snapshot.queryParams["returnUrl"] || "/admin";
+        console.log(this.returnUrl);
         //this._authService.logout();
     }
     public login() {
@@ -31,13 +35,11 @@ export class LoginComponent implements OnInit {
         console.log(this.model);
         this._authService.login(this.model.username, this.model.password)
             .subscribe(result => {
-                console.log("LoginComponent->subscribe");
                 let token = result && result.token;
-                console.log("LoginComponent->subscribe->token"+token);
                 if (token) {
                     this._authService.token = token;
-                    localStorage.setItem('currentUser', JSON.stringify({ username: this.model.username, token: token }));
-                    this._router.navigate(["/admin"]);
+                    localStorage.setItem("currentUser", JSON.stringify({ username: this.model.username, token: token }));
+                    this._router.navigate([this.returnUrl]);
                 } else {
                     this.errorMessage = "Username or password is incorrect";
                     this.loading = false;

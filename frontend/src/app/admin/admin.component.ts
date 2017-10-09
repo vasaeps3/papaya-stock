@@ -15,11 +15,9 @@ export class AdminComponent implements OnInit {
     public ngOnInit() {
         console.log("AdminComponent loaded");
         console.log(this.router.url);
-        // this.router.navigate(["products"], { relativeTo: this.route });
-        // if (this.router.url === "/admin") {
+        if (this.router.url === "/admin") {
+            this.router.navigate(["/admin/products"], { relativeTo: this.route });
+        }
 
-
-        // }
     }
-
 }

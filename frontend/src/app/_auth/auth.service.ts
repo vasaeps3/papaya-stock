@@ -17,6 +17,13 @@ export class AuthService {
         this.token = currentUser && currentUser.token;
     }
 
+    public register (username: string, password: string): Observable<any> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        const options = { headers: headers };
+        const body = JSON.stringify({ name: username, password: password });
+        return this._httpClient.post("/api/user/register", body, options);
+    }
+
     public login(username: string, password: string): Observable<any> {
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         const options = { headers: headers };
