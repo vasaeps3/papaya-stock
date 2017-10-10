@@ -1,7 +1,8 @@
 import * as _ from "lodash";
+import { Observable } from "rxjs/Rx";
 import { Component, OnInit } from "@angular/core";
 
-import { CartService } from "./cart.service";
+import { OrdersService } from "../orders/orders.service";
 import { IProduct, PositionsService } from "../components/positions/position.service";
 
 
@@ -13,19 +14,28 @@ export class CartComponent implements OnInit {
     public products: IProduct[];
     // public test:string = "trtes";
     constructor(
-        private _cartService: CartService,
+        private _ordersService: OrdersService,
         private _positionsService: PositionsService
     ) { }
 
     public ngOnInit() {
-        this._cartService.getProductById(this._positionsService.loadIdProduct()).subscribe(
+        this._ordersService.getProductById(this._positionsService.loadIdProduct()).subscribe(
             result => {
                 this.products = this._positionsService.mergeProductsWithLocal(result);
             }
-        )
+        );
     }
 
     public onChangedPosition(objEvent: { productId: string; positionId: string }) {
         this._positionsService.changePosition(this.products, objEvent.productId, objEvent.positionId);
     }
+
+    public createOrder() {
+        this._ordersService.createOrder(this.products).subscribe(
+            result => {
+                console.log(result);
+            }
+        );
+    }
+
 }

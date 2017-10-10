@@ -45,16 +45,24 @@ export class PositionsService {
             localPosition.quantity = changedPosition.quantity;
         }
         changedProduct.quantity = 0;
-        _.each(changedProduct.positions, function (changedPosition) {
-            changedProduct.quantity += changedPosition.quantity;
+        _.each(changedProduct.positions, function (changedPositionssss) {
+            changedProduct.quantity += changedPositionssss.quantity;
         });
         this.clearEmptyProduct(localProducts);
         this.setLocalProduct(localProducts);
     }
 
+    public loadPositions() {
+        return JSON.parse(localStorage.getItem("positions")) || [];
+    }
+
+    public loadIdProduct(): Array<IProduct> {
+        return _.map(this.loadLocalProduct(), o => { return { id: o.id }; });
+    }
+
     private clearEmptyProduct(products: IProduct[]) {
         _.each(products, function (product) {
-            _.remove(product.positions, o => o.quantity === 0)
+            _.remove(product.positions, o => o.quantity === 0);
         });
         _.remove(products, o => o.positions.length === 0);
     }
@@ -73,14 +81,6 @@ export class PositionsService {
 
     private setLocalProduct(prodcuts: IProduct[]): void {
         localStorage.setItem("positions", JSON.stringify(prodcuts));
-    }
-
-    public loadPositions() {
-        return JSON.parse(localStorage.getItem("positions")) || [];
-    }
-
-    public loadIdProduct(): Array<IProduct> {
-        return _.map(this.loadLocalProduct(), o => { return { id: o.id } });
     }
 }
 

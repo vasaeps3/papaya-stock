@@ -25,7 +25,14 @@ export class HttpInterceptorService implements HttpInterceptor {
     public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
         const authService = this._injector.get(AuthService);
-        const authReq = req.clone({ setHeaders: { "x-auth": authService.getToken() } });
+        const authReq = req.clone(
+            {
+                setHeaders: {
+                    "Content-Type": "application/json",
+                    "x-auth": authService.getToken()
+                }
+            }
+        );
         return next.handle(authReq)
             .do(evt => {
                 if (evt instanceof HttpResponse) {
@@ -37,7 +44,7 @@ export class HttpInterceptorService implements HttpInterceptor {
                 if (res.status === 401) {
                     this._router.navigate(["/login"]);
                     return Observable.of([]);
-                } 
+                }
                 return Observable.throw(res);
             });
     }
