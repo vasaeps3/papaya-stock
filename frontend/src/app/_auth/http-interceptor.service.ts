@@ -36,10 +36,9 @@ export class HttpInterceptorService implements HttpInterceptor {
             .catch((res) => {
                 if (res.status === 401) {
                     this._router.navigate(["/login"]);
-                    return []; // TODO
-                } else {
-                    return Observable.throw(res);
-                }
+                    return Observable.of([]);
+                } 
+                return Observable.throw(res);
             });
     }
 }
