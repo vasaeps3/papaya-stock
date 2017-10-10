@@ -18,6 +18,5 @@ export class AdminComponent implements OnInit {
         if (this.router.url === "/admin") {
             this.router.navigate(["/admin/products"], { relativeTo: this.route });
         }
-
     }
 }

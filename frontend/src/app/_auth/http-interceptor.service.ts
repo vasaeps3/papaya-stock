@@ -1,6 +1,7 @@
+import { AuthService } from './auth.service';
 import { Router } from "@angular/router";
 import { Observable } from "rxjs/Rx";
-import { Inject, Injectable } from "@angular/core";
+import { Inject, Injectable, Injector } from '@angular/core';
 
 import {
     HttpErrorResponse,
@@ -11,19 +12,20 @@ import {
     HttpResponse
 } from "@angular/common/http";
 
-import "rxjs/add/operator/do";
+import 'rxjs/add/operator/do';
 
 
 @Injectable()
 export class HttpInterceptorService implements HttpInterceptor {
     constructor(
-        private _router: Router) { }
+        private _router: Router,
+        private _injector: Injector
+    ) { }
 
     public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        let currentUser = JSON.parse(localStorage.getItem("currentUser"));
-        let token = currentUser && currentUser.token || "";
-        // let token = "";
-        const authReq = req.clone({ setHeaders: { "x-auth": token } });
+
+        const authService = this._injector.get(AuthService);
+        const authReq = req.clone({ setHeaders: { "x-auth": authService.getToken() } });
         return next.handle(authReq)
             .do(evt => {
                 if (evt instanceof HttpResponse) {

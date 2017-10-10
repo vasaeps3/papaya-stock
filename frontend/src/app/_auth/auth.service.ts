@@ -17,6 +17,11 @@ export class AuthService {
         this.token = currentUser && currentUser.token;
     }
 
+    public getToken() {
+        let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        return currentUser && currentUser.token || "";
+    }
+
     public register(username: string, password: string): Observable<any> {
         const headers = new HttpHeaders({ "Content-Type": "application/json" });
         const options = { headers: headers };
