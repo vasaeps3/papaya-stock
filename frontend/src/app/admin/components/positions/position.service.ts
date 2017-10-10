@@ -95,6 +95,7 @@ export interface IPosition {
 export interface IProduct {
     id: string;
     name?: string;
+    image?: string;
     article?: string;
     stock?: number;
     salePrice?: number;

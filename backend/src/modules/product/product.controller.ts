@@ -1,35 +1,11 @@
 import * as _ from "lodash";
 import { Response, Request } from "express";
 import { Body, Controller, Get, HttpStatus, Post, Res } from "@nestjs/common";
+import * as bluebird from "bluebird";
 
 import { ProductService } from "./product.service";
+import { IProduct, IPosition, IStockEntity } from "./product.interface";
 
-export interface IPosition {
-    id: string;
-    stock?: number;
-    salePrice?: number;
-    size?: number;
-    quantity?: number;
-}
-export interface IStockEntity {
-    meta: {
-        href: string;
-    };
-    name?: string;
-    article?: string;
-    quantity?: number;
-    salePrice?: number;
-}
-
-export interface IProduct {
-    id: string;
-    name?: string;
-    article?: string;
-    stock?: number;
-    salePrice?: number;
-    quantity?: number;
-    positions?: IPosition[];
-}
 
 @Controller("product")
 export class ProductController {
@@ -41,6 +17,7 @@ export class ProductController {
         let productsStr: string = this.getStrProductsId(products);
         let productsStock: IStockEntity[] = await this._productService.getProductsById(productsStr);
         products = this.convertProducts(productsStock);
+        products = await this.loadImages(products);
         products = await this.addPositionsFromProduct(products);
         res.status(HttpStatus.OK).json(products);
     }
@@ -49,8 +26,19 @@ export class ProductController {
     public async getStockAllProduct( @Res() res: Response) {
         let productsStock: IStockEntity[] = await this._productService.getStockAllProduct();
         let products: IProduct[] = this.convertProducts(productsStock);
+        products = await this.loadImages(products);
         products = await this.addPositionsFromProduct(products);
         res.status(HttpStatus.OK).json(products);
+    }
+
+
+    private loadImages(products: IProduct[]) {
+        let _productService = this._productService;
+        return bluebird.Promise.map(products, function (product) {
+            return _productService.loadImage(product);
+        }).then(function (result) {
+            return result;
+        });
     }
 
     private convertProducts(productsStock: IStockEntity[]) {
@@ -59,6 +47,7 @@ export class ProductController {
             let product: IProduct = {
                 id: _.split(_.last(_.split(productStock.meta.href, "/")), "?")[0],
                 name: productStock.name,
+                image: productStock.image.miniature.href,
                 article: productStock.article,
                 stock: 0,
                 salePrice: productStock.salePrice,

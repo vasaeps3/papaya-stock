@@ -3,5 +3,6 @@ export const OPTIONS = {
     headers: {
         "Content-Type": "application/json",
         "Authorization": "Basic  YWRtaW5Aa2FsaW5vZmZza2kxOjA1NGFmMjkwNTU="
-    }
+    },
+    followRedirect: true
 };
