@@ -11,8 +11,10 @@ import { NotFoundException } from "../../exception/not-found.exception";
 
 @Component()
 export class UserService {
-    constructor(private _databaseService: DatabaseService) {
-    }
+
+    constructor(
+        private _databaseService: DatabaseService
+    ) { }
 
     protected get repository(): Promise<Repository<User>> {
         return this._databaseService.getRepository(User);
@@ -31,15 +33,15 @@ export class UserService {
         if (!user) {
             throw new NotFoundException("User not found!");
         }
+
         return user;
     }
 
     public async getStocksUserByEmail(email: string) {
-        let options = OPTIONS;
-        options.uri = "https://online.moysklad.ru/api/remap/1.1/entity/counterparty?filter=email=" + email;
+        let options = _.cloneDeep(OPTIONS);
+        options.uri += "/entity/counterparty?filter=email=" + email;
         let users = JSON.parse(await request(options)).rows;
+
         return users;
     }
-
-
 }

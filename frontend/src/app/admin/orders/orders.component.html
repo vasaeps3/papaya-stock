@@ -1,24 +1,26 @@
 <div class="row">
     <div class="card mb-3">
-        <div class="card-header">Counters</div>
+        <div class="card-header">Заказы</div>
         <div class="card-block table-responsive">
             <table class="table table-hover table-striped">
                 <thead>
                     <tr>
                         <th>№</th>
-                        <th>Name</th>
-                        <th>Sum</th>
-                        <th>ReservedSum</th>
-                        <th>moment</th>
+                        <th>Код</th>
+                        <th>Сумма</th>
+                        <th>Зарезервированная сумма</th>
+                        <th>Дата</th>
+                        <th>Состояние</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let order of orders; let i = index">
                         <td>{{i+1}}</td>
-                        <td>{{ order.name}}</td>
+                        <td><a [routerLink]="[order.id]">{{ order.name}}</a></td>
                         <td>{{ order.sum}}</td>
                         <td>{{ order.reservedSum}}</td>
-                        <td>{{ order.moment}}</td>
+                        <td>{{ order.created}}</td>
+                        <td>{{ order.state.name}}</td>
                     </tr>
                 </tbody>
             </table>

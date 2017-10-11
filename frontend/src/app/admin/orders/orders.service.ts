@@ -11,7 +11,7 @@ export class OrdersService {
         private _httpClient: HttpClient
     ) { }
 
-    public getAllCounter() {
+    public getAllOrders(): Observable<any> {
         return this._httpClient.get("/api/order/");
     }
 

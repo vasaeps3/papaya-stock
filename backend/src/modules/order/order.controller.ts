@@ -4,18 +4,36 @@ import { Body, Controller, Get, HttpStatus, Post, Req, Res } from "@nestjs/commo
 
 import { IProduct } from "../product/product.interface";
 import { OrderService } from "./order.service";
+import { IOrder, IStockOrder } from "./order.interface";
 
 
 @Controller("order")
 export class OrderController {
-    constructor(private _orderService: OrderService) {
-
-    }
+    constructor(
+        private _orderService: OrderService
+    ) { }
 
     @Get()
-    public async getAll( @Res() res: Response, @Body() boies: any) {
-        let counter = await this._orderService.getAll();
-        res.status(HttpStatus.OK).json(counter);
+    public async getAll( @Req() req: Request, @Res() res: Response) {
+        let agentId: string = req["token"].stockId || null;
+        let stockOrders: IStockOrder[] = await this._orderService.getAll(agentId);
+        let orders: IOrder[] = [];
+        _.each(stockOrders, function (stockOrder) {
+            let order: IOrder = {
+                id: stockOrder.id,
+                name: stockOrder.name,
+                sum: stockOrder.sum,
+                reservedSum: stockOrder.reservedSum,
+                state: {
+                    name: stockOrder.state.name,
+                    color: stockOrder.state.color
+                },
+                created: stockOrder.created,
+                update: stockOrder.update
+            };
+            orders.push(order);
+        });
+        res.status(HttpStatus.OK).json(orders);
     }
 
     @Post()

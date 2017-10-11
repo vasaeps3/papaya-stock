@@ -4,6 +4,7 @@ import { NgModule } from "@angular/core";
 import { OrdersService } from "./orders.service";
 import { OrdersComponent } from "./orders.component";
 import { OrdersRoutingModule } from "./orders-routing.module";
+import { OrderDetailComponent } from "./detail/order-detail.component";
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { OrdersRoutingModule } from "./orders-routing.module";
         OrdersRoutingModule
     ],
     declarations: [
-        OrdersComponent
+        OrdersComponent,
+        OrderDetailComponent
     ],
     providers: [OrdersService],
 })

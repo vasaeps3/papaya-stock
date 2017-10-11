@@ -12,7 +12,8 @@ import { IProduct, PositionsService } from "../components/positions/position.ser
 })
 export class CartComponent implements OnInit {
     public products: IProduct[];
-    // public test:string = "trtes";
+    public createdOrder: boolean = false;
+
     constructor(
         private _ordersService: OrdersService,
         private _positionsService: PositionsService
@@ -31,6 +32,7 @@ export class CartComponent implements OnInit {
     }
 
     public createOrder() {
+        this.createdOrder = true;
         this._ordersService.createOrder(this.products).subscribe(
             result => {
                 console.log(result);

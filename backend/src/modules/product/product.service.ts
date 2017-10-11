@@ -10,7 +10,7 @@ import { OPTIONS } from "../../common/base.service";
 export class ProductService {
 
     public async loadImage(product: IProduct) {
-        let options = OPTIONS;
+        let options = _.cloneDeep(OPTIONS);
         options.uri = product.image;
         options.followRedirect = false;
         return await request(options)
@@ -21,40 +21,33 @@ export class ProductService {
     }
 
     public async getStockAllProduct() {
-        let options = OPTIONS;
-        options.uri = "https://online.moysklad.ru/api/remap/1.1/report/stock/all?groupBy=product&stockMode=positiveOnly";
-        let products = JSON.parse(await request(options)).rows;
-        return products;
+        let options = _.cloneDeep(OPTIONS);
+        options.uri += "/report/stock/all?groupBy=product&stockMode=positiveOnly";
+        console.log(options.uri);
+        return JSON.parse(await request(options)).rows;
     }
 
-    // +
     public async getProductsById(str: string) {
-        let options = OPTIONS;
-        options.uri = "https://online.moysklad.ru/api/remap/1.1/report/stock/all?stockMode=all" + str;
-        console.log("Запрос:" + options.uri);
+        let options = _.cloneDeep(OPTIONS);
+        options.uri += "/report/stock/all?stockMode=all" + str;
         return JSON.parse(await request(options)).rows;
     }
 
     public async getStockProductById(productId: string) {
-        let options = OPTIONS;
-        options.uri = "https://online.moysklad.ru/api/remap/1.1/report/stock/all?groupBy=product&product.id=" + productId;
-        console.log(options.uri);
-        let variants = JSON.parse(await request(options)).rows;
-        return variants;
+        let options = _.cloneDeep(OPTIONS);
+        options.uri += "/report/stock/all?groupBy=product&product.id=" + productId;
+        return JSON.parse(await request(options)).rows;
     }
 
     public async getStockAllVariants(str: string) {
-        let options = OPTIONS;
-        options.uri = "https://online.moysklad.ru/api/remap/1.1/report/stock/all?groupBy=variant&includeRelated=true" + str;
-        console.log(options.uri);
-        let variants = JSON.parse(await request(options)).rows;
-        return variants;
+        let options = _.cloneDeep(OPTIONS);
+        options.uri += "/report/stock/all?groupBy=variant&includeRelated=true" + str;
+        return JSON.parse(await request(options)).rows;
     }
 
     public async getAll() {
-        let options = OPTIONS;
-        options.uri = options.uri + "report/stock/all";
-        console.log(options.uri);
+        let options = _.cloneDeep(OPTIONS);
+        options.uri += "/report/stock/all";
         let products = JSON.parse(await request(options));
         // let resProducts = {
         //     id
