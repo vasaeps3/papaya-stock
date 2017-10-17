@@ -1,73 +1,23 @@
 <div class="row">
-    <div class="col-sm-12">
-        <div class="card mb-3" *ngFor="let product of products; let i = index">
+    <div class="col-xl-4" *ngFor="let product of products; let i = index">
+        <div class="card mb-3">
             <div class="card-header">{{product.name}}</div>
-            <div class="d-flex flex-xl-row justify-content-xl-start align-items-xl-stretch flex-wrap">
-                <div class="p-2 wh150 pr-image">
+            <div class="d-flex flex-row justify-content-around align-items-stretch flex-wrap">
+                <div class="p-2 wh150 pr-image align-self-center">
                     <img src="{{product.image}}" alt="{{product.name}}">
                 </div>
                 <div class="p-2 wh200">
-                    <div class=" p-2 pr-price">
+                    <div class="p-2 pr-price">
                         <div class="text-center">{{ product.salePrice }} руб. (1 шт)</div>
                     </div>
                     <div>
                         <positions-comp [productId]="product.id" [(positions)]="product.positions" (onChangePosition)="onChangedPosition($event)"></positions-comp>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="card mb-3">
-            <div class="card-block table-responsive">
-                <div class="d-flex flex-column">
-                    <div class="d-flex flex-xl-row justify-content-xl-start align-items-xl-stretch flex-wrap">
-                        <div class="p-2 wh30">№</div>
-                        <div class="p-2 wh200">Фото</div>
-                        <div class="p-2 wh200">Описание</div>
-                        <div class="p-2 wh150">Цена (шт)</div>
-                        <div class="p-2 wh50">Кол-во</div>
-                        <div class="p-2 wh100">Сумма</div>
-                    </div>
-                    <div class="d-flex flex-sm-row ">
-                        <div class="p-2">Flex item 1</div>
-                        <div class="p-2">Flex item 2</div>
-                        <div class="p-2">Flex item 3</div>
+                    <div class="p-2 pr-price">
+                        <div class="text-center">{{product.salePrice*(product.quantity || 0)}} руб. ({{product.quantity}} шт)</div>
                     </div>
                 </div>
-
-
             </div>
-        </div>
-    </div>
-    <div class="card mb-3">
-        <div class="card-header">Counters</div>
-        <div class="card-block table-responsive">
-
-            <table class="table table-hover table-striped">
-                <thead>
-                    <tr>
-                        <th>№</th>
-                        <th>Фото</th>
-                        <th>Описание</th>
-                        <th>Цена (шт)</th>
-                        <th>Кол-во</th>
-                        <th>Сумма</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let product of products; let i = index">
-                        <td>{{i+1}}</td>
-                        <td><img src="{{product.image}}" alt="{{product.name}}"></td>
-                        <td>
-                            <p>{{product.name}}</p>
-                        </td>
-                        <td>{{ product.salePrice}}</td>
-                        <td>
-                            <positions-comp [productId]="product.id" [(positions)]="product.positions" (onChangePosition)="onChangedPosition($event)"></positions-comp>
-                        </td>
-                        <td>{{product.salePrice*(product.quantity || 0)}}</td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
     </div>
 </div>

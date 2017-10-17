@@ -11,10 +11,17 @@ export class PositionComponent {
 
     public changeQuantity(increased: boolean) {
         let oldQuantity = this.position.quantity;
-        increased == true ? this.position.quantity++ : this.position.quantity == 0 ? 0 : this.position.quantity--;
+
+        if (increased && this.position.quantity < this.position.stock) {
+            this.position.quantity++;
+        }
+
+        if (!increased && this.position.quantity !== 0) {
+            this.position.quantity--;
+        }
+
         if (oldQuantity !== this.position.quantity) {
             this.onChangePositionQuantity.emit(this.position.id);
         }
-
     }
 }

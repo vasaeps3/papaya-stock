@@ -16,7 +16,11 @@ export class PositionsService {
                 _.each(localProduct.positions, function (localPosition) {
                     let position = _.find(product.positions, o => o.id === localPosition.id);
                     if (position) {
-                        position.quantity = localPosition.quantity;
+                        if (position.stock > localPosition.quantity) {
+                            position.quantity = localPosition.quantity;
+                        } else {
+                            position.quantity = position.stock;
+                        }
                         product.quantity += position.quantity;
                     }
                 });
