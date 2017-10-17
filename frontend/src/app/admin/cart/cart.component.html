@@ -1,40 +1,49 @@
 <div class="row">
-    <div class="card mb-3">
-        <div class="card-header">Counters</div>
-        <div class="card-block table-responsive">
-            <table class="table table-hover table-striped">
-                <thead>
-                    <tr>
-                        <th>№</th>
-                        <th>Фото</th>
-                        <th>Описание</th>
-                        <th>Цена (шт)</th>
-                        <th>Кол-во</th>
-                        <th>Сумма</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let product of products; let i = index">
-                        <td>{{i+1}}</td>
-                        <td><img src="{{product.image}}" alt="{{product.name}}"></td>
-                        <td>
-                            <p>{{ product.name}}</p>
-                        </td>
-                        <td>{{ product.salePrice}}</td>
-                        <td>
-                            <positions-comp [productId]="product.id" [(positions)]="product.positions" (onChangePosition)="onChangedPosition($event)"></positions-comp>
-                        </td>
-                        <td>{{product.salePrice*(product.quantity || 0)}}</td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="col-lg-8">
+        <div class="card mb-3">
+            <div class="card-header">Корзина</div>
+            <div class="card-block table-responsive">
+                <table *ngIf="!isCartEmpty" class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Фото</th>
+                            <th>Описание</th>
+                            <th>Цена (шт)</th>
+                            <th>Кол-во</th>
+                            <th>Сумма</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let product of products; let i = index">
+                            <td>{{i+1}}</td>
+                            <td><img class="img_pr" src="{{product.image}}" alt="{{product.name}}"></td>
+                            <td>
+                                <p>{{ product.name}}</p>
+                            </td>
+                            <td>{{ product.salePrice}}</td>
+                            <td>
+                                <positions-comp [productId]="product.id" [(positions)]="product.positions" (onChangePosition)="onChangedPosition($event)"></positions-comp>
+                            </td>
+                            <td>{{product.salePrice*(product.quantity || 0)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="isCartEmpty">
+                    <h4>Корзина пуста!</h4>
+                    <p>Перейдите в <a [routerLink]="['/admin/products']" title="Каталог">каталог</a> для оформления заказа</p>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="jumbotron">
-        <h1>Lorem ipsum!</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Facilisi a primis vehicula adipiscing imperdiet magna aenean;
-            Pulvinar per varius parturient facilisis: Tortor sapien dis nullam elit porttitor lectus quam; Vel mus morbi
-            torquent tincidunt?</p>
-        <button [disabled]="createdOrder" class="btn btn-success" (click)="createOrder()">Сделать заказ</button>
+    <div class="col-lg-4">
+        <div class="jumbotron">
+            <h1>Lorem ipsum!</h1>
+            <p>Количество: {{summaryCount}}</p>
+            <p>Сумма: {{summaryAmount}}</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Facilisi a primis vehicula adipiscing imperdiet magna aenean; Pulvinar per varius parturient facilisis: Tortor sapien dis nullam elit porttitor lectus quam; Vel mus morbi torquent tincidunt?</p>
+            <button [disabled]="createdOrder || summaryCount < 1" class="btn btn-success" (click)="createOrder()">Сделать заказ</button>
+        </div>
     </div>
+
 </div>

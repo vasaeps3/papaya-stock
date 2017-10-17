@@ -1,3 +1,4 @@
+import { AuthService } from "../../../_auth/auth.service";
 import { Component, OnInit } from "@angular/core";
 import { Router, NavigationEnd } from "@angular/router";
 
@@ -8,16 +9,20 @@ import { Router, NavigationEnd } from "@angular/router";
     styleUrls: ["./header.component.scss"]
 })
 export class HeaderComponent implements OnInit {
-
+    public userName: string;
+    public pushRightClass: string = "push-right";
     constructor(
-        public router: Router) {
+        private _authService: AuthService
+    ) { }
+
+    public ngOnInit() {
+        this.userName = this._authService.currentUser.user.name
     }
-
-    public ngOnInit() { }
-
-    // public logOut() {
-    //     console.log("logOut");
-    //     localStorage.removeItem("isLoggedin");
-    // }
-
+    public toggleSidebar() {
+        const dom: any = document.querySelector("body");
+        const domHead: any = document.querySelector(".navbar-collapse");
+        dom.classList.toggle(this.pushRightClass);
+        domHead.classList.toggle("show");
+    }
 }
+

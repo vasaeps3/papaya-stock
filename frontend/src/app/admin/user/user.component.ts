@@ -12,10 +12,10 @@ export class RegisterUser {
 
 @Component({
     selector: "app-register",
-    templateUrl: "./register.component.html",
-    styleUrls: ["./register.component.scss"]
+    templateUrl: "./user.component.html",
+    styleUrls: ["./user.component.scss"]
 })
-export class RegisterComponent implements OnInit {
+export class UserComponent implements OnInit {
     public user: RegisterUser = new RegisterUser();
     public errorUserMsg: string;
     public loading: boolean = true;
@@ -25,21 +25,18 @@ export class RegisterComponent implements OnInit {
     ) { }
 
     public ngOnInit() {
-
         console.log("this.model");
         console.log(this.user);
     }
+
     public register(registerForm: NgForm) {
         this._authService.register(this.user.email, this.user.password)
             .subscribe(result => {
-                console.log(result);
                 this.loading = true;
                 this.errorUserMsg = "";
             }, (error: HttpErrorResponse) => {
-                console.log(error);
                 this.errorUserMsg = JSON.parse(error.error).message;
-                // this.user.email.invalid;
-                 this.loading = false;
+                this.loading = false;
             });
     }
     public onEmailChange() {

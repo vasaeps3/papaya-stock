@@ -28,14 +28,11 @@ export class LoginComponent implements OnInit {
     }
     public login() {
         this.loading = true;
-        console.log(this.model);
         this._authService.login(this.model.username, this.model.password)
             .subscribe(
             result => {
-                let token = result && result.token;
-                if (token) {
-                    this._authService.token = token;
-                    localStorage.setItem("currentUser", JSON.stringify({ username: this.model.username, token: token }));
+                if (result) {
+                    this._authService.setStorageCurrentUser(result);
                     this._router.navigate([this.returnUrl]);
                 } else {
                     this.errorMessage = "Username or password is incorrect";

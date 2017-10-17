@@ -10,16 +10,31 @@ import { IUser } from "./user.interface";
 @Injectable()
 export class AuthService {
 
-    public token: string;
+    public currentUser: {
+        user: {
+            name: string;
+            isAdmin: boolean;
+        },
+        token: string
+    }
 
     constructor(private _httpClient: HttpClient) {
         let currentUser = JSON.parse(localStorage.getItem("currentUser"));
-        this.token = currentUser && currentUser.token;
+        this.currentUser = currentUser;
     }
 
-    public getToken() {
-        let currentUser = JSON.parse(localStorage.getItem("currentUser"));
-        return currentUser && currentUser.token || "";
+    public reloadStorage() {
+        return this._httpClient.get("/api/user/reload");
+    }
+
+    public setStorageCurrentUser(currentUser: any): void {
+        this.currentUser = currentUser;
+        localStorage.setItem("currentUser", JSON.stringify(this.currentUser));
+    }
+    
+    public getStorageCurrentUser() {
+        this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        return this.currentUser || null;
     }
 
     public register(username: string, password: string): Observable<any> {
@@ -38,7 +53,7 @@ export class AuthService {
     }
 
     public logout(): void {
-        this.token = null;
+        this.currentUser = null;
         localStorage.removeItem("currentUser");
     }
 
@@ -47,6 +62,6 @@ export class AuthService {
     }
 
     public isAdmin(): boolean {
-        return !!JSON.parse(localStorage.getItem("currentUser"));
+        return this.currentUser.user.isAdmin;
     }
 }

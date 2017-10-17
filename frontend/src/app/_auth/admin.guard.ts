@@ -5,7 +5,7 @@ import { AuthService } from "./auth.service";
 
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class AdminGuard implements CanActivate {
 
     constructor(
         private router: Router,
@@ -13,13 +13,10 @@ export class AuthGuard implements CanActivate {
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        console.log("Use AuthGuard");
-        if (this._authService.isLoggedIn()) {
-            console.log("--AuthGuard true");
+        if (this._authService.isAdmin()) {
             return true;
         }
-        console.log("--AuthGuard false");
-        this.router.navigate(["/login"], { queryParams: { returnUrl: state.url } });
+        this.router.navigate(["/"]);
         return false;
     }
 }

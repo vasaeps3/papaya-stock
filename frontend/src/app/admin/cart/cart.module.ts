@@ -5,6 +5,7 @@ import { CartComponent } from "./cart.component";
 import { OrdersService } from "../orders/orders.service";
 import { PositionsModule } from "../components/positions/positions.module";
 import { CartRoutingModule } from "./cart-routing.module";
+import { CartResolverService } from './cart-resolver.service';
 
 
 @NgModule({
@@ -16,6 +17,9 @@ import { CartRoutingModule } from "./cart-routing.module";
     declarations: [
         CartComponent
     ],
-    providers: [OrdersService]
+    providers: [
+        OrdersService,
+        CartResolverService
+    ]
 })
 export class CartModule { }

@@ -12,14 +12,15 @@ import { NotAcceptableException } from "../../exception/not-acceptable.exception
 
 @Controller("user")
 export class UserController {
-    constructor(protected _userService: UserService) {
-    }
 
-    // @Get("/name/:nameUser")
-    // public async getByName( @Res() res: Response, @Param("nameUser") nameUser: string) {
-    //     let user: User = await this._userService.getByName(nameUser);
-    //     res.status(HttpStatus.OK).json(_.pick(user, ["id", "name", "isAdmin"]));
-    // }
+    constructor(
+        protected _userService: UserService
+    ) { }
+
+    @Get("reload")
+    public async reload( @Req() req: Request, @Res() res: Response) {
+        res.status(HttpStatus.OK).json(_.pick(req["token"], ["name", "isAdmin"]));
+    }
 
     @Post("register")
     public async create( @Res() res: Response, @Body() user: User) {
@@ -46,7 +47,7 @@ export class UserController {
         }
         userAuth = _.pick(userAuth, ["id", "name", "isAdmin", "stockId"]);
         let tokenLocale = jwt.sign(userAuth, "stockpapaya", { noTimestamp: true });
-        res.status(HttpStatus.OK).json({ user: _.omit(userAuth, ["id"]), token: tokenLocale });
+        res.status(HttpStatus.OK).json({ user: _.omit(userAuth, ["id", "stockId"]), token: tokenLocale });
     }
 
     private encryptPassword(password): string {
