@@ -1,3 +1,4 @@
+import { AuthService } from '../_auth/auth.service';
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 
@@ -10,13 +11,22 @@ export class AdminComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private route: ActivatedRoute) { }
+        private _router: ActivatedRoute,
+        private _authService: AuthService
+    ) { }
 
-    public ngOnInit() {
+    public async ngOnInit() {
         console.log("AdminComponent loaded");
         console.log(this.router.url);
-        if (this.router.url === "/admin") {
-            this.router.navigate(["/admin/products"], { relativeTo: this.route });
-        }
+        this._router.data.subscribe(
+            data => {
+                let newUser = this._authService.getStorageCurrentUser();
+                newUser.user = data.currentUser;
+                this._authService.setStorageCurrentUser(newUser);
+                if (this.router.url === "/admin") {
+                    this.router.navigate(["/admin/products"], { relativeTo: this._router });
+                }
+            }
+        );
     }
 }

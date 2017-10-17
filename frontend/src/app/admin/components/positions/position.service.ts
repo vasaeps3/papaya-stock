@@ -59,6 +59,12 @@ export class PositionsService {
     public loadIdProduct(): Array<IProduct> {
         return _.map(this.loadLocalProduct(), o => { return { id: o.id }; });
     }
+    
+    public deleteAllposition() {
+        let localProducts: IProduct[] = this.loadLocalProduct();
+        _.remove(localProducts, o => true);
+        this.setLocalProduct(localProducts);
+    }
 
     private clearEmptyProduct(products: IProduct[]) {
         _.each(products, function (product) {

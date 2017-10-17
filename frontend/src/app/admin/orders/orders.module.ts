@@ -5,6 +5,7 @@ import { OrdersService } from "./orders.service";
 import { OrdersComponent } from "./orders.component";
 import { OrdersRoutingModule } from "./orders-routing.module";
 import { OrderDetailComponent } from "./detail/order-detail.component";
+import { OrderResolverService } from "./order-resolver.service";
 
 
 @NgModule({
@@ -18,6 +19,9 @@ import { OrderDetailComponent } from "./detail/order-detail.component";
         OrdersComponent,
         OrderDetailComponent
     ],
-    providers: [OrdersService],
+    providers: [
+        OrdersService,
+        OrderResolverService
+    ]
 })
 export class OrdersModule { }

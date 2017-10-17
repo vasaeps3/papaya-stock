@@ -38,6 +38,7 @@ export class OrderController {
 
     @Post()
     public async createOrder( @Req() req: Request, @Res() res: Response, @Body() products: Array<IProduct>) {
+        console.log("------------------------------------------------------> ",req["token"]);
         let agentId = req["token"].stockId || null;
         let organizationId = await this._orderService.getOrganizationId();
         let lastOrder = await this._orderService.getLastOrder();

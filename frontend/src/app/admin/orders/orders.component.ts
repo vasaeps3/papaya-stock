@@ -1,6 +1,5 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from "@angular/core";
-
-import { OrdersService } from "./orders.service";
 
 
 export interface IOrder {
@@ -24,14 +23,10 @@ export class OrdersComponent implements OnInit {
     public orders: IOrder[];
 
     constructor(
-        private _ordersService: OrdersService
+        private _route: ActivatedRoute
     ) { }
 
     public ngOnInit() {
-        this._ordersService.getAllOrders().subscribe(
-            result => {
-                this.orders = result;
-            }
-        );
+        this.orders = this._route.snapshot.data['orders'];
     }
 }

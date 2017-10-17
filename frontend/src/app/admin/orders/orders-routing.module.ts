@@ -2,11 +2,15 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
 import { OrdersComponent } from "./orders.component";
+import { OrderResolverService } from "./order-resolver.service";
 import { OrderDetailComponent } from "./detail/order-detail.component";
 
 
 const routes: Routes = [
-    { path: "", component: OrdersComponent },
+    {
+        path: "", component: OrdersComponent
+        , resolve: { orders: OrderResolverService }
+    },
     { path: ":id", component: OrderDetailComponent }
 ];
 
