@@ -1,13 +1,13 @@
-import { LoggingMiddleware } from '../../middleware/logging.middleware';
-import { AuthorizeMiddleware } from '../../middleware/authorize.middleware';
-import * as _ from 'lodash';
+import * as _ from "lodash";
 import { Module, MiddlewaresConsumer, RequestMethod } from "@nestjs/common";
 
 import { UserService } from "./user.service";
 import { UserController } from "./user.controller";
 import { DatabaseConfig } from "../database/database.config";
 import { DatabaseModule } from "../database/database.module";
+import { LoggingMiddleware } from "../../middleware/logging.middleware";
 import { DevDatabaseConfig } from "../database/dev.database.config";
+import { AuthorizeMiddleware } from "../../middleware/authorize.middleware";
 
 
 @Module({

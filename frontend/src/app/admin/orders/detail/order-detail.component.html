@@ -1,1 +1,46 @@
-ЖОПА
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card mb-3">
+            <div class="card-header">Заказ №{{order.name}}</div>
+            <div class="card-block table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Фото</th>
+                            <th>Описание</th>
+                            <th>Цена (шт)</th>
+                            <th>Кол-во</th>
+                            <th>Сумма</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let product of products; let i = index">
+                            <td>{{i+1}}</td>
+                            <td><img class="img_pr" src="{{product.image}}" alt="{{product.name}}"></td>
+                            <td>
+                                <p>{{ product.name}}</p>
+                            </td>
+                            <td>{{ product.salePrice}}</td>
+                            <td>
+                                <positions-comp [productId]="product.id" [(positions)]="product.positions" (onChangePosition)="onChangedPosition($event)" [changed]="false"></positions-comp>
+                            </td>
+                            <td>{{product.salePrice*(product.quantity || 0)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="jumbotron">
+            <h1>Доброго времени суток!</h1>
+            <p>Ваш заказ № {{order.name}} на общую сумму {{order.sum}} руб. на {{order.quantity}} едениц товара.</p>
+            <p>Статус Вашего заказа: <b>{{order.state.name}}</b></p>
+            <div *ngIf="order.description">
+                <p>Допонительная информация:</p>
+                <p>{{order.description}}</p>
+            </div>
+        </div>
+    </div>
+</div>

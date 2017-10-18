@@ -19,6 +19,10 @@ export class OrdersService {
         return this._httpClient.post("/api/product/", JSON.stringify(productId));
     }
 
+    public getOrderById(orderId: string) {
+        return this._httpClient.get("/api/order/get?id=" + orderId);
+    }
+    
     public createOrder(products: IProduct[]): Observable<any> {
         console.log(products);
         let qwerty: Observable<any> = this._httpClient.post("/api/order/", JSON.stringify(products));

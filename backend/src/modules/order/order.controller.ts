@@ -1,17 +1,66 @@
 import * as _ from "lodash";
+import * as bluebird from "bluebird";
 import { Response, Request } from "express";
-import { Body, Controller, Get, HttpStatus, Post, Req, Res } from "@nestjs/common";
+import { Body, Controller, Get, HttpStatus, Param, Post, Query, Req, Res } from "@nestjs/common";
 
-import { IProduct } from "../product/product.interface";
 import { OrderService } from "./order.service";
 import { IOrder, IStockOrder } from "./order.interface";
+import { IPosition, IProduct } from "../product/product.interface";
+
 
 
 @Controller("order")
 export class OrderController {
+
     constructor(
         private _orderService: OrderService
     ) { }
+
+    @Get("get")
+    public async getOrderById( @Req() req: Request, @Res() res: Response, @Query() query?: any) {
+        let orderId = query.id;
+        let positionsFromOrder: any = await this._orderService.getPositionsByOrder(orderId);
+        let products: IProduct[] = [];
+        let product: IProduct;
+        let quantityItemOrder: number = 0;
+        _.each(positionsFromOrder, function (positionFromOrder: any) {
+            product = _.find(products, function (o) {
+                return product.id == positionFromOrder.assortment.product.id;
+            });
+            if (!product) {
+                product = {
+                    id: positionFromOrder.assortment.product.id,
+                    name: positionFromOrder.assortment.product.name,
+                    image: positionFromOrder.assortment.product.image.miniature.href,
+                    article: positionFromOrder.assortment.product.article,
+                    salePrice: positionFromOrder.price,
+                    quantity: 0,
+                    positions: []
+                };
+                products.push(product);
+            }
+            let position: IPosition = {
+                id: positionFromOrder.assortment.id,
+                salePrice: positionFromOrder.price,
+                size: +positionFromOrder.assortment.name.match(/\(([^\]]+)\)/ig).map(n => n.slice(1, -1))[0],
+                quantity: positionFromOrder.quantity
+            };
+            product.quantity += positionFromOrder.quantity;
+            product.positions.push(position);
+            quantityItemOrder += positionFromOrder.quantity;
+        });
+        products = await this.loadImages(products);
+
+        let order: IOrder = await this._orderService.getOrderById(orderId);
+        order = _.pick(order, ["id", "name", "sum", "reservedSum", "state", "updated", "created", "description"]);
+        order.state = {
+            name: order.state.name,
+            color: order.state.color
+        };
+        order.quantity = quantityItemOrder;
+        order.products = products;
+        res.status(HttpStatus.OK).json(order);
+    }
 
     @Get()
     public async getAll( @Req() req: Request, @Res() res: Response) {
@@ -29,7 +78,7 @@ export class OrderController {
                     color: stockOrder.state.color
                 },
                 created: stockOrder.created,
-                update: stockOrder.update
+                updated: stockOrder.updated
             };
             orders.push(order);
         });
@@ -38,7 +87,7 @@ export class OrderController {
 
     @Post()
     public async createOrder( @Req() req: Request, @Res() res: Response, @Body() products: Array<IProduct>) {
-        console.log("------------------------------------------------------> ",req["token"]);
+        console.log("------------------------------------------------------> ", req["token"]);
         let agentId = req["token"].stockId || null;
         let organizationId = await this._orderService.getOrganizationId();
         let lastOrder = await this._orderService.getLastOrder();
@@ -87,5 +136,14 @@ export class OrderController {
         });
         let newOrder = await this._orderService.createOrder(newOrderBody);
         res.status(HttpStatus.OK).json({ "id": newOrder.id });
+    }
+
+    private loadImages(products: IProduct[]) {
+        let _orderService = this._orderService;
+        return bluebird.Promise.map(products, function (product) {
+            return _orderService.loadImage(product);
+        }).then(function (result) {
+            return result;
+        });
     }
 }

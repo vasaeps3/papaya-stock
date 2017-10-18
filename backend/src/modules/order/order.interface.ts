@@ -1,3 +1,5 @@
+import { IProduct } from "../product/product.interface";
+
 export interface IStockOrder {
     meta: {
         href: string;
@@ -10,7 +12,7 @@ export interface IStockOrder {
         name: string;
         color: number;
     };
-    update: Date;
+    updated: Date;
     created: Date;
 }
 
@@ -19,10 +21,13 @@ export interface IOrder {
     name: string;
     sum: number;
     reservedSum: number;
+    quantity?: number;
+    description?: string;
     state: {
         name: string;
         color: number;
     };
-    update: Date;
+    updated: Date;
     created: Date;
+    products?: IProduct[];
 }

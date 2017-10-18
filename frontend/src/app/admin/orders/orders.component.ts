@@ -7,11 +7,12 @@ export interface IOrder {
     name: string;
     sum: number;
     reservedSum: number;
+    description?: string;
     state: {
         name: string;
         color: number;
     };
-    update: Date;
+    updated: Date;
     created: Date;
 }
 

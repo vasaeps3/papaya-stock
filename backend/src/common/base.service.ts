@@ -4,7 +4,7 @@ export const OPTIONS = {
     body: null,
     headers: {
         "Content-Type": "application/json",
-        "Authorization": "Basic  YWRtaW5Aa2FsaW5vZmZza2kxOjA1NGFmMjkwNTU="
+        "Authorization": "Basic  YWRtaW5AcTIzMzE4NjY6NTc5YTQ1NGUyMg=="
     },
     followRedirect: true
 };
