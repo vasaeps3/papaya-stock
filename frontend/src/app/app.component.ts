@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
+import { ToasterService } from "angular2-toaster";
 
 
 @Component({
@@ -8,4 +9,8 @@ import { Router } from "@angular/router";
     styleUrls: ["./app.component.scss"]
 })
 export class AppComponent {
+    constructor(private _toasterServise: ToasterService) { }
+    popToast() {
+        this._toasterServise.pop('success', 'Args Title', 'Args Body');
+    }
 }

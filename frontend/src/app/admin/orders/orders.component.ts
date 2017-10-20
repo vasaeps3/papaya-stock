@@ -1,5 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from "@angular/core";
+import { ToasterService } from "angular2-toaster";
 
 
 export interface IOrder {
@@ -24,10 +25,14 @@ export class OrdersComponent implements OnInit {
     public orders: IOrder[];
 
     constructor(
-        private _route: ActivatedRoute
+        private _route: ActivatedRoute,
+        private _toasterServise: ToasterService
     ) { }
 
     public ngOnInit() {
         this.orders = this._route.snapshot.data['orders'];
+    }
+    public qwe() {
+        this._toasterServise.pop('success', 'Args Title!!!', 'Args Body');
     }
 }
