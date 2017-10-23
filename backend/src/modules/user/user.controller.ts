@@ -40,14 +40,13 @@ export class UserController {
 
     @Post("authenticate")
     public async login( @Res() res: Response, @Body() user: User) {
-        console.log(user);
-        let userAuth: User = await this._userService.getByName(user.name);
-        if (userAuth.password !== this.encryptPassword(user.password)) {
+        let foundUser: User = await this._userService.getByName(user.name);
+        if (foundUser.password !== this.encryptPassword(user.password)) {
             throw new NotFoundException("Incorrect password");
         }
-        userAuth = _.pick(userAuth, ["id", "name", "isAdmin", "stockId"]);
-        let tokenLocale = jwt.sign(userAuth, "stockpapaya", { noTimestamp: true });
-        res.status(HttpStatus.OK).json({ user: _.omit(userAuth, ["id", "stockId"]), token: tokenLocale });
+        let authUser: Partial<User> = _.pick(foundUser, ["id", "name", "isAdmin", "stockId"]);
+        let tokenLocale = jwt.sign(authUser, "stockpapaya", { noTimestamp: true });
+        res.status(HttpStatus.OK).json({ user: _.omit(authUser, ["id", "stockId"]), token: tokenLocale });
     }
 
     private encryptPassword(password): string {

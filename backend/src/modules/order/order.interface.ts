@@ -17,17 +17,17 @@ export interface IStockOrder {
 }
 
 export interface IOrder {
-    id: string;
-    name: string;
-    sum: number;
-    reservedSum: number;
+    id?: string;
+    name?: string;
+    sum?: number;
+    reservedSum?: number;
     quantity?: number;
     description?: string;
-    state: {
-        name: string;
-        color: number;
+    state?: {
+        name?: string;
+        color?: number;
     };
-    updated: Date;
-    created: Date;
+    updated?: Date;
+    created?: Date;
     products?: IProduct[];
 }

@@ -20,7 +20,7 @@
     "gulp-watch": "^4.3.11",
     "run-sequence": "^2.1.0",
     "tslint": "^5.6.0",
-    "typescript": "^2.4.2"
+    "typescript": "2.4.2"
   },
   "dependencies": {
     "@nestjs/common": "^4.0.0",
@@ -38,10 +38,12 @@
     "crypto": "^1.0.1",
     "express": "^4.15.4",
     "lodash": "^4.17.4",
+    "mysql": "^2.15.0",
     "passport": "^0.4.0",
     "passport-jwt": "^3.0.0",
     "pg": "^7.3.0",
     "reflect-metadata": "^0.1.10",
+    "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "rxjs": "^5.4.3",
     "typeorm": "0.1.0-alpha.41"
