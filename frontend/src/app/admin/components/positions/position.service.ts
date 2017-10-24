@@ -95,7 +95,7 @@ export class PositionsService {
 }
 
 export interface IPosition {
-    id: string;
+    id?: string;
     stock?: number;
     salePrice?: number;
     size?: number;
