@@ -34,3 +34,114 @@
     min-height: 150px;
     min-width: 101px;
 }
+
+.product-list {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 2px solid #e6e6e6;
+}
+
+.product-list .row-wrap {
+    display: table;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    border-collapse: separate;
+    border-bottom: 2px solid #e6e6e6;
+}
+
+.product-list .row-wrap .product-description {
+    position: relative;
+}
+
+.product-list .row-wrap .product-description table {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border-collapse: collapse;
+}
+
+.product-list .row-wrap .product-description table .img-table {
+    width: 130px;
+    height: 160px;
+    vertical-align: top;
+}
+
+.product-list .row-wrap .product-description table .img-table img {
+    height: auto;
+    max-width: 130px;
+    padding: 10px 10px 10px 0;
+}
+
+.product-list .row-wrap .product-description table .description-wrap {
+    text-align: left;
+    vertical-align: top;
+    font-size: 14px;
+}
+
+.product-list .row-wrap .product-description table td {
+    border: none;
+}
+
+.product-list .items_wrap {
+    width: 100%;
+    height: 100%;
+}
+
+.product-list .row-wrap .product-description table {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border-collapse: collapse;
+}
+
+.product-list .description_items {
+    vertical-align: top;
+}
+
+.product-list .total_price_items {
+    vertical-align: bottom;
+}
+
+.product-list .total_price_items td {
+    padding-bottom: 10px;
+}
+
+.product-list .total_price_items .total_price {
+    display: block;
+    float: left;
+    width: 100%;
+    padding: 5px 0 0;
+    border-bottom: 1px dotted #c1c1c1;
+}
+
+.product-list .total_price_items .total_price .tp_item {
+    margin-top: 3px;
+    margin-bottom: -3px;
+    padding: 0 5px 0 0;
+    float: left;
+    font: 11pt Arial;
+    background: #fff;
+}
+
+.product-list .total_price_items .total_price .tp_number {
+    float: right;
+    padding: 0 5px;
+}
+
+.product-list .total_price_items .tp_prop_color {
+    color: #E7452C;
+}
+
+.product-list .description_items td {
+    padding: 10px 0 0 0;
+}
+
+.product-list .row-wrap .product-description table td {
+    border: none;
+}
+
+.product-list .row-wrap .product-description table .description-wrap .name-brand {
+    padding: 7px 2px 6px 0;
+    font-size: 16pt;
+}

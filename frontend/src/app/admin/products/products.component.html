@@ -1,4 +1,46 @@
 <div class="row">
+    <div class="col-lg-12">
+        <table class="product-list">
+            <tbody>
+                <tr class="row-wrap reserved scroll-here out-of-stock1" *ngFor="let product of products; let i = index">
+                    <td class="product-description">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="img-table"><img src="{{product.image}}" alt="{{product.name}}"></td>
+                                    <td class="description-wrap">
+                                        <table class="items_wrap">
+                                            <tbody>
+                                                <tr class="description_items">
+                                                    <td>
+                                                        <div class="name-brand">{{product.name}}</div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="total_price_items">
+                                                    <div class="total_price">
+                                                        <span class="tp_item">Цена: </span>
+                                                        <span class="tp_item tp_number">
+                                                            <span class="tp_prop_color">{{ product.salePrice }} руб. (1 шт)</span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="total_price">
+                                                        <span class="tp_item">Итого: </span>
+                                                        <span class="tp_item tp_number">
+                                                                <span class="tp_prop_color">{{product.salePrice*(product.quantity || 0)}} руб. ({{product.quantity || 0}} шт)</span>
+                                                        </span>
+                                                    </div>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     <div class="col-xl-4" *ngFor="let product of products; let i = index">
         <div class="card mb-3">
             <div class="card-header">{{product.name}}</div>

@@ -39,7 +39,7 @@
             <p>Статус Вашего заказа: <b>{{order.state.name}}</b></p>
             <div *ngIf="order.description">
                 <p>Допонительная информация:</p>
-                <p>{{order.description}}</p>
+                <p>{{order.description | async }}</p>
             </div>
         </div>
     </div>
