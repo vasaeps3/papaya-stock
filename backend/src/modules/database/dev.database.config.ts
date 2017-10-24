@@ -9,10 +9,10 @@ import { DatabaseConfig } from "./database.config";
 export class DevDatabaseConfig extends DatabaseConfig {
     public getConfiguration(): ConnectionOptions {
         return {
-            type: "postgres",
+            type: "mysql",
             host: "localhost",
-            port: 5432,
-            username: "postgres",
+            port: 3306,
+            username: "root",
             password: "root",
             database: "papayastock",
             entities: [

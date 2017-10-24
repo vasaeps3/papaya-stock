@@ -1,2 +1,3 @@
 **/node_modules
 **/built
+backend/src/modules/database/dev.database.config.ts
