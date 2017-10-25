@@ -3,29 +3,46 @@
         <div class="card mb-3">
             <div class="card-header">Корзина</div>
             <div class="card-block table-responsive">
-                <table *ngIf="!isCartEmpty" class="table table-hover table-striped">
-                    <thead>
-                        <tr>
-                            <th>№</th>
-                            <th>Фото</th>
-                            <th>Описание</th>
-                            <th>Цена (шт)</th>
-                            <th>Кол-во</th>
-                            <th>Сумма</th>
-                        </tr>
-                    </thead>
+                <table *ngIf="!isCartEmpty" class="product-list">
                     <tbody>
-                        <tr *ngFor="let product of products; let i = index">
-                            <td>{{i+1}}</td>
-                            <td><img class="img_pr" src="{{product.image}}" alt="{{product.name}}"></td>
-                            <td>
-                                <p>{{ product.name}}</p>
+                        <tr class="row-wrap reserved scroll-here out-of-stock1" *ngFor="let product of products; let i = index">
+                            <td class="product-description">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td class="img-table"><img src="{{product.image}}" alt="{{product.name}}"></td>
+                                            <td class="description-wrap">
+                                                <table class="items_wrap">
+                                                    <tbody>
+                                                        <tr class="description_items">
+                                                            <td>
+                                                                <div class="name-brand">{{product.name}}</div>
+                                                                <div class="cl-size-container">
+                                                                    <positions-comp [productId]="product.id" [(positions)]="product.positions" (onChangePosition)="onChangedPosition($event)"></positions-comp>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="total_price_items">
+                                                            <div class="total_price">
+                                                                <span class="tp_item">Цена: </span>
+                                                                <span class="tp_item tp_number">
+                                                                    <span class="tp_prop_color">{{ product.salePrice }} руб. (1 шт)</span>
+                                                                </span>
+                                                            </div>
+                                                            <div class="total_price">
+                                                                <span class="tp_item">Итого: </span>
+                                                                <span class="tp_item tp_number">
+                                                                    <span class="tp_prop_color">{{product.salePrice*(product.quantity || 0)}} руб. ({{product.quantity || 0}} шт)</span>
+                                                                </span>
+                                                            </div>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </td>
-                            <td>{{ product.salePrice}}</td>
-                            <td>
-                                <positions-comp [productId]="product.id" [(positions)]="product.positions" (onChangePosition)="onChangedPosition($event)"></positions-comp>
-                            </td>
-                            <td>{{product.salePrice*(product.quantity || 0)}}</td>
                         </tr>
                     </tbody>
                 </table>

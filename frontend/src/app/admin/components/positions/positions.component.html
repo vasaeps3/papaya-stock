@@ -1,5 +1,3 @@
-<div class="cl-sizerow">
-    <div class="cl-sizerow-size" *ngFor="let position of positions; let i = index">
-        <position-comp [position]="position" (onChangePositionQuantity)="onChangePositionQuantity($event)" [changed]="changed"></position-comp>
-    </div>
+<div class="cl-size" *ngFor="let position of positions; let i = index">
+    <position-comp [position]="position" (onChangePositionQuantity)="onChangePositionQuantity($event)" [changed]="changed"></position-comp>
 </div>

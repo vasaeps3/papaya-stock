@@ -20,17 +20,7 @@ export class OrderDetailComponent implements OnInit {
     ) { }
 
     public ngOnInit() {
-        this._route.params.subscribe(
-            params => {
-                let orderId = params["id"];
-                this._orderService.getOrderById(orderId).subscribe(
-                    (result: any) => {
-                        this.order = result;
-                        this.products = result.products;
-                    }
-                );
-                console.log("Load-detail-qwe=", orderId);
-            }
-        );
+        this.order = this._route.snapshot.data['order'];
+        this.products = this._route.snapshot.data['order'].products;
     }
 }

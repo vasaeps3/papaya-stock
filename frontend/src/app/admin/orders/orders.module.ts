@@ -2,11 +2,12 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 
 import { OrdersService } from "./orders.service";
-import { PositionsModule } from '../components/positions/positions.module';
+import { PositionsModule } from "../components/positions/positions.module";
 import { OrdersComponent } from "./orders.component";
 import { OrdersRoutingModule } from "./orders-routing.module";
 import { OrderDetailComponent } from "./detail/order-detail.component";
 import { OrderResolverService } from "./order-resolver.service";
+import { OrderDetailResolverService } from "./detail/order-detail-resolver.service";
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { OrderResolverService } from "./order-resolver.service";
     ],
     providers: [
         OrdersService,
-        OrderResolverService
+        OrderResolverService,
+        OrderDetailResolverService
     ]
 })
 export class OrdersModule { }
