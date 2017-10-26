@@ -5,7 +5,6 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { AdminGuard } from "../_auth/admin.guard";
 import { AdminComponent } from "./admin.component";
 import { HeaderComponent } from "./components/header/header.component";
 import { PositionsService } from "./components/positions/position.service";
@@ -25,6 +24,6 @@ import { AdminResolverService } from "./admin-resolve.service";
         HeaderComponent,
         SidebarComponent
     ],
-    providers: [PositionsService, AuthService, AdminResolverService, AdminGuard]
+    providers: [PositionsService, AuthService, AdminResolverService]
 })
 export class AdminModule { }

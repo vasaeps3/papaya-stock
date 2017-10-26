@@ -20,10 +20,12 @@ export class UserService {
         return this._databaseService.getRepository(User);
     }
 
+    public async getAll(): Promise<User[]> {
+        return (await this.repository).find({ select: ["id", "name"] });
+    }
+
     public async add(user: User): Promise<User> {
         return (await this.repository).persist(user).catch(error => {
-            console.log("---------------------------------------");
-            console.log(error);
             throw new NotFoundException("Пользователь уже зарегистрирован в системе!");
         });
     }

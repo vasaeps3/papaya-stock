@@ -23,6 +23,10 @@ export class AuthService {
         this.currentUser = currentUser;
     }
 
+    public getAllUsers(): Observable<any> {
+        return this._httpClient.get("/api/user");
+    }
+
     public reloadStorage() {
         return this._httpClient.get("/api/user/reload");
     }
@@ -31,7 +35,7 @@ export class AuthService {
         this.currentUser = currentUser;
         localStorage.setItem("currentUser", JSON.stringify(this.currentUser));
     }
-    
+
     public getStorageCurrentUser() {
         this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
         return this.currentUser || null;

@@ -16,7 +16,7 @@ export class ToasterComponent {
         showCloseButton: true,
         tapToDismiss: false,
         timeout: 3000,
-        newestOnTop: true,
+        newestOnTop: false,
         mouseoverTimerStop: true
     });
 

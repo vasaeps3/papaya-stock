@@ -14,7 +14,9 @@ export class AdminResolverService implements Resolve<any>{
     ) { }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+        console.log("AdminResolverService");
         let currentUser = this._authService.reloadStorage();
+        console.log("currentUser Reload!");
         return currentUser;
     }
 

@@ -58,7 +58,6 @@ export class CartComponent implements OnInit {
             this.summaryCount += product.quantity;
             this.summaryAmount += product.quantity * product.salePrice;
         });
-
     }
 
 }

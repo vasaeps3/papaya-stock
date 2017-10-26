@@ -17,6 +17,12 @@ export class UserController {
         protected _userService: UserService
     ) { }
 
+    @Get()
+    public async getAll( @Req() req: Request, @Res() res: Response) {
+        let users: User[] = await this._userService.getAll();
+        res.status(HttpStatus.OK).json(users);
+    }
+
     @Get("reload")
     public async reload( @Req() req: Request, @Res() res: Response) {
         res.status(HttpStatus.OK).json(_.pick(req["token"], ["name", "isAdmin"]));

@@ -15,7 +15,7 @@ const routes: Routes = [
             { path: "cart", loadChildren: "./cart/cart.module#CartModule" },
             { path: "dashboard", loadChildren: "./dashboard/dashboard.module#DashboardModule" },
             { path: "orders", loadChildren: "./orders/orders.module#OrdersModule" },
-            { path: "user", loadChildren: "./user/user.module#UserModule", canActivate: [AdminGuard] },
+            { path: "user", loadChildren: "./user/user.module#UserModule"},
             // { path: "tables", loadChildren: "./tables/tables.module#TablesModule" },
         ]
     }
