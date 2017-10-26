@@ -9,9 +9,13 @@ export class ProductsService {
         private _httpClient: HttpClient
     ) { }
 
-    public getAll(): Observable<any> {
+    public getAll(limit?: number, offset?: number): Observable<any> {
         // const headers = new HttpHeaders({ "Content-Type": "application/json" });
         // const options = { headers: headers };
-        return this._httpClient.get("/api/product/");
+        let limitStr = '';
+        if (limit) {
+            limitStr = "?limit=" + limit + "&offset=" + offset;
+        }
+        return this._httpClient.get("/api/product/" + limitStr);
     }
 }

@@ -10,6 +10,17 @@ import { PositionsService, IPosition, IProduct } from "../components/positions/p
     templateUrl: "./products.component.html"
 })
 export class ProductsComponent implements OnInit {
+    public limit: number = 5;
+    public page: number = 0;
+    public offset = this.limit * this.page;
+
+    public loadingProducts: boolean = false;
+    public loadAll: boolean = false;
+
+    // public scrollUpDistance: number = 3;
+    public throttle: number = 100;
+    public scrollDistance: number = 3;
+
     public products: IProduct[];
     constructor(
         private _productsService: ProductsService,
@@ -17,9 +28,29 @@ export class ProductsComponent implements OnInit {
     ) { }
 
     public ngOnInit() {
-        this._productsService.getAll().subscribe(
+        this.loadingProducts = true;
+        this._productsService.getAll(this.limit, this.offset).subscribe(
             result => {
                 this.products = this._positionsService.mergeProductsWithLocal(result);
+                this.loadingProducts = false;
+            }
+        );
+    }
+    public onScrollDown() {
+        if (this.loadingProducts || this.loadAll) {
+            return;
+        }
+        this.page++;
+        this.offset = this.limit * this.page;
+        this.loadingProducts = true;
+        this._productsService.getAll(this.limit, this.offset).subscribe(
+            result => {
+                let newProducts = this._positionsService.mergeProductsWithLocal(result);
+                if (newProducts.length < this.limit) {
+                    this.loadAll = true;
+                }
+                this.products.push(...newProducts);
+                this.loadingProducts = false;
             }
         );
     }

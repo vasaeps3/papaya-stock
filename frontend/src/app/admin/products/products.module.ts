@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { InfiniteScrollModule } from "ngx-infinite-scroll";
 
 import { ProductsService } from "./products.service";
 import { PositionsModule } from "../components/positions/positions.module";
@@ -13,7 +14,8 @@ import { ProductsRoutingModule } from "./products-routing.module";
         // NgbCarouselModule.forRoot(),
         // NgbAlertModule.forRoot(),
         ProductsRoutingModule,
-        PositionsModule
+        PositionsModule,
+        InfiniteScrollModule
     ],
     declarations: [
         ProductsComponent

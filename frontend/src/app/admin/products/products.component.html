@@ -1,7 +1,12 @@
 <div class="row">
+    <div class="loading-indicator" [ngClass]="{show_loader:loadingProducts}">
+        <div class="loader">
+            <i class="fa fa-circle-o-notch fa-spin"></i> Загрузка продуктов
+        </div>
+    </div>
     <div class="col-lg-8">
         <table class="product-list">
-            <tbody>
+            <tbody infiniteScroll [infiniteScrollDistance]="scrollDistance" [infiniteScrollThrottle]="throttle" (scrolled)="onScrollDown()">
                 <tr class="row-wrap reserved scroll-here out-of-stock1" *ngFor="let product of products; let i = index">
                     <td class="product-description">
                         <table>

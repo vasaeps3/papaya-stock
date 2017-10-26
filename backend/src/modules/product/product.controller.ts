@@ -1,6 +1,7 @@
+import * as console from "console";
 import * as _ from "lodash";
 import { Response, Request } from "express";
-import { Body, Controller, Get, HttpStatus, Post, Res } from "@nestjs/common";
+import { Body, Controller, Get, HttpStatus, Post, Query, Res } from "@nestjs/common";
 import * as bluebird from "bluebird";
 
 import { ProductService } from "./product.service";
@@ -23,8 +24,10 @@ export class ProductController {
     }
 
     @Get()
-    public async getStockAllProduct( @Res() res: Response) {
-        let productsStock: IStockEntity[] = await this._productService.getStockAllProduct();
+    public async getStockAllProduct( @Res() res: Response, @Query() query?: any) {
+        let limit: number = +query.limit || 0;
+        let offset: number = +query.offset || 0;
+        let productsStock: IStockEntity[] = await this._productService.getStockAllProduct(limit, offset);
         let products: IProduct[] = this.convertProducts(productsStock);
         products = await this.loadImages(products);
         products = await this.addPositionsFromProduct(products);
