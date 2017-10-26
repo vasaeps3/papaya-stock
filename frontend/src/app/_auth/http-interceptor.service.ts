@@ -24,9 +24,12 @@ export class HttpInterceptorService implements HttpInterceptor {
 
     public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
+        console.log("HttpInterceptorService->intercept");
         const authService = this._injector.get(AuthService);
-        console.log("Use HttpInterceptorService");
+        console.log("HttpInterceptorService->getStorageCurrentUser");
         let currentUser = authService.getStorageCurrentUser();
+        console.log("HttpInterceptorService->currentUser=");
+        console.log(currentUser);
         const authReq = req.clone(
             {
                 setHeaders: {

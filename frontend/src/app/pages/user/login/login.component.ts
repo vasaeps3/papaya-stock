@@ -23,14 +23,17 @@ export class LoginComponent implements OnInit {
         private _authService: AuthService) { }
 
     public ngOnInit() {
+        console.log("LoginComponent->ngOnInit");
         this.returnUrl = this._route.snapshot.queryParams["returnUrl"] || "/admin";
         this._authService.logout();
     }
     public login() {
+        console.log("LoginComponent->login");
         this.loading = true;
         this._authService.login(this.model.username, this.model.password)
             .subscribe(
             result => {
+                console.log("LoginComponent->login->subscribe->login->result");
                 if (result) {
                     this._authService.setStorageCurrentUser(result);
                     this._router.navigate([this.returnUrl]);
@@ -40,6 +43,7 @@ export class LoginComponent implements OnInit {
                 }
             },
             (error: HttpErrorResponse) => {
+                console.log("LoginComponent->login->subscribe->login->result");
                 this.errorMessage = JSON.parse(error.error).message;
                 this.loading = false;
             });
