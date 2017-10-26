@@ -43,8 +43,7 @@ export class LoginComponent implements OnInit {
                 }
             },
             (error: HttpErrorResponse) => {
-                console.log("LoginComponent->login->subscribe->login->result");
-                this.errorMessage = JSON.parse(error.error).message;
+                this.errorMessage = error.error.message;
                 this.loading = false;
             });
     }
