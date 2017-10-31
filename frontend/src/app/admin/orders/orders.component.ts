@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from "@angular/router";
 import { Component, OnInit } from "@angular/core";
 import { ToasterService } from "angular2-toaster";
 
@@ -30,9 +30,9 @@ export class OrdersComponent implements OnInit {
     ) { }
 
     public ngOnInit() {
-        this.orders = this._route.snapshot.data['orders'];
+        this.orders = this._route.snapshot.data["orders"];
     }
     public qwe() {
-        this._toasterServise.pop('success', 'Args Title!!!', 'Args Body');
+        this._toasterServise.pop("success", "Args Title!!!", "Args Body");
     }
 }
