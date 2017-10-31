@@ -7,6 +7,7 @@ import { Body, Controller, Get, HttpStatus, Param, Post, Req, Res } from "@nestj
 import { User } from "./user.entity";
 import { UserService } from "./user.service";
 import { NotFoundException } from "../../exception/not-found.exception";
+import { BadRequestException } from "../../exception/bad-request.exceprion";
 import { NotAcceptableException } from "../../exception/not-acceptable.exception";
 
 
@@ -42,6 +43,21 @@ export class UserController {
         newUser.password = this.encryptPassword(newUser.password);
         let createdUser: User = await this._userService.add(newUser);
         res.status(HttpStatus.OK).json(createdUser);
+    }
+
+    @Post("changepassword")
+    public async changePassword( @Req() req: Request, @Res() res: Response, @Body() regUser: any) {
+        console.log(req["token"]);
+        if (regUser.password !== regUser.confirmPassword) {
+            throw new BadRequestException("Несовпадают пароли!");
+        }
+        let user: User = req["token"];
+        if (req["token"].isAdmin) {
+            user = await this._userService.getByName(regUser.name);
+        }
+        user.password = this.encryptPassword(regUser.password);
+        user = await this._userService.add(user);
+        res.status(HttpStatus.OK).json({ title: "Пароль успешно изменен", text: `у пользователя "${user.name}"` });
     }
 
     @Post("authenticate")

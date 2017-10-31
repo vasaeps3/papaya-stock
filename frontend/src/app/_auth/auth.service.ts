@@ -23,6 +23,11 @@ export class AuthService {
         this.currentUser = currentUser;
     }
 
+    public changePassword(regUser: any): Observable<any> {
+        const body = JSON.stringify(regUser);
+        return this._httpClient.post("/api/user/changepassword", body);
+    }
+
     public getAllUsers(): Observable<any> {
         return this._httpClient.get("/api/user");
     }

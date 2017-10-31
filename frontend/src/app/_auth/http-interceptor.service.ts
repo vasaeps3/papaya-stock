@@ -1,7 +1,8 @@
-import { AuthService } from './auth.service';
+import { AuthService } from "./auth.service";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs/Rx";
-import { Inject, Injectable, Injector } from '@angular/core';
+import { Inject, Injectable, Injector } from "@angular/core";
+import { ToasterService } from "angular2-toaster";
 
 import {
     HttpErrorResponse,
@@ -12,24 +13,20 @@ import {
     HttpResponse
 } from "@angular/common/http";
 
-import 'rxjs/add/operator/do';
+import "rxjs/add/operator/do";
 
 
 @Injectable()
 export class HttpInterceptorService implements HttpInterceptor {
     constructor(
         private _router: Router,
-        private _injector: Injector
+        private _injector: Injector,
+        private _toasterServise: ToasterService
     ) { }
 
     public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-        console.log("HttpInterceptorService->intercept");
         const authService = this._injector.get(AuthService);
-        console.log("HttpInterceptorService->getStorageCurrentUser");
         let currentUser = authService.getStorageCurrentUser();
-        console.log("HttpInterceptorService->currentUser=");
-        console.log(currentUser);
         const authReq = req.clone(
             {
                 setHeaders: {
@@ -50,6 +47,11 @@ export class HttpInterceptorService implements HttpInterceptor {
                     this._router.navigate(["/login"]);
                     return Observable.of([]);
                 }
+                if (res.status === 400) {
+                    this._toasterServise.pop("error", res.statusText, res.error.message);
+                    return Observable.of([]);
+                }
+
                 return Observable.throw(res);
             });
     }

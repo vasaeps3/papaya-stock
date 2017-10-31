@@ -1,6 +1,7 @@
 import { NgForm } from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ToasterService } from "angular2-toaster";
 
 import { AuthService } from "../../../_auth/auth.service";
 import { RegisterUser } from "../user.component";
@@ -14,32 +15,32 @@ export class ChangePasswordComponent implements OnInit {
     public loading: boolean = false;
     public user: RegisterUser = new RegisterUser();
     public confirmed: boolean = false;
-    public companies: string[] = ["Apple", "Huawei", "Xiaomi", "Samsung", "LG", "Motorola", "Alcatel"];
+    public isAdmin: boolean = false;
     public allUser: RegisterUser[];
 
     constructor(
         private _route: ActivatedRoute,
-        private _authService: AuthService
+        private _authService: AuthService,
+        private _toasterServise: ToasterService
     ) { }
 
     public ngOnInit() {
         this.allUser = this._route.snapshot.data["users"];
-        this.user.email = this._authService.currentUser.user.name;
+        this.user.name = this._authService.currentUser.user.name;
+        this.isAdmin = this._authService.currentUser.user.isAdmin;
     }
 
     public onChange(confirmPassword: string) {
-        confirmPassword !== this.user.password ? this.confirmed = false : this.confirmed = true;
-    }
-    public change(changeFrom: NgForm) {
-        console.log(12);
-        // this._authService.register(this.user.email, this.user.password)
-        //     .subscribe(result => {
-        //         this.loading = true;
-        //         this.errorUserMsg = "";
-        //     }, (error: HttpErrorResponse) => {
-        //         this.errorUserMsg = JSON.parse(error.error).message;
-        //         this.loading = false;
-        //     });
+        confirmPassword !== this.user.password ? this.confirmed = true : this.confirmed = true;
     }
 
+    public change(changeFrom: NgForm) {
+        this.loading = true;
+        this._authService.changePassword(this.user).subscribe(
+            result => {
+                this.loading = false;
+                this._toasterServise.pop("success", result.title, result.text);
+            }
+        )
+    }
 }

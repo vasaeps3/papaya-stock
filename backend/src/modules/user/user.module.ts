@@ -24,7 +24,9 @@ export class UserModule {
             .apply(AuthorizeMiddleware)
             .forRoutes(
             { path: "/user/register", method: RequestMethod.POST },
-            { path: "/user/reload", method: RequestMethod.GET }
+            { path: "/user/reload", method: RequestMethod.GET },
+            { path: "/user/", method: RequestMethod.GET },
+            { path: "/user/changepassword", method: RequestMethod.POST }
             )
             .apply(LoggingMiddleware)
             .forRoutes(UserController);

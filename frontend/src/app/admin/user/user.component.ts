@@ -6,7 +6,7 @@ import { AuthService } from "../../_auth/auth.service";
 
 
 export class RegisterUser {
-    email: string;
+    name: string;
     password: string;
     confirmPassword?: string;
 }
@@ -31,7 +31,7 @@ export class UserComponent implements OnInit {
     }
 
     public register(registerForm: NgForm) {
-        this._authService.register(this.user.email, this.user.password)
+        this._authService.register(this.user.name, this.user.password)
             .subscribe(result => {
                 this.loading = true;
                 this.errorUserMsg = "";
@@ -41,6 +41,6 @@ export class UserComponent implements OnInit {
             });
     }
     public onEmailChange() {
-        console.log(this.user.email);
+        console.log(this.user.name);
     }
 }
