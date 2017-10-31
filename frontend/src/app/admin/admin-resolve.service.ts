@@ -13,7 +13,7 @@ export class AdminResolverService implements Resolve<any>{
         private _authService: AuthService
     ) { }
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+    public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
         console.log("AdminResolverService");
         let currentUser = this._authService.reloadStorage();
         console.log("currentUser Reload!");

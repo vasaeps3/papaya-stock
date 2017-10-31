@@ -1,19 +1,23 @@
 import { Observable } from "rxjs/Rx";
 import { Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, ActivatedRoute } from "@angular/router";
 
 import { AuthService } from "../../../_auth/auth.service";
 
 
 @Injectable()
-export class ChangePasswordResolverService implements Resolve<any>{
+export class ChangePasswordResolverService implements Resolve<any> {
 
     constructor(
+        private _route: ActivatedRoute,
         private _authService: AuthService
     ) { }
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+    public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
         let users;
+        console.log(this._route.snapshot.data["currentUser"]);
+
+
         if (this._authService.currentUser.user.isAdmin) {
             return this._authService.getAllUsers();
         } else {
