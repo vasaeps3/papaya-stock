@@ -31,15 +31,21 @@ export class ChangePasswordComponent implements OnInit {
     }
 
     public onChange(confirmPassword: string) {
-        confirmPassword !== this.user.password ? this.confirmed = true : this.confirmed = true;
+        confirmPassword !== this.user.password ? this.confirmed = false : this.confirmed = true;
     }
 
     public change(changeFrom: NgForm) {
         this.loading = true;
         this._authService.changePassword(this.user).subscribe(
             result => {
-                this.loading = false;
                 this._toasterServise.pop("success", result.title, result.text);
+            },
+            error => {
+                console.log(error);
+                console.log("Что-то пошло не так!");    
+            },
+            () => {
+                this.loading = false;
             }
         )
     }

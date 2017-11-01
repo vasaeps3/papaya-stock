@@ -86,9 +86,13 @@ export class OrderController {
     }
 
     @Post()
-    public async createOrder( @Req() req: Request, @Res() res: Response, @Body() products: Array<IProduct>) {
+    public async createOrder( @Req() req: Request, @Res() res: Response, @Body() body: any) {
         console.log("------------------------------------------------------> ", req["token"]);
+        let products: Array<IProduct> = body.products;
         let agentId = req["token"].stockId || null;
+        if(req["token"].isAdmin){
+            agentId = body.agentId || null;
+        };
         let organizationId = await this._orderService.getOrganizationId();
         let lastOrder = await this._orderService.getLastOrder();
         let lastOrderNum: number = 0;

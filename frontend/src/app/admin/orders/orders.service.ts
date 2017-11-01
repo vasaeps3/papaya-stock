@@ -24,9 +24,13 @@ export class OrdersService {
         return this._httpClient.get("/api/order/get?id=" + orderId);
     }
 
-    public createOrder(products: IProduct[]): Observable<any> {
-        console.log(products);
-        let qwerty: Observable<any> = this._httpClient.post("/api/order/", JSON.stringify(products));
+    public createOrder(products: IProduct[], agentId?: string): Observable<any> {
+        let body = JSON.stringify({
+            agentId: agentId,
+            products: products
+        });
+        console.log(body);
+        let qwerty: Observable<any> = this._httpClient.post("/api/order/", body);
         return qwerty;
     }
 }

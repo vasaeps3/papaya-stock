@@ -21,7 +21,7 @@ export class UserService {
     }
 
     public async getAll(): Promise<User[]> {
-        return (await this.repository).find({ select: ["id", "name"] });
+        return (await this.repository).find({ select: ["id", "name", "stockId"] });
     }
 
     public async add(user: User): Promise<User> {
