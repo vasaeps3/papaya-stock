@@ -90,9 +90,9 @@ export class OrderController {
         console.log("------------------------------------------------------> ", req["token"]);
         let products: Array<IProduct> = body.products;
         let agentId = req["token"].stockId || null;
-        if(req["token"].isAdmin){
+        if (req["token"].isAdmin) {
             agentId = body.agentId || null;
-        };
+        }
         let organizationId = await this._orderService.getOrganizationId();
         let lastOrder = await this._orderService.getLastOrder();
         let lastOrderNum: number = 0;

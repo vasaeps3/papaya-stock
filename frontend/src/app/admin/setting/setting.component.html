@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card card-default mb-3">
+            <div class="card-header">
+                <i class="fa fa-user-plus fa-fw"></i> Данные к системе МойСклад!
+            </div>
+            <div class="card-block">
+                <div class="form-content">
+                    <form role="form" #stockFrom="ngForm" novalidate autocomplete="off" (ngSubmit)="saveAll()">
+                        <div class="form-group" [ngClass]="{has_success:(login.touched || login.dirty) && !login.errors, has_danger: (login.touched || login.dirty) && login.errors}">
+                            <label for="loginStock" class="form-control-label">Логин</label>
+                            <input type="text" class="form-control" id="loginStock" required name="loginStock" [(ngModel)]="loginStock.value" #login="ngModel">
+                            <div class="help-block help-block-danger" *ngIf="(login.touched || login.dirty) && login.errors">
+                                <span *ngIf="login.errors && login.errors.required">Логин - обязательное поле</span>
+                            </div>
+                            <p class="help-block">Необходимо указать логин админа для авторизации в МойСклад</p>
+                        </div>
+                        <div class="form-group" [ngClass]="{has_success:(password.touched || password.dirty) && !password.errors, has_danger: (password.touched || password.dirty) && password.errors}">
+                            <label for="passwordStock" class="form-control-label">Пароль</label>
+                            <input type="text" class="form-control" id="passwordStock" required name="passwordStock" [(ngModel)]="passwordStock.value" #password="ngModel">
+                            <div class="help-block help-block-danger" *ngIf="(password.touched || password.dirty) && password.errors">
+                                <span *ngIf="password.errors && password.errors.required">Логин - обязательное поле</span>
+                            </div>
+                            <p class="help-block">Необходимо указать пароль админа для авторизации в МойСклад</p>
+                        </div>
+                        <button class="btn btn-success" type="submit" [disabled]="!stockFrom.valid">Сохранить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="card card-default mb-3">
+            <div class="card-header">
+                <i class="fa fa-user-plus fa-fw"></i> Текст в корзине
+            </div>
+            <div class="card-block">
+                <ckeditor [(ngModel)]="cartText.value" [readonly]="false" debounce="500">
+                </ckeditor>
+                <button class="btn btn-success mt-3" type="submit" (click)="saveAll()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>

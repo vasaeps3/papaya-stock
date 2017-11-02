@@ -10,10 +10,12 @@ export class DatabaseService implements OnModuleInit {
 
     private _connection: Connection;
 
-    constructor(private readonly databaseConfig: DatabaseConfig) { }
+    constructor() { }
 
     public async onModuleInit() {
-        this._connection = await createConnection(this.databaseConfig.getConfiguration());
+        // console.log(this.databaseConfig.getConfiguration());
+        // this._connection = await createConnection(this.databaseConfig.getConfiguration());
+        this._connection = await createConnection();
     }
 
     private get connection(): Connection {
@@ -21,7 +23,7 @@ export class DatabaseService implements OnModuleInit {
     }
 
     public async getEntityManager(): Promise<EntityManager> {
-        return (await this.connection).entityManager;
+        return (await this.connection).manager;
     }
 
     public async getRepository<T>(entityClassOrName: ObjectType<T> | string): Promise<Repository<T>> {

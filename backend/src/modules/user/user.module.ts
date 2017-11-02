@@ -1,22 +1,20 @@
+import { SettingService } from "../setting/setting.service";
 import * as _ from "lodash";
 import { Module, MiddlewaresConsumer, RequestMethod } from "@nestjs/common";
 
 import { UserService } from "./user.service";
+import { CommonModule } from "../../common/common.module";
+import { CommonService } from "../../common/common.service";
 import { UserController } from "./user.controller";
-import { DatabaseConfig } from "../database/database.config";
 import { DatabaseModule } from "../database/database.module";
 import { LoggingMiddleware } from "../../middleware/logging.middleware";
-import { DevDatabaseConfig } from "../database/dev.database.config";
 import { AuthorizeMiddleware } from "../../middleware/authorize.middleware";
 
 
 @Module({
-    modules: [DatabaseModule],
+    modules: [DatabaseModule, CommonModule],
     controllers: [UserController],
-    components: [
-        UserService,
-        { provide: DatabaseConfig, useClass: DevDatabaseConfig }
-    ],
+    components: [UserService, { provide: CommonService }],
 })
 export class UserModule {
     public configure(consumer: MiddlewaresConsumer) {

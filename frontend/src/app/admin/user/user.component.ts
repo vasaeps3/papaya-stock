@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { HttpErrorResponse } from '@angular/common/http';
+import { ToasterService } from "angular2-toaster";
 
 import { AuthService } from "../../_auth/auth.service";
 
@@ -22,21 +23,22 @@ export class UserComponent implements OnInit {
     public loading: boolean = true;
 
     constructor(
-        private _authService: AuthService
+        private _authService: AuthService,
+        private _toasterServise: ToasterService
     ) { }
 
     public ngOnInit() {
-        console.log("this.model");
-        console.log(this.user);
     }
 
     public register(registerForm: NgForm) {
         this._authService.register(this.user.name, this.user.password)
-            .subscribe(result => {
+            .subscribe(
+            result => {
                 this.loading = true;
                 this.errorUserMsg = "";
+                this._toasterServise.pop("success", "Пользователь успешно зарегистрирован", result.name);
             }, (error: HttpErrorResponse) => {
-                this.errorUserMsg = JSON.parse(error.error).message;
+                this.errorUserMsg = error.error.message;
                 this.loading = false;
             });
     }

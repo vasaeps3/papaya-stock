@@ -1,4 +1,3 @@
-import * as console from "console";
 import * as _ from "lodash";
 import { Response, Request } from "express";
 import { Body, Controller, Get, HttpStatus, Post, Query, Res } from "@nestjs/common";

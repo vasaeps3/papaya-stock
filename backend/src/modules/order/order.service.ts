@@ -3,7 +3,7 @@ import { Component } from "@nestjs/common";
 import { Repository } from "typeorm";
 import * as request from "request-promise";
 
-import { OPTIONS } from "../../common/base.service";
+import { OPTIONS } from "../../common/common.service";
 import { IProduct } from "../product/product.interface";
 
 

@@ -5,6 +5,8 @@ import { Module } from "@nestjs/common";
 import { UserModule } from "../user/user.module";
 import { OrderModule } from "../order/order.module";
 import { ProductModule } from "../product/product.module";
+import { SettingModule } from "../setting/setting.module";
+import { CommonModule } from "../../common/common.module";
 import { CounterpartyModule } from "../counterparty/counterparty.module";
 // import { AuthService } from "../auth/auth.service";
 // import { CategoryModule } from "../categories/category.module";
@@ -15,7 +17,9 @@ import { CounterpartyModule } from "../counterparty/counterparty.module";
         UserModule,
         CounterpartyModule,
         OrderModule,
-        ProductModule
+        ProductModule,
+        SettingModule,
+        CommonModule
     ],
 })
 export class ApplicationModule { }

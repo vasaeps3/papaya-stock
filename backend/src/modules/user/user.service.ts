@@ -4,7 +4,7 @@ import { Repository } from "typeorm";
 import * as request from "request-promise";
 
 import { User } from "./user.entity";
-import { OPTIONS } from "../../common/base.service";
+import { CommonService } from "../../common/common.service";
 import { DatabaseService } from "../database/database.service";
 import { NotFoundException } from "../../exception/not-found.exception";
 
@@ -13,6 +13,7 @@ import { NotFoundException } from "../../exception/not-found.exception";
 export class UserService {
 
     constructor(
+        private _commonServise: CommonService,
         private _databaseService: DatabaseService
     ) { }
 
@@ -25,7 +26,7 @@ export class UserService {
     }
 
     public async add(user: User): Promise<User> {
-        return (await this.repository).persist(user).catch(error => {
+        return (await this.repository).save(user).catch(error => {
             throw new NotFoundException("Пользователь уже зарегистрирован в системе!");
         });
     }
@@ -40,7 +41,7 @@ export class UserService {
     }
 
     public async getStocksUserByEmail(email: string) {
-        let options = _.cloneDeep(OPTIONS);
+        let options = _.cloneDeep(await this._commonServise.getOptions());
         options.uri += "/entity/counterparty?filter=email=" + email;
         let users = JSON.parse(await request(options)).rows;
 
