@@ -7,6 +7,7 @@ export interface IProduct {
     salePrice?: number;
     quantity?: number;
     quantityStock?: number;
+    description?: string;
     positions?: IPosition[];
 }
 
