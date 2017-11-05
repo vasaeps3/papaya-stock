@@ -31,7 +31,8 @@ export class ProductsComponent implements OnInit {
         this.loadingProducts = true;
         this._productsService.getAll(this.limit, this.offset).subscribe(
             result => {
-                this.products = this._positionsService.mergeProductsWithLocal(result);
+                let loadProduct: IProduct[] = this._positionsService.mergeProductsWithLocal(result);
+                this.products = _.filter(loadProduct, (o) => o.quantityStock > 0);
                 this.loadingProducts = false;
             }
         );
@@ -49,7 +50,7 @@ export class ProductsComponent implements OnInit {
                 if (newProducts.length < this.limit) {
                     this.loadAll = true;
                 }
-                this.products.push(...newProducts);
+                this.products.push(..._.filter(newProducts, (o) => o.quantityStock > 0));
                 this.loadingProducts = false;
             }
         );

@@ -63,7 +63,7 @@ export class PositionsService {
     public loadIdProduct(): Array<IProduct> {
         return _.map(this.loadLocalProduct(), o => { return { id: o.id }; });
     }
-    
+
     public deleteAllposition() {
         let localProducts: IProduct[] = this.loadLocalProduct();
         _.remove(localProducts, o => true);
@@ -110,5 +110,6 @@ export interface IProduct {
     stock?: number;
     salePrice?: number;
     quantity?: number;
+    quantityStock?: number;
     positions?: IPosition[];
 }

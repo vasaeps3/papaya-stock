@@ -30,6 +30,7 @@ export class ProductController {
         let products: IProduct[] = this.convertProducts(productsStock);
         products = await this.loadImages(products);
         products = await this.addPositionsFromProduct(products);
+        products = _.each(products, (o) => { _.filter(o.positions, (v) => v.quantity > 0) });
         res.status(HttpStatus.OK).json(products);
     }
 
@@ -52,6 +53,7 @@ export class ProductController {
                 image: productStock.image.miniature.href,
                 article: productStock.article,
                 stock: 0,
+                quantityStock: productStock.quantity,
                 salePrice: productStock.salePrice,
                 positions: []
             };
@@ -62,7 +64,7 @@ export class ProductController {
 
     private async addPositionsFromProduct(products: IProduct[]) {
         let positionsStock: IStockEntity[] = await this._productService.getStockAllVariants(this.getStrProductsId(products));
-        _.each(positionsStock, function (positionStock) {
+        _.each(_.filter(positionsStock, (o) => o.quantity > 0), function (positionStock) {
             let productNow: IProduct = _.find(products, function (product) {
                 return product.article === positionStock.article;
             });
