@@ -13,7 +13,7 @@ export class OrderDetailResolverService implements Resolve<IOrder>{
         private _ordersService: OrdersService
     ) { }
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IOrder> {
+    public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IOrder> {
         let orderId = route.params["id"];
         let order: Observable<IOrder> = this._ordersService.getOrderById(orderId);
         return order;

@@ -18,7 +18,7 @@
                                                             <td>
                                                                 <div class="name-brand">{{product.name}}</div>
                                                                 <div class="cl-size-container">
-                                                                    <positions-comp [productId]="product.id" [(positions)]="product.positions" (onChangePosition)="onChangedPosition($event)"></positions-comp>
+                                                                    <positions-comp [changed]="false" [productId]="product.id" [(positions)]="product.positions" (onChangePosition)="onChangedPosition($event)"></positions-comp>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -51,12 +51,12 @@
     </div>
     <div class="col-lg-4">
         <div class="jumbotron">
-            <h1>Доброго времени суток!</h1>
-            <p>Ваш заказ № {{order.name}} на общую сумму {{order.sum}} руб. на {{order.quantity}} едениц товара.</p>
+            <h2>Доброго времени суток!</h2>
+            <p>Ваш заказ <b>№ {{order.name}}</b> на общую сумму <b>{{order.sum}} руб.</b> на <b>{{order.quantity}}</b> единиц товара.</p>
             <p>Статус Вашего заказа: <b>{{order.state.name}}</b></p>
             <div *ngIf="order.description">
                 <p>Допонительная информация:</p>
-                <p>{{order.description | async }}</p>
+                <p>{{order.description }}</p>
             </div>
         </div>
     </div>

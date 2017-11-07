@@ -5,26 +5,27 @@
             <table class="table table-hover table-striped">
                 <thead>
                     <tr>
-                        <th>№</th>
                         <th>Код</th>
                         <th>Сумма</th>
-                        <th>Зарезервированная сумма</th>
+                        <th>Сумма</th>
                         <th>Дата</th>
                         <th>Состояние</th>
+                        <th>Комментарий</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let order of orders; let i = index">
-                        <td>{{i+1}}</td>
-                        <td><a [routerLink]="[order.id]">{{ order.name}}</a></td>
+                        <td>
+                            <a [routerLink]="[order.id]">{{ order.name}}</a>
+                        </td>
                         <td>{{ order.sum}}</td>
-                        <td>{{ order.reservedSum}}</td>
-                        <td>{{ order.created}}</td>
+                        <td>{{ order.reservedSum}} р.</td>
+                        <td>{{ order.created | date:'dd-MM-yyyy HH:mm'}}</td>
                         <td>{{ order.state.name}}</td>
+                        <td><div class="table_comment">{{order.description}}</div></td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-<button (click)="qwe()" style="z-index: 10000;position: fixed;">pop toast</button>

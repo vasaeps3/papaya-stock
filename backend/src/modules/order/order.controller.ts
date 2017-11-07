@@ -72,6 +72,7 @@ export class OrderController {
                 id: stockOrder.id,
                 name: stockOrder.name,
                 sum: stockOrder.sum,
+                description: stockOrder.description || null,
                 reservedSum: stockOrder.reservedSum,
                 state: {
                     name: stockOrder.state.name,
