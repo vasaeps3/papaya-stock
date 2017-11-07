@@ -42,11 +42,11 @@ export class ChangePasswordComponent implements OnInit {
             },
             error => {
                 console.log(error);
-                console.log("Что-то пошло не так!");    
+                console.log("Что-то пошло не так!");
             },
             () => {
                 this.loading = false;
             }
-        )
+        );
     }
 }

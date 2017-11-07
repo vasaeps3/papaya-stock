@@ -1,6 +1,6 @@
 export class IUser {
-    user: {
+    public user: {
         name: string;
-    }
-    token: string;
+    };
+    public token: string;
 }

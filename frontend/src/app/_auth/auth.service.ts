@@ -16,7 +16,7 @@ export class AuthService {
             isAdmin: boolean;
         },
         token: string
-    }
+    };
 
     constructor(private _httpClient: HttpClient) {
         let currentUser = JSON.parse(localStorage.getItem("currentUser"));

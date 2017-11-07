@@ -5,13 +5,13 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/r
 import { SettingService } from "./setting.service";
 
 @Injectable()
-export class SettingResolverService implements Resolve<any>{
+export class SettingResolverService implements Resolve<any> {
 
     constructor(
         private _settingService: SettingService
     ) { }
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+    public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
         return this._settingService.getSetting();
     }
 

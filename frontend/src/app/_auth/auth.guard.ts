@@ -12,7 +12,7 @@ export class AuthGuard implements CanActivate {
         private _authService: AuthService
     ) { }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         console.log("Use AuthGuard");
         if (this._authService.isLoggedIn()) {
             console.log("--AuthGuard true");
@@ -20,6 +20,7 @@ export class AuthGuard implements CanActivate {
         }
         console.log("--AuthGuard false");
         this.router.navigate(["/login"], { queryParams: { returnUrl: state.url } });
+
         return false;
     }
 }

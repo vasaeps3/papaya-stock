@@ -11,8 +11,9 @@ export class PositionComponent {
     @Output() public onChangePositionQuantity = new EventEmitter<string>();
 
     public changeQuantity(increased: boolean) {
-        if (!this.changed)
+        if (!this.changed) {
             return true;
+        }
         let oldQuantity = this.position.quantity;
 
         if (increased && this.position.quantity < this.position.stock) {

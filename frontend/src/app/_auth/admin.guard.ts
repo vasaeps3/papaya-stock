@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { ToasterService } from 'angular2-toaster';
+import { ToasterService } from "angular2-toaster";
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from "@angular/router";
 
 import { AuthService } from "./auth.service";
@@ -14,7 +14,7 @@ export class AdminGuard implements CanActivate {
         private _toasterServise: ToasterService
     ) { }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         if (this._authService.isAdmin()) {
             return true;
         }
@@ -25,4 +25,5 @@ export class AdminGuard implements CanActivate {
 
         return false;
     }
+
 }

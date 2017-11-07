@@ -7,7 +7,7 @@ import { OrdersService } from "../orders.service";
 
 
 @Injectable()
-export class OrderDetailResolverService implements Resolve<IOrder>{
+export class OrderDetailResolverService implements Resolve<IOrder> {
 
     constructor(
         private _ordersService: OrdersService
