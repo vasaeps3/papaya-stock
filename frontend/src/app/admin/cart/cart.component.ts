@@ -26,6 +26,8 @@ export class CartComponent implements OnInit {
     public chooseUser: string;
     public name: string;
 
+    public cartText: string;
+
     constructor(
         private _ordersService: OrdersService,
         private _positionsService: PositionsService,
@@ -39,6 +41,7 @@ export class CartComponent implements OnInit {
         this.isAdmin = this._authService.currentUser.user.isAdmin;
         this._activatedRouter.data.subscribe(
             data => {
+                this.cartText = data["cartText"] && data["cartText"].value || null;
                 this.isCartEmpty = _.isEmpty(data.products);
                 this.products = this._positionsService.mergeProductsWithLocal(data["products"]);
                 this.reloadSummary();

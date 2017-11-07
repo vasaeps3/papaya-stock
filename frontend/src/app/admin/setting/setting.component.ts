@@ -4,14 +4,9 @@ import { ActivatedRoute } from "@angular/router";
 import { Component, OnInit } from "@angular/core";
 import { ToasterService } from "angular2-toaster";
 
+import { ISetting } from "./setting.interface";
 import { SettingService } from "./setting.service";
 
-
-export interface ISetting {
-    id: number;
-    code: string;
-    value?: string;
-}
 
 @Component({
     selector: "app-setting",
@@ -22,6 +17,7 @@ export class SettingComponent implements OnInit {
     public loginStock: ISetting;
     public passwordStock: ISetting;
     public cartText: ISetting;
+    public productText: ISetting;
     public orderComment: ISetting;
     constructor(
         private _activatedRouter: ActivatedRoute,
@@ -35,16 +31,17 @@ export class SettingComponent implements OnInit {
                 this.loginStock = _.find(this.setting, (o) => o.code === "loginStock");
                 this.passwordStock = _.find(this.setting, (o) => o.code === "passwordStock");
                 this.cartText = _.find(this.setting, (o) => o.code === "cartText");
+                this.productText = _.find(this.setting, (o) => o.code === "productText");
                 this.orderComment = _.find(this.setting, (o) => o.code === "orderComment");
             }
-        )
+        );
     }
     public saveAll() {
         this._settingService.setSetting(this.setting).subscribe(
             result => {
                 alert(1);
             },
-            error =>{
+            error => {
                 alert(2);
             }
         );

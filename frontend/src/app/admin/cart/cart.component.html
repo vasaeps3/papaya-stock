@@ -10,7 +10,9 @@
                                 <table>
                                     <tbody>
                                         <tr>
-                                            <td class="img-table"><img src="{{product.image}}" alt="{{product.name}}"></td>
+                                            <td class="img-table">
+                                                <img src="{{product.image}}" alt="{{product.name}}">
+                                            </td>
                                             <td class="description-wrap">
                                                 <table class="items_wrap">
                                                     <tbody>
@@ -32,7 +34,8 @@
                                                             <div class="total_price">
                                                                 <span class="tp_item">Итого: </span>
                                                                 <span class="tp_item tp_number">
-                                                                    <span class="tp_prop_color">{{product.salePrice*(product.quantity || 0)}} руб. ({{product.quantity || 0}} шт)</span>
+                                                                    <span class="tp_prop_color">{{product.salePrice*(product.quantity || 0)}} руб. ({{product.quantity
+                                                                        || 0}} шт)</span>
                                                                 </span>
                                                             </div>
                                                         </tr>
@@ -42,7 +45,9 @@
                                         </tr>
                                         <tr *ngIf="product.description">
                                             <td colspan="2">
-                                                <div class="mt-3"><p>{{product.description}}</p></div>
+                                                <div class="mt-3">
+                                                    <p>{{product.description}}</p>
+                                                </div>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -53,7 +58,8 @@
                 </table>
                 <div *ngIf="isCartEmpty">
                     <h4>Корзина пуста!</h4>
-                    <p>Перейдите в <a [routerLink]="['/admin/products']" title="Каталог">каталог</a> для оформления заказа</p>
+                    <p>Перейдите в
+                        <a [routerLink]="['/admin/products']" title="Каталог">каталог</a> для выбора товаров.</p>
                 </div>
             </div>
         </div>
@@ -62,18 +68,18 @@
         <div class="jumbotron">
             <div *ngIf="isAdmin" class="form-group">
                 <label for="agentId">Заказ от имени пользователя:</label>
-                <select class="form-control" name="agentId" [(ngModel)]="chooseUser">   
-                    <option  *ngFor="let user of allUser" [value]="user.stockId">
-                       {{user.name}}
+                <select class="form-control" name="agentId" [(ngModel)]="chooseUser">
+                    <option *ngFor="let user of allUser" [value]="user.stockId">
+                        {{user.name}}
                     </option>
                 </select>
             </div>
-            <h1>Lorem ipsum!</h1>
-            <p>Количество: {{summaryCount}}</p>
-            <p>Сумма: {{summaryAmount}}</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Facilisi a primis vehicula adipiscing imperdiet magna aenean; Pulvinar per varius parturient facilisis: Tortor sapien dis nullam elit porttitor lectus quam; Vel mus morbi torquent tincidunt?</p>
+            <div [innerHTML]="cartText"></div>
+            <div>
+                <p>Количество: {{summaryCount}}</p>
+                <p>Сумма: {{summaryAmount}}</p>
+            </div>
             <button [disabled]="createdOrder || summaryCount < 1 || (!chooseUser && isAdmin)" class="btn btn-success" (click)="createOrder()">Сделать заказ</button>
         </div>
     </div>
-
 </div>

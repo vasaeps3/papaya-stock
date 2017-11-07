@@ -1,5 +1,6 @@
 import * as _ from "lodash";
 import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 
 import { ProductsService } from "./products.service";
 import { PositionsService, IPosition, IProduct } from "../components/positions/position.service";
@@ -22,13 +23,21 @@ export class ProductsComponent implements OnInit {
     public scrollDistance: number = 3;
 
     public products: IProduct[];
+    public productText: string;
+
     constructor(
         private _productsService: ProductsService,
+        private _activatedRouter: ActivatedRoute,
         private _positionsService: PositionsService
     ) { }
 
     public ngOnInit() {
         this.loadingProducts = true;
+        this._activatedRouter.data.subscribe(
+            data => {
+                this.productText = data["productText"] && data["productText"].value || null;
+            }
+        );
         this._productsService.getAll(this.limit, this.offset).subscribe(
             result => {
                 let loadProduct: IProduct[] = this._positionsService.mergeProductsWithLocal(result);
@@ -59,4 +68,5 @@ export class ProductsComponent implements OnInit {
     public onChangedPosition(objEvent: { productId: string; positionId: string }) {
         this._positionsService.changePosition(this.products, objEvent.productId, objEvent.positionId);
     }
+
 }

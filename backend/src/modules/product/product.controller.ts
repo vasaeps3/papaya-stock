@@ -32,7 +32,7 @@ export class ProductController {
         products = await this.loadDesc(products);
         products = await this.loadImages(products);
         products = await this.addPositionsFromProduct(products);
-        products = _.each(products, (o) => { _.filter(o.positions, (v) => v.quantity > 0) });
+        products = _.each(products, (o) => { _.filter(o.positions, (v) => v.quantity > 0); });
         res.status(HttpStatus.OK).json(products);
     }
 

@@ -6,6 +6,7 @@ import { ProductsService } from "./products.service";
 import { PositionsModule } from "../components/positions/positions.module";
 import { ProductsComponent } from "./products.component";
 import { ProductsRoutingModule } from "./products-routing.module";
+import { ProductTextResolverService } from "./products-resolver-text.service";
 
 
 @NgModule({
@@ -20,6 +21,9 @@ import { ProductsRoutingModule } from "./products-routing.module";
     declarations: [
         ProductsComponent
     ],
-    providers: [ProductsService],
+    providers: [
+        ProductsService,
+        ProductTextResolverService
+    ],
 })
 export class ProductsModule { }

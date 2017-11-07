@@ -1,7 +1,7 @@
 <div class="row">
     <div class="loading-indicator" [ngClass]="{show_loader:loadingProducts}">
         <div class="loader">
-            <i class="fa fa-circle-o-notch fa-spin"></i> Загрузка продуктов
+            <i class="fa fa-circle-o-notch fa-spin"></i> Загрузка товаров
         </div>
     </div>
     <div class="col-lg-8">
@@ -54,4 +54,10 @@
             </tbody>
         </table>
     </div>
+    <div class="col-lg-4">
+        <div class="jumbotron">
+            <div [innerHTML]="productText"></div>
+            <div>Для оформления заказа необходимо перейти в <a [routerLink]="['/admin/cart']" title="Корзина">корзину</a></div>
+        </div>
+    </div>    
 </div>
