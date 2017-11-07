@@ -32,11 +32,14 @@ export class ProductService {
             });
     }
 
-    public async getStockAllProduct(limit?: number, offset?: number) {
+    public async getStockAllProduct(limit?: number, offset?: number, search?: string) {
         let options = _.cloneDeep(await this._commonServise.getOptions());
         let limitStr = "";
         if (limit) {
             limitStr = "&limit=" + limit + "&offset=" + offset;
+        }
+        if (search) {
+            limitStr += "&search=" + encodeURI(search);
         }
         options.uri += "/report/stock/all?groupBy=product&stockMode=positiveOnly" + limitStr;
         console.log(options.uri);

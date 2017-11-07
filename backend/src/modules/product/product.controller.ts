@@ -27,7 +27,8 @@ export class ProductController {
     public async getStockAllProduct( @Res() res: Response, @Query() query?: any) {
         let limit: number = +query.limit || 0;
         let offset: number = +query.offset || 0;
-        let productsStock: IStockEntity[] = await this._productService.getStockAllProduct(limit, offset);
+        let search: string = query.search && query.search + "" || null;
+        let productsStock: IStockEntity[] = await this._productService.getStockAllProduct(limit, offset, search);
         let products: IProduct[] = this.convertProducts(productsStock);
         products = await this.loadDesc(products);
         products = await this.loadImages(products);
@@ -97,4 +98,5 @@ export class ProductController {
         });
         return str;
     }
+
 }

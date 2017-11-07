@@ -5,6 +5,16 @@
         </div>
     </div>
     <div class="col-lg-8">
+        <div class="mb-3">
+            <form role="form" #searchForm="ngForm" novalidate autocomplete="off" (ngSubmit)="onSearch()">
+                <div class="form-group input-group">
+                    <input class="form-control" type="text" placeholder="Поиск" name="search" [(ngModel)]="search">
+                    <span class="input-group-btn">
+                        <button class="btn btn-secondary" type="submit"><i class="fa fa-search"></i></button>
+                    </span>
+                </div>
+            </form>
+        </div>
         <table class="product-list">
             <tbody infiniteScroll [infiniteScrollDistance]="scrollDistance" [infiniteScrollThrottle]="throttle" (scrolled)="onScrollDown()">
                 <tr class="row-wrap reserved scroll-here out-of-stock1" *ngFor="let product of products; let i = index">
@@ -12,7 +22,9 @@
                         <table>
                             <tbody>
                                 <tr>
-                                    <td class="img-table"><img src="{{product.image}}" alt="{{product.name}}"></td>
+                                    <td class="img-table">
+                                        <img src="{{product.image}}" alt="{{product.name}}">
+                                    </td>
                                     <td class="description-wrap">
                                         <table class="items_wrap">
                                             <tbody>
@@ -34,7 +46,8 @@
                                                     <div class="total_price">
                                                         <span class="tp_item">Итого: </span>
                                                         <span class="tp_item tp_number">
-                                                            <span class="tp_prop_color">{{product.salePrice*(product.quantity || 0)}} руб. ({{product.quantity || 0}} шт)</span>
+                                                            <span class="tp_prop_color">{{product.salePrice*(product.quantity || 0)}} руб. ({{product.quantity
+                                                                || 0}} шт)</span>
                                                         </span>
                                                     </div>
                                                 </tr>
@@ -44,7 +57,9 @@
                                 </tr>
                                 <tr *ngIf="product.description">
                                     <td colspan="2">
-                                        <div class="mt-3"><p>{{product.description}}</p></div>
+                                        <div class="mt-3">
+                                            <p>{{product.description}}</p>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -57,7 +72,9 @@
     <div class="col-lg-4">
         <div class="jumbotron">
             <div [innerHTML]="productText"></div>
-            <div>Для оформления заказа необходимо перейти в <a [routerLink]="['/admin/cart']" title="Корзина">корзину</a></div>
+            <div>Для оформления заказа необходимо перейти в
+                <a [routerLink]="['/admin/cart']" title="Корзина">корзину</a>
+            </div>
         </div>
-    </div>    
+    </div>
 </div>

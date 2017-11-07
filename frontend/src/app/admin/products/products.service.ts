@@ -9,12 +9,14 @@ export class ProductsService {
         private _httpClient: HttpClient
     ) { }
 
-    public getAll(limit?: number, offset?: number): Observable<any> {
+    public getAll(limit?: number, offset?: number, search?: string): Observable<any> {
         let limitStr = "";
         if (limit) {
             limitStr = "?limit=" + limit + "&offset=" + offset;
         }
-
+        if (search) {
+            limitStr += "&search=" + search;
+        }
         return this._httpClient.get("/api/product/" + limitStr);
     }
 }

@@ -1,6 +1,7 @@
 import * as _ from "lodash";
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { NgForm } from "@angular/forms";
+import { ActivatedRoute, Router, NavigationExtras } from "@angular/router";
 
 import { ProductsService } from "./products.service";
 import { PositionsService, IPosition, IProduct } from "../components/positions/position.service";
@@ -22,51 +23,70 @@ export class ProductsComponent implements OnInit {
     public throttle: number = 100;
     public scrollDistance: number = 3;
 
-    public products: IProduct[];
+    public products: IProduct[] = [];
     public productText: string;
 
+    public search: string = "";
     constructor(
         private _productsService: ProductsService,
+        private _router: Router,
         private _activatedRouter: ActivatedRoute,
         private _positionsService: PositionsService
     ) { }
 
     public ngOnInit() {
-        this.loadingProducts = true;
         this._activatedRouter.data.subscribe(
             data => {
                 this.productText = data["productText"] && data["productText"].value || null;
             }
         );
-        this._productsService.getAll(this.limit, this.offset).subscribe(
+        this._activatedRouter.queryParams.subscribe(
+            queryParams => {
+                this.search = queryParams["search"] || null;
+                this.page = 0;
+                this.loadAll = false;
+                this.offset = this.limit * this.page;
+                this.getAllProduct(true);
+            }
+        );
+    }
+
+    public getAllProduct(cleanProduct?: boolean) {
+        this.loadingProducts = true;
+        this._productsService.getAll(this.limit, this.offset, this.search).subscribe(
             result => {
                 let loadProduct: IProduct[] = this._positionsService.mergeProductsWithLocal(result);
-                this.products = _.filter(loadProduct, (o) => o.quantityStock > 0);
+                if (loadProduct.length < this.limit) {
+                    this.loadAll = true;
+                }
+                if (cleanProduct) {
+                    this.products = [];
+                }
+                this.products.push(..._.filter(loadProduct, (o) => o.quantityStock > 0));
                 this.loadingProducts = false;
             }
         );
     }
+
     public onScrollDown() {
         if (this.loadingProducts || this.loadAll) {
             return;
         }
         this.page++;
         this.offset = this.limit * this.page;
-        this.loadingProducts = true;
-        this._productsService.getAll(this.limit, this.offset).subscribe(
-            result => {
-                let newProducts = this._positionsService.mergeProductsWithLocal(result);
-                if (newProducts.length < this.limit) {
-                    this.loadAll = true;
-                }
-                this.products.push(..._.filter(newProducts, (o) => o.quantityStock > 0));
-                this.loadingProducts = false;
-            }
-        );
+        this.getAllProduct();
     }
 
     public onChangedPosition(objEvent: { productId: string; positionId: string }) {
         this._positionsService.changePosition(this.products, objEvent.productId, objEvent.positionId);
+    }
+
+    public onSearch() {
+        let extras: NavigationExtras = { relativeTo: this._activatedRouter };
+        if (this.search) {
+            extras.queryParams = { search: this.search };
+        }
+        this._router.navigate(["./"], extras);
     }
 
 }

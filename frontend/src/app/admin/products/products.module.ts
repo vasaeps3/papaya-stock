@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { InfiniteScrollModule } from "ngx-infinite-scroll";
 
 import { ProductsService } from "./products.service";
@@ -12,6 +13,7 @@ import { ProductTextResolverService } from "./products-resolver-text.service";
 @NgModule({
     imports: [
         CommonModule,
+        FormsModule,
         // NgbCarouselModule.forRoot(),
         // NgbAlertModule.forRoot(),
         ProductsRoutingModule,
