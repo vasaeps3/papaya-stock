@@ -76,8 +76,8 @@
             </div>
             <div [innerHTML]="cartText"></div>
             <div>
-                <p>Количество: {{summaryCount}}</p>
-                <p>Сумма: {{summaryAmount}}</p>
+                <p>Количество: {{summaryCount}} шт.</p>
+                <p>Сумма: {{summaryAmount}} руб.</p>
             </div>
             <button [disabled]="createdOrder || summaryCount < 1 || (!chooseUser && isAdmin)" class="btn btn-success" (click)="createOrder()">Сделать заказ</button>
         </div>

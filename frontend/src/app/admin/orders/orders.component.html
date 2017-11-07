@@ -19,7 +19,7 @@
                             <a [routerLink]="[order.id]">{{ order.name}}</a>
                         </td>
                         <td>{{ order.sum}}</td>
-                        <td>{{ order.reservedSum}} р.</td>
+                        <td>{{ order.reservedSum}} руб.</td>
                         <td>{{ order.created | date:'dd-MM-yyyy HH:mm'}}</td>
                         <td>{{ order.state.name}}</td>
                         <td><div class="table_comment">{{order.description}}</div></td>

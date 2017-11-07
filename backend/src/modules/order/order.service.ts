@@ -23,6 +23,7 @@ export class OrderService {
             });
     }
 
+    // public async getDescriptionOrder
     public async getOrderById(orderId: string) {
         let options = _.cloneDeep(OPTIONS);
         options.uri += "/entity/customerorder/" + orderId + "?expand=state";

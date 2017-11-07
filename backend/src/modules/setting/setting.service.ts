@@ -31,5 +31,5 @@ export class SettingService {
     public async getOnly(settingCode: string): Promise<Setting> {
         return (await this.repository).findOne({ select: ["value"], where: { code: settingCode } });
     }
-
+    
 }
