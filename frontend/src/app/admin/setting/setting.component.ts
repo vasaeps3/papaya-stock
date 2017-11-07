@@ -19,9 +19,11 @@ export class SettingComponent implements OnInit {
     public cartText: ISetting;
     public productText: ISetting;
     public orderComment: ISetting;
+
     constructor(
         private _activatedRouter: ActivatedRoute,
-        private _settingService: SettingService
+        private _settingService: SettingService,
+        private _toasterServise: ToasterService
     ) { }
 
     public ngOnInit() {
@@ -36,30 +38,16 @@ export class SettingComponent implements OnInit {
             }
         );
     }
+
     public saveAll() {
         this._settingService.setSetting(this.setting).subscribe(
             result => {
-                alert(1);
+                this._toasterServise.pop("success", result.title, result.text);
             },
             error => {
-                alert(2);
+                console.log(error);
             }
         );
     }
-    public save(editor: any) {
-        console.log("save");
-        console.log(editor);
-    }
-    public onReady(editor: any) {
-        console.log("onReady");
-        console.log(editor);
-    }
-    public onFocus(editor: any) {
-        console.log("onFocus");
-        console.log(editor);
-    }
-    public onBlur(editor: any) {
-        console.log("onBlur");
-        console.log(editor);
-    }
+
 }
