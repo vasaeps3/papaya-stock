@@ -1,5 +1,6 @@
-import { DashboardService } from './dashboard.service';
 import { Component, OnInit } from "@angular/core";
+
+import { DashboardService } from "./dashboard.service";
 
 
 @Component({
@@ -7,12 +8,12 @@ import { Component, OnInit } from "@angular/core";
     templateUrl: "./dashboard.component.html"
 })
 export class DashboardComponent implements OnInit {
-    counterparties: any;
+    public counterparties: any;
     constructor(
         private _dashboardService: DashboardService
     ) { }
 
-    ngOnInit() {
+    public ngOnInit() {
         this._dashboardService.getAllCounter().subscribe(
             result => {
                 this.counterparties = result;

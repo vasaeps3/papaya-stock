@@ -6,14 +6,15 @@ import { Body, Controller, Get, HttpStatus, Param, Post, Query, Req, Res } from 
 import { OrderService } from "./order.service";
 import { IOrder, IStockOrder } from "./order.interface";
 import { IPosition, IProduct } from "../product/product.interface";
-
+import { SettingService } from "../setting/setting.service";
 
 
 @Controller("order")
 export class OrderController {
 
     constructor(
-        private _orderService: OrderService
+        private _orderService: OrderService,
+        private _settingService: SettingService
     ) { }
 
     @Get("get")
@@ -72,6 +73,7 @@ export class OrderController {
                 id: stockOrder.id,
                 name: stockOrder.name,
                 sum: stockOrder.sum,
+                description: stockOrder.description || null,
                 reservedSum: stockOrder.reservedSum,
                 state: {
                     name: stockOrder.state.name,
@@ -87,7 +89,6 @@ export class OrderController {
 
     @Post()
     public async createOrder( @Req() req: Request, @Res() res: Response, @Body() body: any) {
-        console.log("------------------------------------------------------> ", req["token"]);
         let products: Array<IProduct> = body.products;
         let agentId = req["token"].stockId || null;
         if (req["token"].isAdmin) {
@@ -95,6 +96,7 @@ export class OrderController {
         }
         let organizationId = await this._orderService.getOrganizationId();
         let lastOrder = await this._orderService.getLastOrder();
+        let descriptionOrder = await this._settingService.getOnly("orderComment");
         let lastOrderNum: number = 0;
         let newOrderNum: string;
         if (lastOrder.length) {
@@ -117,6 +119,7 @@ export class OrderController {
                     "mediaType": "application/json"
                 }
             },
+            "description": descriptionOrder && descriptionOrder.value || null,
             "positions": []
         };
         _.each(products, function (product) {
@@ -150,4 +153,5 @@ export class OrderController {
             return result;
         });
     }
+
 }

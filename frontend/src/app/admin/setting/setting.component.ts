@@ -4,14 +4,9 @@ import { ActivatedRoute } from "@angular/router";
 import { Component, OnInit } from "@angular/core";
 import { ToasterService } from "angular2-toaster";
 
+import { ISetting } from "./setting.interface";
 import { SettingService } from "./setting.service";
 
-
-export interface ISetting {
-    id: number;
-    code: string;
-    value?: string;
-}
 
 @Component({
     selector: "app-setting",
@@ -22,10 +17,13 @@ export class SettingComponent implements OnInit {
     public loginStock: ISetting;
     public passwordStock: ISetting;
     public cartText: ISetting;
+    public productText: ISetting;
     public orderComment: ISetting;
+
     constructor(
         private _activatedRouter: ActivatedRoute,
-        private _settingService: SettingService
+        private _settingService: SettingService,
+        private _toasterServise: ToasterService
     ) { }
 
     public ngOnInit() {
@@ -35,34 +33,21 @@ export class SettingComponent implements OnInit {
                 this.loginStock = _.find(this.setting, (o) => o.code === "loginStock");
                 this.passwordStock = _.find(this.setting, (o) => o.code === "passwordStock");
                 this.cartText = _.find(this.setting, (o) => o.code === "cartText");
+                this.productText = _.find(this.setting, (o) => o.code === "productText");
                 this.orderComment = _.find(this.setting, (o) => o.code === "orderComment");
-            }
-        )
-    }
-    public saveAll() {
-        this._settingService.setSetting(this.setting).subscribe(
-            result => {
-                alert(1);
-            },
-            error =>{
-                alert(2);
             }
         );
     }
-    public save(editor: any) {
-        console.log("save");
-        console.log(editor);
+
+    public saveAll() {
+        this._settingService.setSetting(this.setting).subscribe(
+            result => {
+                this._toasterServise.pop("success", result.title, result.text);
+            },
+            error => {
+                console.log(error);
+            }
+        );
     }
-    public onReady(editor: any) {
-        console.log("onReady");
-        console.log(editor);
-    }
-    public onFocus(editor: any) {
-        console.log("onFocus");
-        console.log(editor);
-    }
-    public onBlur(editor: any) {
-        console.log("onBlur");
-        console.log(editor);
-    }
+
 }

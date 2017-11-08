@@ -8,6 +8,7 @@ import { PositionsModule } from "../components/positions/positions.module";
 import { CartRoutingModule } from "./cart-routing.module";
 import { CartResolverService } from "./cart-resolver.service";
 import { AllUsersResolverService } from "../user/all-users-resolve.service";
+import { CartTextResolverService } from "./cart-resolver-text.service";
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { AllUsersResolverService } from "../user/all-users-resolve.service";
     providers: [
         OrdersService,
         CartResolverService,
-        AllUsersResolverService
+        AllUsersResolverService,
+        CartTextResolverService
     ]
 })
 export class CartModule { }

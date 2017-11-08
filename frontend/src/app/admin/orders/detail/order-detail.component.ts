@@ -1,9 +1,9 @@
-import { IOrder } from '../orders.component';
-import { IProduct } from '../../components/positions/position.service';
+import { IOrder } from "../orders.component";
+import { IProduct } from "../../components/positions/position.service";
 import { ActivatedRoute } from "@angular/router";
 import { Component, OnInit } from "@angular/core";
 
-import { OrdersService } from '../orders.service';
+import { OrdersService } from "../orders.service";
 
 
 @Component({
@@ -20,7 +20,7 @@ export class OrderDetailComponent implements OnInit {
     ) { }
 
     public ngOnInit() {
-        this.order = this._route.snapshot.data['order'];
-        this.products = this._route.snapshot.data['order'].products;
+        this.order = this._route.snapshot.data["order"];
+        this.products = this._route.snapshot.data["order"].products;
     }
 }

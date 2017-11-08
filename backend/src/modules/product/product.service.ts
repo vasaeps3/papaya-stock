@@ -13,6 +13,14 @@ export class ProductService {
         private _commonServise: CommonService
     ) { }
 
+    public async loadDesc(product: IProduct) {
+        let options = _.cloneDeep(await this._commonServise.getOptions());
+        options.uri += "/entity/product/" + product.id;
+        let newProduct: IProduct = JSON.parse(await request(options));
+        product.description = newProduct.description || null;
+        return product;
+    }
+
     public async loadImage(product: IProduct) {
         let options = _.cloneDeep(await this._commonServise.getOptions());
         options.uri = product.image;
@@ -24,11 +32,14 @@ export class ProductService {
             });
     }
 
-    public async getStockAllProduct(limit?: number, offset?: number) {
+    public async getStockAllProduct(limit?: number, offset?: number, search?: string) {
         let options = _.cloneDeep(await this._commonServise.getOptions());
         let limitStr = "";
         if (limit) {
             limitStr = "&limit=" + limit + "&offset=" + offset;
+        }
+        if (search) {
+            limitStr += "&search=" + encodeURI(search);
         }
         options.uri += "/report/stock/all?groupBy=product&stockMode=positiveOnly" + limitStr;
         console.log(options.uri);

@@ -9,7 +9,7 @@ export class DashboardService {
     ) { }
 
     public getAllCounter() {
-        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        const headers = new HttpHeaders({ "Content-Type": "application/json" });
         const options = { headers: headers };
         return this._httpClient.get("/api/counterparty/", options);
     }

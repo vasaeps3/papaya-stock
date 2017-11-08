@@ -27,4 +27,9 @@ export class SettingService {
     public async setSetting(settings: Setting[]): Promise<Setting[]> {
         return (await this.repository).save(settings);
     }
+
+    public async getOnly(settingCode: string): Promise<Setting> {
+        return (await this.repository).findOne({ select: ["value"], where: { code: settingCode } });
+    }
+
 }

@@ -10,18 +10,19 @@ import { AuthService } from "../../../_auth/auth.service";
 })
 export class SidebarComponent implements OnInit {
     public isAdmin: boolean = false;
+    public isActive = false;
+    public showMenu = "";
+
     constructor(
         private _authService: AuthService
     ) { }
-    isActive = false;
-    showMenu = "";
 
     public ngOnInit(): void {
         console.log(this._authService.isAdmin());
         this.isAdmin = this._authService.isAdmin();
     }
 
-    eventCalled() {
+    public eventCalled() {
         this.isActive = !this.isActive;
     }
 

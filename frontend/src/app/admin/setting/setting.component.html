@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-lg-8">
+    <div class="col-lg-10">
         <div class="card card-default mb-3">
             <div class="card-header">
                 <i class="fa fa-user-plus fa-fw"></i> Данные к системе МойСклад!
@@ -17,7 +17,8 @@
                         </div>
                         <div class="form-group" [ngClass]="{has_success:(password.touched || password.dirty) && !password.errors, has_danger: (password.touched || password.dirty) && password.errors}">
                             <label for="passwordStock" class="form-control-label">Пароль</label>
-                            <input type="text" class="form-control" id="passwordStock" required name="passwordStock" [(ngModel)]="passwordStock.value" #password="ngModel">
+                            <input type="text" class="form-control" id="passwordStock" required name="passwordStock" [(ngModel)]="passwordStock.value"
+                                #password="ngModel">
                             <div class="help-block help-block-danger" *ngIf="(password.touched || password.dirty) && password.errors">
                                 <span *ngIf="password.errors && password.errors.required">Логин - обязательное поле</span>
                             </div>
@@ -29,14 +30,40 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-8">
+    <div class="col-lg-10">
         <div class="card card-default mb-3">
             <div class="card-header">
-                <i class="fa fa-user-plus fa-fw"></i> Текст в корзине
+                <i class="fa fa-dashboard fa-fw"></i> Текст в каталоге
+            </div>
+            <div class="card-block">
+                <ckeditor [(ngModel)]="productText.value" [readonly]="false" debounce="500">
+                </ckeditor>
+                <button class="btn btn-success mt-3" type="submit" (click)="saveAll()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-10">
+        <div class="card card-default mb-3">
+            <div class="card-header">
+                <i class="fa fa-shopping-cart fa-fw"></i> Текст в корзине
             </div>
             <div class="card-block">
                 <ckeditor [(ngModel)]="cartText.value" [readonly]="false" debounce="500">
                 </ckeditor>
+                <button class="btn btn-success mt-3" type="submit" (click)="saveAll()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-10">
+        <div class="card card-default mb-3">
+            <div class="card-header">
+                <i class="fa fa-bar-chart-o fa-fw"></i> Первичный комментарий к заказу
+            </div>
+            <div class="card-block">
+                <div class="form-group">
+                    <label>Комментарий</label>
+                    <textarea class="form-control" [(ngModel)]="orderComment.value" rows="4"></textarea>
+                </div>
                 <button class="btn btn-success mt-3" type="submit" (click)="saveAll()">Сохранить</button>
             </div>
         </div>

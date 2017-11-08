@@ -11,6 +11,7 @@ import { PositionsService } from "./components/positions/position.service";
 import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import { AdminRoutingModule } from "./admin-routing.module";
 import { AdminResolverService } from "./admin-resolve.service";
+import { SettingService } from "./setting/setting.service";
 
 
 @NgModule({
@@ -24,6 +25,11 @@ import { AdminResolverService } from "./admin-resolve.service";
         HeaderComponent,
         SidebarComponent
     ],
-    providers: [PositionsService, AuthService, AdminResolverService]
+    providers: [
+        PositionsService,
+        AuthService,
+        AdminResolverService,
+        SettingService
+    ]
 })
 export class AdminModule { }

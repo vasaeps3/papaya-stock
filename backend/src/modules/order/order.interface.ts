@@ -6,6 +6,7 @@ export interface IStockOrder {
     };
     id: string;
     name: string;
+    description?: string;
     sum: number;
     reservedSum: number;
     state: {

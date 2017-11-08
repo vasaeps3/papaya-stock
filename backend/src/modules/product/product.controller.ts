@@ -17,6 +17,7 @@ export class ProductController {
         let productsStr: string = this.getStrProductsId(products);
         let productsStock: IStockEntity[] = await this._productService.getProductsById(productsStr);
         products = this.convertProducts(productsStock);
+        products = await this.loadDesc(products);
         products = await this.loadImages(products);
         products = await this.addPositionsFromProduct(products);
         res.status(HttpStatus.OK).json(products);
@@ -26,13 +27,24 @@ export class ProductController {
     public async getStockAllProduct( @Res() res: Response, @Query() query?: any) {
         let limit: number = +query.limit || 0;
         let offset: number = +query.offset || 0;
-        let productsStock: IStockEntity[] = await this._productService.getStockAllProduct(limit, offset);
+        let search: string = query.search && query.search + "" || null;
+        let productsStock: IStockEntity[] = await this._productService.getStockAllProduct(limit, offset, search);
         let products: IProduct[] = this.convertProducts(productsStock);
+        products = await this.loadDesc(products);
         products = await this.loadImages(products);
         products = await this.addPositionsFromProduct(products);
+        products = _.each(products, (o) => { _.filter(o.positions, (v) => v.quantity > 0); });
         res.status(HttpStatus.OK).json(products);
     }
 
+    private loadDesc(products: IProduct[]) {
+        let _productService = this._productService;
+        return bluebird.Promise.map(products, function (product) {
+            return _productService.loadDesc(product);
+        }).then(function (result) {
+            return result;
+        });
+    }
 
     private loadImages(products: IProduct[]) {
         let _productService = this._productService;
@@ -52,6 +64,7 @@ export class ProductController {
                 image: productStock.image.miniature.href,
                 article: productStock.article,
                 stock: 0,
+                quantityStock: productStock.quantity,
                 salePrice: productStock.salePrice,
                 positions: []
             };
@@ -62,7 +75,7 @@ export class ProductController {
 
     private async addPositionsFromProduct(products: IProduct[]) {
         let positionsStock: IStockEntity[] = await this._productService.getStockAllVariants(this.getStrProductsId(products));
-        _.each(positionsStock, function (positionStock) {
+        _.each(_.filter(positionsStock, (o) => o.quantity > 0), function (positionStock) {
             let productNow: IProduct = _.find(products, function (product) {
                 return product.article === positionStock.article;
             });
@@ -85,4 +98,5 @@ export class ProductController {
         });
         return str;
     }
+
 }

@@ -32,7 +32,5 @@ export class OrdersComponent implements OnInit {
     public ngOnInit() {
         this.orders = this._route.snapshot.data["orders"];
     }
-    public qwe() {
-        this._toasterServise.pop("success", "Args Title!!!", "Args Body");
-    }
+
 }
