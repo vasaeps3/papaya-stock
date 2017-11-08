@@ -44,6 +44,7 @@
     "jasmine-core": "~2.8.0",
     "jasmine-spec-reporter": "~4.2.1",
     "protractor": "~5.1.2",
+    "sass": "^1.0.0-beta.3",
     "ts-node": "~3.3.0",
     "tslint": "~5.7.0",
     "typescript": "^2.3.4"
