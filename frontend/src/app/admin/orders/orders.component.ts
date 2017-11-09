@@ -9,6 +9,7 @@ export interface IOrder {
     sum: number;
     reservedSum: number;
     description?: string;
+    quantity?: number;
     state: {
         name: string;
         color: number;
