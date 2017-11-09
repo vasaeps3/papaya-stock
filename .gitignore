@@ -2,3 +2,4 @@
 **/built
 **/dist
 ./backend/ormconfig.json
+backend/ormconfig.json
