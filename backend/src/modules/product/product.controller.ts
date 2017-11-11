@@ -61,7 +61,7 @@ export class ProductController {
             let product: IProduct = {
                 id: _.split(_.last(_.split(productStock.meta.href, "/")), "?")[0],
                 name: productStock.name,
-                image: productStock.image.miniature.href,
+                image: productStock.image && productStock.image.miniature.href || null,
                 article: productStock.article,
                 stock: 0,
                 quantityStock: productStock.quantity,
