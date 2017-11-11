@@ -32,7 +32,7 @@ export class OrderController {
                 product = {
                     id: positionFromOrder.assortment.product.id,
                     name: positionFromOrder.assortment.product.name,
-                    image: positionFromOrder.assortment.product.image.miniature.href,
+                    image: positionFromOrder.assortment.product.image && positionFromOrder.assortment.product.image.miniature.href || null,
                     article: positionFromOrder.assortment.product.article,
                     salePrice: positionFromOrder.price,
                     quantity: 0,

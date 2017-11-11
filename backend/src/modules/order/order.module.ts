@@ -6,12 +6,14 @@ import { LoggingMiddleware } from "../../middleware/logging.middleware";
 import { AuthorizeMiddleware } from "../../middleware/authorize.middleware";
 import { SettingService } from "../setting/setting.service";
 import { SettingModule } from "../setting/setting.module";
+import { CommonService } from "../../common/common.service";
+import { CommonModule } from "../../common/common.module";
 
 
 @Module({
-    modules: [SettingModule],
+    modules: [SettingModule, CommonModule],
     controllers: [OrderController],
-    components: [OrderService, { provide: SettingService }]
+    components: [OrderService, { provide: [SettingService, CommonService] }]
 })
 export class OrderModule {
     public configure(consumer: MiddlewaresConsumer) {
