@@ -35,7 +35,10 @@ export class CommonService {
         private readonly _settingService: SettingService
     ) { }
 
-    public async getOptions(): Promise<IOptions> {
+    public async getOptions(reload?: boolean): Promise<IOptions> {
+        if (this._options && !reload) {
+            return this._options;
+        }
         let setting = await this._settingService.getSetting();
         let loginStock = _.find(setting, (o) => o.code === "loginStock").value;
         let passwordStock = _.find(setting, (o) => o.code === "passwordStock").value;

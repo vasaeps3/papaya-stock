@@ -44,7 +44,7 @@ export class ProductService {
         if (search) {
             limitStr += "&search=" + encodeURI(search);
         }
-        options.uri += "/report/stock/all?groupBy=product&stockMode=positiveOnly" + limitStr;
+        options.uri += "/report/stock/all?productFolder.id=24ea1069-c6f2-11e7-6b01-4b1d00078413&groupBy=product&stockMode=all" + limitStr;
         console.log(options.uri);
         return JSON.parse(await request(options)).rows;
     }
@@ -63,7 +63,8 @@ export class ProductService {
 
     public async getStockAllVariants(str: string) {
         let options = _.cloneDeep(await this._commonServise.getOptions());
-        options.uri += "/report/stock/all?groupBy=variant&includeRelated=true" + str;
+        options.uri += "/report/stock/all?stockMode=all&groupBy=variant&includeRelated=true" + str;
+        console.log(options.uri);
         return JSON.parse(await request(options)).rows;
     }
 

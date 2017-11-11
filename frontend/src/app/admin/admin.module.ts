@@ -12,6 +12,7 @@ import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import { AdminRoutingModule } from "./admin-routing.module";
 import { AdminResolverService } from "./admin-resolve.service";
 import { SettingService } from "./setting/setting.service";
+import { AdminGuard } from "../_auth/admin.guard";
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { SettingService } from "./setting/setting.service";
         PositionsService,
         AuthService,
         AdminResolverService,
-        SettingService
+        SettingService,
+        AdminGuard
     ]
 })
 export class AdminModule { }

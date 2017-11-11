@@ -4,6 +4,8 @@ import { Module, MiddlewaresConsumer, RequestMethod } from "@nestjs/common";
 import { DatabaseModule } from "../database/database.module";
 import { SettingService } from "./setting.service";
 import { SettingController } from "./setting.controller";
+import { AuthorizeMiddleware } from "../../middleware/authorize.middleware";
+import { LoggingMiddleware } from "../../middleware/logging.middleware";
 
 
 @Module({
@@ -13,11 +15,11 @@ import { SettingController } from "./setting.controller";
     exports: [SettingService]
 })
 export class SettingModule {
-    // public configure(consumer: MiddlewaresConsumer) {
-    //     consumer
-    //         .apply(AuthorizeMiddleware)
-    //         .forRoutes(OrderController)
-    //         .apply(LoggingMiddleware)
-    //         .forRoutes(OrderController);
-    // }
+    public configure(consumer: MiddlewaresConsumer) {
+        consumer
+            .apply(AuthorizeMiddleware)
+            .forRoutes(SettingController)
+            .apply(LoggingMiddleware)
+            .forRoutes(SettingController);
+    }
 }

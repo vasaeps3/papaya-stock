@@ -69,6 +69,7 @@ export class OrderController {
         let stockOrders: IStockOrder[] = await this._orderService.getAll(agentId);
         let orders: IOrder[] = [];
         _.each(stockOrders, function (stockOrder) {
+            console.log(stockOrder.sum);
             let order: IOrder = {
                 id: stockOrder.id,
                 name: stockOrder.name,

@@ -13,8 +13,7 @@ import { PositionsService, IPosition, IProduct } from "../components/positions/p
 })
 export class ProductsComponent implements OnInit {
     public limit: number = 5;
-    public page: number = 0;
-    public offset = this.limit * this.page;
+    public offset: number = 0;
 
     public loadingProducts: boolean = false;
     public loadAll: boolean = false;
@@ -43,9 +42,8 @@ export class ProductsComponent implements OnInit {
         this._activatedRouter.queryParams.subscribe(
             queryParams => {
                 this.search = queryParams["search"] || null;
-                this.page = 0;
                 this.loadAll = false;
-                this.offset = this.limit * this.page;
+                this.offset = 0;
                 this.getAllProduct(true);
             }
         );
@@ -55,7 +53,7 @@ export class ProductsComponent implements OnInit {
         this.loadingProducts = true;
         this._productsService.getAll(this.limit, this.offset, this.search).subscribe(
             result => {
-                let loadProduct: IProduct[] = this._positionsService.mergeProductsWithLocal(result);
+                let loadProduct: IProduct[] = this._positionsService.mergeProductsWithLocal(result.products);
                 if (loadProduct.length < this.limit) {
                     this.loadAll = true;
                 }
@@ -63,6 +61,7 @@ export class ProductsComponent implements OnInit {
                     this.products = [];
                 }
                 this.products.push(..._.filter(loadProduct, (o) => o.quantityStock > 0));
+                this.offset = result.offset;
                 this.loadingProducts = false;
             }
         );
@@ -72,8 +71,7 @@ export class ProductsComponent implements OnInit {
         if (this.loadingProducts || this.loadAll) {
             return;
         }
-        this.page++;
-        this.offset = this.limit * this.page;
+        this.offset += this.limit;
         this.getAllProduct();
     }
 

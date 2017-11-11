@@ -28,15 +28,34 @@ export class ProductController {
         let limit: number = +query.limit || 0;
         let offset: number = +query.offset || 0;
         let search: string = query.search && query.search + "" || null;
-        let productsStock: IStockEntity[] = await this._productService.getStockAllProduct(limit, offset, search);
+        // Получаем все товары с указанным ограничением
+        // limit = ограничение
+        // offet = смещение, новое смещение необходимо будет вернуть на front
+        let loadAll: boolean = false; // Признак того что загружены все товары
+        let productsStock: IStockEntity[] = [];
+
+        while (productsStock.length < limit) {
+            let loaderProductsStock: IStockEntity[] = await this.loadProduct(limit, offset, search);
+            if (loaderProductsStock.length == 0) {
+                loadAll = true;
+                break;
+            }
+            productsStock.push(...loaderProductsStock);
+            if (productsStock.length < limit) {
+                offset += limit;
+            }
+        }
         let products: IProduct[] = this.convertProducts(productsStock);
         products = await this.loadDesc(products);
         products = await this.loadImages(products);
         products = await this.addPositionsFromProduct(products);
         products = _.each(products, (o) => { _.filter(o.positions, (v) => v.quantity > 0); });
-        res.status(HttpStatus.OK).json(products);
+        res.status(HttpStatus.OK).json({ offset: offset, products: products });
     }
-
+    private async loadProduct(limit, offset, search): Promise<IStockEntity[]> {
+        let productsStock: IStockEntity[] = await this._productService.getStockAllProduct(limit, offset, search);
+        return _.filter(productsStock, (o) => o.quantity > 0);
+    }
     private loadDesc(products: IProduct[]) {
         let _productService = this._productService;
         return bluebird.Promise.map(products, function (product) {

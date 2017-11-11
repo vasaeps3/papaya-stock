@@ -28,7 +28,7 @@
                 </ul>
             </li>
         </div>
-        <a [routerLink]="['setting']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a  *ngIf="isAdmin" [routerLink]="['setting']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <span><i class="fa fa-fw fa-wrench"></i>&nbsp;Настройки</span>
         </a>
     </ul>
