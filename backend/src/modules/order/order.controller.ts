@@ -120,9 +120,20 @@ export class OrderController {
                     "mediaType": "application/json"
                 }
             },
+            "rate": {
+                "currency": {
+                    "meta": {
+                        "href": "https://online.moysklad.ru/api/remap/1.1/entity/currency/a67a3072-0efc-11e7-7a31-d0fd000f6806",
+                        "metadataHref": "https://online.moysklad.ru/api/remap/1.1/entity/currency/metadata",
+                        "type": "currency",
+                        "mediaType": "application/json"
+                    }
+                }
+            },
             "description": descriptionOrder && descriptionOrder.value || null,
             "positions": []
         };
+        console.log(newOrderBody);
         _.each(products, function (product) {
             _.each(product.positions, function (position) {
                 if (position.quantity > 0) {
