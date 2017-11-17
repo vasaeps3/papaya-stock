@@ -7,6 +7,8 @@ import { OrderService } from "./order.service";
 import { IOrder, IStockOrder } from "./order.interface";
 import { IPosition, IProduct } from "../product/product.interface";
 import { SettingService } from "../setting/setting.service";
+import { UserService } from "../user/user.service";
+import { User } from "../user/user.entity";
 
 
 @Controller("order")
@@ -14,7 +16,8 @@ export class OrderController {
 
     constructor(
         private _orderService: OrderService,
-        private _settingService: SettingService
+        private _settingService: SettingService,
+        private _userService: UserService
     ) { }
 
     @Get("get")
@@ -34,7 +37,7 @@ export class OrderController {
                     name: positionFromOrder.assortment.product.name,
                     image: positionFromOrder.assortment.product.image && positionFromOrder.assortment.product.image.miniature.href || null,
                     article: positionFromOrder.assortment.product.article,
-                    salePrice: positionFromOrder.price,
+                    salePrice: positionFromOrder.price / 100,
                     quantity: 0,
                     positions: []
                 };
@@ -42,7 +45,7 @@ export class OrderController {
             }
             let position: IPosition = {
                 id: positionFromOrder.assortment.id,
-                salePrice: positionFromOrder.price,
+                salePrice: positionFromOrder.price / 100,
                 size: +positionFromOrder.assortment.name.match(/\(([^\]]+)\)/ig).map(n => n.slice(1, -1))[0],
                 quantity: positionFromOrder.quantity
             };
@@ -52,12 +55,14 @@ export class OrderController {
         });
         products = await this.loadImages(products);
 
-        let order: IOrder = await this._orderService.getOrderById(orderId);
-        order = _.pick(order, ["id", "name", "sum", "reservedSum", "state", "updated", "created", "description"]);
+        let orderStock: IStockOrder = await this._orderService.getOrderById(orderId);
+        let order: IOrder = _.pick(orderStock, ["id", "name", "sum", "state", "updated", "created", "description"]);
         order.state = {
-            name: order.state.name,
-            color: order.state.color
+            name: orderStock.state.name,
+            color: orderStock.state.color
         };
+        order.sum = order.sum / 100;
+        order.currencyCode = orderStock.rate.currency.name;
         order.quantity = quantityItemOrder;
         order.products = products;
         res.status(HttpStatus.OK).json(order);
@@ -67,15 +72,17 @@ export class OrderController {
     public async getAll( @Req() req: Request, @Res() res: Response) {
         let agentId: string = req["token"].stockId || null;
         let stockOrders: IStockOrder[] = await this._orderService.getAll(agentId);
+        console.log(stockOrders[0]);
         let orders: IOrder[] = [];
         _.each(stockOrders, function (stockOrder) {
-            console.log(stockOrder.sum);
             let order: IOrder = {
                 id: stockOrder.id,
                 name: stockOrder.name,
-                sum: stockOrder.sum,
+                sum: stockOrder.sum / 100,
                 description: stockOrder.description || null,
                 reservedSum: stockOrder.reservedSum,
+                currencyCode: stockOrder.rate.currency.name,
+                currencyId: _.last(_.split(stockOrder.rate.currency.meta.href, "/")),
                 state: {
                     name: stockOrder.state.name,
                     color: stockOrder.state.color
@@ -95,6 +102,8 @@ export class OrderController {
         if (req["token"].isAdmin) {
             agentId = body.agentId || null;
         }
+        let user: User = await this._userService.getUserByStockId(agentId);
+        let currencyId: string = user.currencyId;
         let organizationId = await this._orderService.getOrganizationId();
         let lastOrder = await this._orderService.getLastOrder();
         let descriptionOrder = await this._settingService.getOnly("orderComment");
@@ -123,7 +132,7 @@ export class OrderController {
             "rate": {
                 "currency": {
                     "meta": {
-                        "href": "https://online.moysklad.ru/api/remap/1.1/entity/currency/a67a3072-0efc-11e7-7a31-d0fd000f6806",
+                        "href": "https://online.moysklad.ru/api/remap/1.1/entity/currency/" + currencyId,
                         "metadataHref": "https://online.moysklad.ru/api/remap/1.1/entity/currency/metadata",
                         "type": "currency",
                         "mediaType": "application/json"
@@ -133,13 +142,13 @@ export class OrderController {
             "description": descriptionOrder && descriptionOrder.value || null,
             "positions": []
         };
-        console.log(newOrderBody);
+        let currencyStock = await this._orderService.getCurrencyById(currencyId);
         _.each(products, function (product) {
             _.each(product.positions, function (position) {
                 if (position.quantity > 0) {
                     let positionOrder = {
                         "quantity": position.quantity,
-                        "price": product.salePrice,
+                        "price": req["token"].isAdmin ? product.salePrice * currencyStock.rate * 100 : product.salePrice * 100,
                         "assortment": {
                             "meta": {
                                 "href": "https://online.moysklad.ru/api/remap/1.1/entity/variant/" + position.id,

@@ -28,13 +28,13 @@
                                                             <div class="total_price">
                                                                 <span class="tp_item">Цена: </span>
                                                                 <span class="tp_item tp_number">
-                                                                    <span class="tp_prop_color">{{ product.salePrice }} руб. (1 шт)</span>
+                                                                    <span class="tp_prop_color">{{ product.salePrice | number:'.2-2'}} {{product.codeCurrency}} (1 шт)</span>
                                                                 </span>
                                                             </div>
                                                             <div class="total_price">
                                                                 <span class="tp_item">Итого: </span>
                                                                 <span class="tp_item tp_number">
-                                                                    <span class="tp_prop_color">{{product.salePrice*(product.quantity || 0)}} руб. ({{product.quantity
+                                                                    <span class="tp_prop_color">{{product.salePrice*(product.quantity || 0) | number:'.2-2' }} {{product.codeCurrency}} ({{product.quantity
                                                                         || 0}} шт)</span>
                                                                 </span>
                                                             </div>
@@ -77,7 +77,7 @@
             <div [innerHTML]="cartText"></div>
             <div>
                 <p>Количество: {{summaryCount}} шт.</p>
-                <p>Сумма: {{summaryAmount}} руб.</p>
+                <p>Сумма: {{summaryAmount | number:'.2-2' }} {{codeCurrency}}</p>
             </div>
             <button [disabled]="createdOrder || summaryCount < 1 || (!chooseUser && isAdmin)" class="btn btn-success" (click)="createOrder()">Сделать заказ</button>
         </div>

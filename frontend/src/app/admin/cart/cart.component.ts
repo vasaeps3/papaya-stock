@@ -20,6 +20,7 @@ export class CartComponent implements OnInit {
     public isCartEmpty: boolean = true;
     public summaryCount: number = 0;
     public summaryAmount: number = 0;
+    public codeCurrency: string = "";
     public allUser: RegisterUser[];
     public isAdmin: boolean = false;
 
@@ -71,6 +72,7 @@ export class CartComponent implements OnInit {
         _.each(this.products, (product) => {
             this.summaryCount += product.quantity;
             this.summaryAmount += product.quantity * product.salePrice;
+            this.codeCurrency = product.codeCurrency;
         });
     }
 

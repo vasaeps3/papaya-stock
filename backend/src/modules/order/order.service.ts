@@ -28,10 +28,9 @@ export class OrderService {
             });
     }
 
-    // public async getDescriptionOrder
     public async getOrderById(orderId: string) {
         let options = _.cloneDeep(await this._commonServise.getOptions());
-        options.uri += "/entity/customerorder/" + orderId + "?expand=state";
+        options.uri += "/entity/customerorder/" + orderId + "?expand=state,rate.currency";
         console.log(options.uri);
         return JSON.parse(await request(options));
     }
@@ -39,16 +38,17 @@ export class OrderService {
     public async getPositionsByOrder(orderId: string) {
         let options = _.cloneDeep(await this._commonServise.getOptions());
         options.uri += "/entity/customerorder/" + orderId + "/positions?expand=assortment.product";
+        console.log(options.uri);
         return JSON.parse(await request(options)).rows;
     }
 
     public async getAll(agentId: string) {
         let options = _.cloneDeep(await this._commonServise.getOptions());
-        options.uri += "/entity/customerorder?order=created&direction=desc&expand=state";
+        options.uri += "/entity/customerorder?order=created&direction=desc&expand=state,rate.currency";
         if (agentId) {
             options.uri += "&filter=agent=https://online.moysklad.ru/api/remap/1.1/entity/counterparty/" + agentId;
         }
-
+        console.log(options.uri);
         return JSON.parse(await request(options)).rows;
     }
 
@@ -76,5 +76,11 @@ export class OrderService {
         let newOrder = JSON.parse(await request(options));
 
         return newOrder;
+    }
+
+    public async getCurrencyById(id: string) {
+        let options = _.cloneDeep(await this._commonServise.getOptions());
+        options.uri += "/entity/currency/" + id;
+        return JSON.parse(await request(options));
     }
 }

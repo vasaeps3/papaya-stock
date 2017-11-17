@@ -26,13 +26,13 @@
                                                             <div class="total_price">
                                                                 <span class="tp_item">Цена: </span>
                                                                 <span class="tp_item tp_number">
-                                                                    <span class="tp_prop_color">{{ product.salePrice }} руб. (1 шт)</span>
+                                                                    <span class="tp_prop_color">{{ product.salePrice | number:'.2-2' }} {{order.currencyCode}} (1 шт)</span>
                                                                 </span>
                                                             </div>
                                                             <div class="total_price">
                                                                 <span class="tp_item">Итого: </span>
                                                                 <span class="tp_item tp_number">
-                                                                    <span class="tp_prop_color">{{product.salePrice*(product.quantity || 0)}} руб. ({{product.quantity || 0}} шт)</span>
+                                                                    <span class="tp_prop_color">{{product.salePrice*(product.quantity || 0) | number:'.2-2' }} {{order.currencyCode}} ({{product.quantity || 0}} шт)</span>
                                                                 </span>
                                                             </div>
                                                         </tr>
@@ -52,7 +52,7 @@
     <div class="col-lg-4">
         <div class="jumbotron">
             <h2>Доброго времени суток!</h2>
-            <p>Ваш заказ <b>№ {{order.name}}</b> на общую сумму <b>{{order.sum}} руб.</b> на <b>{{order.quantity}}</b> единиц товара.</p>
+            <p>Ваш заказ <b>№ {{order.name}}</b> на общую сумму <b>{{order.sum | number:'.2-2'}} {{order.currencyCode}}</b> на <b>{{order.quantity}}</b> единиц товара.</p>
             <p>Статус Вашего заказа: <b>{{order.state.name}}</b></p>
             <div *ngIf="order.description">
                 <p>Допонительная информация:</p>

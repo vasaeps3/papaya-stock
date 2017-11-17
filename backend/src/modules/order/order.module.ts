@@ -8,12 +8,27 @@ import { SettingService } from "../setting/setting.service";
 import { SettingModule } from "../setting/setting.module";
 import { CommonService } from "../../common/common.service";
 import { CommonModule } from "../../common/common.module";
+import { UserModule } from "../user/user.module";
+import { UserService } from "../user/user.service";
 
 
 @Module({
-    modules: [SettingModule, CommonModule],
+    modules: [
+        UserModule,
+        SettingModule,
+        CommonModule
+    ],
     controllers: [OrderController],
-    components: [OrderService, { provide: [SettingService, CommonService] }]
+    components: [
+        OrderService,
+        {
+            provide: [
+                UserService,
+                SettingService,
+                CommonService
+            ]
+        }
+    ]
 })
 export class OrderModule {
     public configure(consumer: MiddlewaresConsumer) {

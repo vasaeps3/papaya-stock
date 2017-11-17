@@ -16,6 +16,8 @@ export interface IOrder {
     };
     updated: Date;
     created: Date;
+    currencyCode?: string;
+    currencyId?: string;
 }
 
 @Component({

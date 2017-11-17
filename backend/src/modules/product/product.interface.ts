@@ -9,6 +9,7 @@ export interface IProduct {
     quantityStock?: number;
     description?: string;
     positions?: IPosition[];
+    codeCurrency?: string;
 }
 
 export interface IPosition {

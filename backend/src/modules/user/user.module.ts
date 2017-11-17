@@ -15,6 +15,7 @@ import { AuthorizeMiddleware } from "../../middleware/authorize.middleware";
     modules: [DatabaseModule, CommonModule],
     controllers: [UserController],
     components: [UserService, { provide: CommonService }],
+    exports: [UserService]
 })
 export class UserModule {
     public configure(consumer: MiddlewaresConsumer) {

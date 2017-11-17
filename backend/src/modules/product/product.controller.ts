@@ -1,11 +1,12 @@
 import * as _ from "lodash";
 import { Response, Request } from "express";
-import { Body, Controller, Get, HttpStatus, Post, Query, Res } from "@nestjs/common";
+import { Body, Controller, Get, HttpStatus, Post, Query, Res, Req } from "@nestjs/common";
 import * as bluebird from "bluebird";
 
 import { ProductService } from "./product.service";
 import { IProduct, IPosition, IStockEntity } from "./product.interface";
 import { SettingService } from "../setting/setting.service";
+import { UserService } from "../user/user.service";
 
 
 @Controller("product")
@@ -13,14 +14,17 @@ export class ProductController {
 
     constructor(
         private _productService: ProductService,
-        private _settingService: SettingService
+        private _settingService: SettingService,
+        private _userService: UserService
     ) { }
 
     @Post()
-    public async getProductsById( @Res() res: Response, @Body() products: Array<IProduct>) {
+    public async getProductsById( @Req() req: Request, @Res() res: Response, @Body() products: Array<IProduct>) {
         let productsStr: string = this.getStrProductsId(products);
+        let token = req["token"];
         let productsStock: IStockEntity[] = await this._productService.getProductsById(productsStr);
         products = this.convertProducts(productsStock);
+        products = await this.convertToCurrency(products, token);
         products = await this.loadDesc(products);
         products = await this.loadImages(products);
         products = await this.addPositionsFromProduct(products);
@@ -28,10 +32,11 @@ export class ProductController {
     }
 
     @Get()
-    public async getStockAllProduct( @Res() res: Response, @Query() query?: any) {
+    public async getStockAllProduct( @Req() req: Request, @Res() res: Response, @Query() query?: any) {
         let limit: number = +query.limit || 0;
         let offset: number = +query.offset || 0;
         let search: string = query.search && query.search + "" || null;
+        let token = req["token"];
         // Получаем все товары с указанным ограничением
         // limit = ограничение
         // offet = смещение, новое смещение необходимо будет вернуть на front
@@ -50,11 +55,31 @@ export class ProductController {
             }
         }
         let products: IProduct[] = this.convertProducts(productsStock);
+        products = await this.convertToCurrency(products, token);
         products = await this.loadDesc(products);
         products = await this.loadImages(products);
         products = await this.addPositionsFromProduct(products);
         products = _.each(products, (o) => { _.filter(o.positions, (v) => v.quantity > 0); });
         res.status(HttpStatus.OK).json({ offset: offset, products: products });
+    }
+
+    private async convertToCurrency(products: IProduct[], token) {
+        let currencyStock: any;
+        if (!token.isAdmin) {
+            let user = await this._userService.getById(token.id);
+            if (user.currencyId) {
+                currencyStock = await this._productService.getCurrencyById(user.currencyId);
+            } else {
+                currencyStock = await this._productService.getDefaultCurrency();
+            }
+        } else {
+            currencyStock = await this._productService.getDefaultCurrency();
+        }
+        _.each(products, function (product) {
+            product.codeCurrency = currencyStock.name;
+            product.salePrice = (product.salePrice / 100) * currencyStock.rate;
+        });
+        return products;
     }
 
     private async loadProduct(limit, offset, search, folderId): Promise<IStockEntity[]> {

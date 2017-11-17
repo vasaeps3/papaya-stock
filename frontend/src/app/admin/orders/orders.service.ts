@@ -29,8 +29,6 @@ export class OrdersService {
             agentId: agentId,
             products: products
         });
-        console.log(body);
-        let qwerty: Observable<any> = this._httpClient.post("/api/order/", body);
-        return qwerty;
+        return this._httpClient.post("/api/order/", body);
     }
 }

@@ -15,6 +15,14 @@ export interface IStockOrder {
     };
     updated: Date;
     created: Date;
+    rate: {
+        currency: {
+            meta: {
+                href: string;
+            },
+            name: string;
+        }
+    }
 }
 
 export interface IOrder {
@@ -31,4 +39,6 @@ export interface IOrder {
     updated?: Date;
     created?: Date;
     products?: IProduct[];
+    currencyCode?: string;
+    currencyId?: string;
 }

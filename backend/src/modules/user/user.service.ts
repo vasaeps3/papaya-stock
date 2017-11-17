@@ -55,4 +55,12 @@ export class UserService {
         return JSON.parse(await request(options)).rows;
     }
 
+    public async getById(id: number) {
+        return (await this.repository).findOneById(id, { select: ["id", "name", "stockId", "currencyId"] });
+    }
+
+    public async getUserByStockId(stockId: string) {
+        return (await this.repository).findOne({ select: ["currencyId"], where: { stockId: stockId } });
+    }
+
 }
