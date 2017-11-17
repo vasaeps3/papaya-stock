@@ -1,3 +1,4 @@
+import * as _ from "lodash";
 import { Response, Request } from "express";
 import { Body, Controller, Get, HttpStatus, Post, Req, Res, Query } from "@nestjs/common";
 
@@ -22,7 +23,9 @@ export class SettingController {
     @Get()
     public async getAll( @Req() req: Request, @Res() res: Response) {
         let settings: Setting[] = await this._settingService.getSetting();
-        res.status(HttpStatus.OK).json(settings);
+        let foldersStock = await this._settingService.getProductsFolder();
+        let folders = _.map(foldersStock, (f) => { return _.pick(f, ["id", "name"]); });
+        res.status(HttpStatus.OK).json({ settings: settings, folders: folders });
     }
 
     @Post()

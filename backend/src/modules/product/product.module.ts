@@ -6,12 +6,14 @@ import { ProductService } from "./product.service";
 import { ProductController } from "./product.controller";
 import { LoggingMiddleware } from "../../middleware/logging.middleware";
 import { AuthorizeMiddleware } from "../../middleware/authorize.middleware";
+import { SettingModule } from "../setting/setting.module";
+import { SettingService } from "../setting/setting.service";
 
 
 @Module({
-    modules: [CommonModule],
+    modules: [SettingModule, CommonModule],
     controllers: [ProductController],
-    components: [ProductService, { provide: CommonService }]
+    components: [ProductService, { provide: [SettingService, CommonService] }]
 })
 export class ProductModule {
     public configure(consumer: MiddlewaresConsumer) {

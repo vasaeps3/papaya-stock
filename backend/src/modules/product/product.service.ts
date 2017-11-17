@@ -35,16 +35,17 @@ export class ProductService {
             });
     }
 
-    public async getStockAllProduct(limit?: number, offset?: number, search?: string) {
+    public async getStockAllProduct(limit?: number, offset?: number, search?: string, folderId?: string) {
         let options = _.cloneDeep(await this._commonServise.getOptions());
         let limitStr = "";
+        let folderStr = folderId && "&productFolder.id=" + folderId || "";
         if (limit) {
             limitStr = "&limit=" + limit + "&offset=" + offset;
         }
         if (search) {
             limitStr += "&search=" + encodeURI(search);
         }
-        options.uri += "/report/stock/all?productFolder.id=24ea1069-c6f2-11e7-6b01-4b1d00078413&groupBy=product&stockMode=all" + limitStr;
+        options.uri += "/report/stock/all?groupBy=product&stockMode=all" + folderStr + limitStr;
         console.log(options.uri);
         return JSON.parse(await request(options)).rows;
     }

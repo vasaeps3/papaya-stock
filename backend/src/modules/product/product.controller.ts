@@ -5,12 +5,16 @@ import * as bluebird from "bluebird";
 
 import { ProductService } from "./product.service";
 import { IProduct, IPosition, IStockEntity } from "./product.interface";
+import { SettingService } from "../setting/setting.service";
 
 
 @Controller("product")
 export class ProductController {
 
-    constructor(private _productService: ProductService) { }
+    constructor(
+        private _productService: ProductService,
+        private _settingService: SettingService
+    ) { }
 
     @Post()
     public async getProductsById( @Res() res: Response, @Body() products: Array<IProduct>) {
@@ -33,14 +37,14 @@ export class ProductController {
         // offet = смещение, новое смещение необходимо будет вернуть на front
         let loadAll: boolean = false; // Признак того что загружены все товары
         let productsStock: IStockEntity[] = [];
-
+        let folderId = await this._settingService.getOnly("folderId");
         while (productsStock.length < limit) {
-            let loaderProductsStock: IStockEntity[] = await this.loadProduct(limit, offset, search);
+            let loaderProductsStock: IStockEntity[] = await this.loadProduct(limit, offset, search, folderId && folderId.value || null);
             if (loaderProductsStock.length == 0) {
                 loadAll = true;
                 break;
             }
-            productsStock.push(...loaderProductsStock);
+            productsStock.push(..._.filter(loaderProductsStock, (o) => o.quantity > 0));
             if (productsStock.length < limit) {
                 offset += limit;
             }
@@ -52,10 +56,11 @@ export class ProductController {
         products = _.each(products, (o) => { _.filter(o.positions, (v) => v.quantity > 0); });
         res.status(HttpStatus.OK).json({ offset: offset, products: products });
     }
-    private async loadProduct(limit, offset, search): Promise<IStockEntity[]> {
-        let productsStock: IStockEntity[] = await this._productService.getStockAllProduct(limit, offset, search);
-        return _.filter(productsStock, (o) => o.quantity > 0);
+
+    private async loadProduct(limit, offset, search, folderId): Promise<IStockEntity[]> {
+        return await this._productService.getStockAllProduct(limit, offset, search, folderId);
     }
+
     private loadDesc(products: IProduct[]) {
         let _productService = this._productService;
         return bluebird.Promise.map(products, function (product) {

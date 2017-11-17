@@ -17,12 +17,23 @@
                         </div>
                         <div class="form-group" [ngClass]="{has_success:(password.touched || password.dirty) && !password.errors, has_danger: (password.touched || password.dirty) && password.errors}">
                             <label for="passwordStock" class="form-control-label">Пароль</label>
-                            <input type="text" class="form-control" id="passwordStock" required name="passwordStock" [(ngModel)]="passwordStock.value"
-                                #password="ngModel">
+                            <input type="text" class="form-control" id="passwordStock" required name="passwordStock" [(ngModel)]="passwordStock.value" #password="ngModel">
                             <div class="help-block help-block-danger" *ngIf="(password.touched || password.dirty) && password.errors">
                                 <span *ngIf="password.errors && password.errors.required">Логин - обязательное поле</span>
                             </div>
                             <p class="help-block">Необходимо указать пароль админа для авторизации в МойСклад</p>
+                        </div>
+                        <div class="form-group" [ngClass]="{has_success:(folder.touched || folder.dirty) && !folder.errors, has_danger: (folder.touched || folder.dirty) && folder.errors}">
+                            <label for="folderId" class="form-control-label">Папка для отображения товаров</label>
+                            <select id="folderId" class="form-control" name="folderId" [(ngModel)]="folderId.value" required #folder="ngModel">
+                                <option  *ngFor="let folder of folders" [value]="folder.id">
+                                    {{folder.name}}
+                                </option>
+                            </select>
+                            <p class="help-block">Необходимо выбрать папку из выпадающего списка из которой будут грузиться товары в /admin/products</p>
+                            <div class="help-block help-block-danger" *ngIf="(folder.touched || folder.dirty) && folder.errors">
+                                <span *ngIf="folder.errors && folder.errors.required">Папка - обязательное поле</span>
+                            </div>
                         </div>
                         <button class="btn btn-success" type="submit" [disabled]="!stockFrom.valid">Сохранить</button>
                     </form>
