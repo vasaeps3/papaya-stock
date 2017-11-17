@@ -18,4 +18,7 @@ export class User extends EntityBase {
     @Column({ default: false })
     public isAdmin: boolean;
 
+    @Column({ nullable: true })
+    public currencyId: string;
+
 }

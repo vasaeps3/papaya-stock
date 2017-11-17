@@ -46,10 +46,10 @@ export class AuthService {
         return this.currentUser || null;
     }
 
-    public register(username: string, password: string): Observable<any> {
+    public register(username: string, password: string, currencyId: string): Observable<any> {
         const headers = new HttpHeaders({ "Content-Type": "application/json" });
         const options = { headers: headers };
-        const body = JSON.stringify({ name: username, password: password });
+        const body = JSON.stringify({ name: username, password: password, currencyId: currencyId });
         return this._httpClient.post("/api/user/register", body, options);
     }
 

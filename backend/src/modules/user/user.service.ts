@@ -47,4 +47,12 @@ export class UserService {
 
         return users;
     }
+
+    public async getAllCurrency() {
+        let options = _.cloneDeep(await this._commonServise.getOptions());
+        options.uri += "/entity/currency";
+
+        return JSON.parse(await request(options)).rows;
+    }
+
 }

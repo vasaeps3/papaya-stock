@@ -8,6 +8,8 @@ import { UserComponent } from "./user.component";
 import { UserRoutingModule } from "./user-routing.module";
 import { ChangePasswordComponent } from "./change-password/change-password.component";
 import { AllUsersResolverService } from "./all-users-resolve.service";
+import { UserService } from "./user.service";
+import { CurrencyResolverService } from "./currency-resolve.service";
 
 
 @NgModule({
@@ -18,9 +20,15 @@ import { AllUsersResolverService } from "./all-users-resolve.service";
         UserRoutingModule
     ],
     declarations: [
-        UserComponent, ChangePasswordComponent
+        UserComponent, 
+        ChangePasswordComponent
     ],
-    providers: [AdminGuard, AllUsersResolverService]
+    providers: [
+        AdminGuard,
+        UserService,
+        CurrencyResolverService,
+        AllUsersResolverService
+    ]
 })
 export class UserModule {
 }

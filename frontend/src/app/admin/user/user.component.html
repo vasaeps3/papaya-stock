@@ -9,8 +9,7 @@
                     <div class="form-content">
                         <div class="form-group" [ngClass]="{has_success:(email.touched || email.dirty) && !email.errors || loading, has_danger: (email.touched || email.dirty) && email.errors || !loading}">
                             <label for="inputEmail" class="form-control-label">E-mail</label>
-                            <input type="text" class="form-control" id="inputEmail" required name="email" [(ngModel)]="user.name" #email="ngModel" (change)="onEmailChange()" [ngClass]="{form_control_success:(email.touched || email.dirty) && !email.errors || loading, form_control_danger: (email.touched || email.dirty) && email.errors || !loading}"
-                                pattern="[a-zA-Z_]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}">
+                            <input type="text" class="form-control" id="inputEmail" required name="email" [(ngModel)]="user.name" #email="ngModel" (change)="onEmailChange()" pattern="[a-zA-Z_]+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}" />
                             <div class="help-block help-block-danger" *ngIf="((email.touched || email.dirty) && email.errors) || !loading">
                                 <span *ngIf="email.errors && email.errors.required">Email - обязательное поле</span>
                                 <span *ngIf="email.errors && email.errors.pattern">Некорректный формат Email</span>
@@ -20,12 +19,27 @@
                         </div>
                         <div class="form-group" [ngClass]="{has_success:(password.touched || password.dirty) && !password.errors, has_danger: (password.touched || password.dirty) && password.errors}">
                             <label for="inputPassword" class="form-control-label">Пароль</label>
-                            <input type="password" class="form-control" id="inputPassword" placeholder="Пароль" required name="password" [(ngModel)]="user.password" #password="ngModel" [ngClass]="{form_control_success:(password.touched || password.dirty) && !password.errors, form_control_danger: (password.touched || password.dirty) && password.errors}"
-                            />
+                            <input type="password" class="form-control" id="inputPassword" placeholder="Пароль" required name="password" [(ngModel)]="user.password" #password="ngModel" />
                             <div class="help-block help-block-danger" *ngIf="(password.touched || password.dirty) && password.errors">
                                 <span *ngIf="password.errors.required">Пароль - обязательное поле</span>
                             </div>
                             <p class="help-block">Пароль для авторизации пользователя в системе</p>
+                        </div>
+                        <div class="form-group" [ngClass]="{has_success:(currencyI.touched || currencyI.dirty) && !currencyI.errors, has_danger: (currencyI.touched || currencyI.dirty) && currencyI.errors}">
+                            <label for="currencyId" class="form-control-label">Валюта</label>
+                            <select id="currencyId" class="form-control" name="currencyId" [(ngModel)]="user.currencyId" required #currencyI="ngModel">
+                                    <option  *ngFor="let currency of allCurrency" [value]="currency.id">
+                                        {{currency.name}}
+                                    </option>
+                                </select>
+                            <div class="help-block help-block-danger" *ngIf="(currencyI.touched || currencyI.dirty) && currencyI.errors">
+                                <span *ngIf="currencyI.errors && currencyI.errors.required">Валюта - обязательное поле</span>
+                            </div>
+                            <div class="help-block">
+                                <span>Необходимо выбрать валюту, с которой будет работать клиент</span>
+                                <p>Если нужно отредактировать для существующего пользователя, нужно указать в БД идентификатор валюты для пользователя</p>
+                                <p *ngFor="let currency of allCurrency">"{{currency.name}}"->{{currency.id}}</p>
+                            </div>
                         </div>
                     </div>
                     <button class="btn btn-success" type="submit" [disabled]="!registerForm.valid">Зарегистрировать</button>
