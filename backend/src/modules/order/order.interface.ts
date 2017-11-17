@@ -22,7 +22,7 @@ export interface IStockOrder {
             },
             name: string;
         }
-    }
+    };
 }
 
 export interface IOrder {
