@@ -123,21 +123,47 @@ export class ProductController {
     }
 
     private async addPositionsFromProduct(products: IProduct[]) {
-        let positionsStock: IStockEntity[] = await this._productService.getStockAllVariants(this.getStrProductsId(products));
-        _.each(_.filter(positionsStock, (o) => o.quantity > 0), function (positionStock) {
-            let productNow: IProduct = _.find(products, function (product) {
-                return product.article === positionStock.article;
-            });
-            productNow.stock += positionStock.quantity;
-            productNow.positions.push({
-                id: _.split(_.last(_.split(positionStock.meta.href, "/")), "?")[0],
-                stock: positionStock.quantity,
-                salePrice: positionStock.salePrice,
-                size: +positionStock.name.match(/\(([^\]]+)\)/ig).map(n => n.slice(1, -1))[0],
-                quantity: 0
+        let arrStrProductsId: string[] = this.getArrStrProductsId(products);
+        let positionsArrStock: Array<IStockEntity[]> = await this.loadPositions(arrStrProductsId);
+        _.each(positionsArrStock, function (positionsStock) {
+            _.each(_.filter(positionsStock, (o) => o.quantity > 0), function (positionStock) {
+                let productNow: IProduct = _.find(products, function (product) {
+                    return product.article === positionStock.article;
+                });
+                productNow.stock += positionStock.quantity;
+                productNow.positions.push({
+                    id: _.split(_.last(_.split(positionStock.meta.href, "/")), "?")[0],
+                    stock: positionStock.quantity,
+                    salePrice: positionStock.salePrice,
+                    size: +positionStock.name.match(/\(([^\]]+)\)/ig).map(n => n.slice(1, -1))[0],
+                    quantity: 0
+                });
             });
         });
         return products;
+    }
+
+    private loadPositions(arrStrProductsId: string[]) {
+        let _productService = this._productService;
+        return bluebird.Promise.map(arrStrProductsId, function (str) {
+            return _productService.getStockAllVariants(str);
+        }).then(function (result) {
+            return result;
+        });
+    }
+
+    private getArrStrProductsId(products: IProduct[]): string[] {
+        let str: string[] = [];
+        let strTmp: string = "";
+        _.each(products, function (product, key) {
+            strTmp += "&product.id=" + product.id;
+            if ((key + 1) % 5 === 0 || (key + 1) === products.length) {
+                str.push(strTmp);
+                strTmp = "";
+            }
+
+        });
+        return str;
     }
 
     private getStrProductsId(products: IProduct[]): string {
